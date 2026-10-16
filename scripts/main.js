@@ -1,5 +1,5 @@
 import { layoutHUD } from './layout.js';
-import { canOpenNet, sheetActor } from './access.js';
+import { canOpenNet, sheetActor, atlasAccess } from './access.js';
 import { resolveHUDPresentation, updateDock, removeDockAdapter } from './presentation.js';
 
 const ID = 'night-city-ui';
@@ -30,12 +30,14 @@ function netAccess() {
 }
 function actionDefinitions() {
   const agent = moduleAPI('night-city-agent');
+  const atlas = moduleAPI('night-city-2045-atlas');
+  const cityAccess = atlasAccess({ user: game.user, api: atlas });
   const definitions = {
     actor: { label:'Персонаж', icon:'fa-user', hint:'Лист персонажа из боевой панели или назначенного персонажа', available:Boolean(redlineSheetButton()||currentActor()), reason:'Выберите доступного персонажа на сцене или в очереди боя либо назначьте его пользователю.', run:async () => { const redlineButton=redlineSheetButton(); if(redlineButton){redlineButton.click();return;} const sheet=currentActor()?.sheet; if(!sheet)return; if(sheet.rendered){await sheet.maximize?.();sheet.bringToTop?.();}else sheet.render(true); } },
     agent: { label:'Агент', icon:'fa-mobile-screen-button', hint:'Связь, задания и личные файлы', available:typeof agent?.openAgent==='function', run:()=>agent.openAgent() },
     market: { label:'Торговля', icon:'fa-store', hint:'Магазины, услуги и покупки', available:active('night-city-market') && typeof game.nightCityMarket?.open==='function', reason:'Модуль торговли выключен, ещё загружается или обнаружил конфликт с другим торговым модулем.', run:()=>game.nightCityMarket.open() },
     net: { label:'СЕТЬ', icon:'fa-microchip', hint:'Нетраннер и NET-архитектуры', available:active('cpr-netrunning') && Boolean(globalThis.CRNS?.ui) && netAccess(), reason:'Нужен принадлежащий вам персонаж с экипированной кибердекой либо разрешённый ведущим просмотр. Модуль нетраннинга должен быть включён.', run:()=>{const app=globalThis.CRNS.ui; if(app.rendered){app.maximize?.();app.bringToTop?.();}else app.render(true);} },
-    city: { label:'Город', icon:'fa-map-location-dot', hint:'Атлас Найт-Сити для ведущего', gm:true, available:typeof moduleAPI('night-city-2045-atlas')?.open==='function', run:()=>moduleAPI('night-city-2045-atlas').open() },
+    city: { label:'Город', icon:'fa-map-location-dot', hint:game.user.isGM?'Атлас Найт-Сити':'Карта города и доступные вам места', ...cityAccess, run:()=>atlas.open() },
     battle: { label:'Бой', icon:'fa-swords', hint:'Трекер боя и обзор персонажа', available:true, run:async()=>{ui.sidebar.activateTab('combat');if(active('redline-combat'))await moduleAPI('redline-combat')?.open?.();} },
     timer: { label:'Настроить таймер', icon:'fa-stopwatch', hint:'Подпись, длительность, запуск и видимость', gm:true, available:typeof moduleAPI('cpr-deadline')?.open==='function', run:()=>moduleAPI('cpr-deadline').open() },
     collapseTimer: { label:'Свернуть / развернуть таймер', icon:'fa-clock', available:typeof moduleAPI('cpr-deadline')?.toggleCollapsed==='function', run:()=>moduleAPI('cpr-deadline').toggleCollapsed() },
@@ -98,7 +100,7 @@ function mount() {
     if(target.matches('.ncu-scene-toggle')){setMenu(false);setScenes(target.getAttribute('aria-expanded')!=='true');return;}
     if(target.dataset.ncuDisable){await game.settings.set(ID,'enabled',false);ui.notifications.info('Исходный интерфейс возвращён. Alt + N снова включит Найт-Сити.');return;}
     const action=resolveAction(target.dataset.ncuAction);if(!action)return;
-    if(action.gm&&!game.user.isGM)return;
+    if(action.visible===false||(action.gm&&!game.user.isGM))return;
     if(!action.available){ui.notifications.info(action.reason||'Нужный модуль выключен или ещё загружается.');return;}
     target.disabled=true;
     try {await action.run();setMenu(false);}catch(error){console.error(`${ID} |`,error);ui.notifications.error('Не удалось открыть инструмент. Подробности в консоли.');}
@@ -159,7 +161,7 @@ function refresh() {
   cls(shell.querySelector('[data-ncu-action="battle"]'),'ncu-current',context.battle);
   const actions=actionDefinitions();
   for(const button of shell.querySelectorAll('[data-ncu-action]')) {
-    const action=actions[button.dataset.ncuAction];button.hidden=Boolean(action.gm&&!game.user.isGM);button.setAttribute('aria-disabled',String(!action.available));button.title=action.available?(action.hint||action.label):(action.reason||'Нужный модуль выключен или ещё загружается.');
+    const action=actions[button.dataset.ncuAction];button.hidden=Boolean(action.visible===false||(action.gm&&!game.user.isGM));button.setAttribute('aria-disabled',String(!action.available));button.title=action.available?(action.hint||action.label):(action.reason||'Нужный модуль выключен или ещё загружается.');
   }
   for(const input of shell.querySelectorAll('[data-ncu-setting]'))input.checked=pref(input.dataset.ncuSetting);
   const shortcuts={'nca-agent':'agent','nca-workspace':'files','nca-terminals':'files','nca-agent-gm':'gmAgent','night-city-market':'market','crns':'net','nightCityAtlas':'city','redline-combat':'hud','cpr-deadline':'timer'};
@@ -183,4 +185,4 @@ Hooks.once('ready',()=>{
   setTimeout(schedule,600);setTimeout(schedule,1800);
   window.addEventListener('beforeunload',destroy,{once:true});
 });
-for(const hook of ['renderSceneControls','renderSceneNavigation','collapseSceneNavigation','renderSidebar','collapseSidebar','renderPlayerList','renderHotbar','renderRedlineHUD','closeRedlineHUD','controlToken','canvasReady','canvasTearDown','createCombat','updateCombat','deleteCombat','combatStart','updateUser','createActor','updateActor','deleteActor','createItem','updateItem','deleteItem','updateSetting'])Hooks.on(hook,schedule);
+for(const hook of ['renderSceneControls','renderSceneNavigation','collapseSceneNavigation','renderSidebar','collapseSidebar','renderPlayerList','renderHotbar','renderRedlineHUD','closeRedlineHUD','controlToken','canvasReady','canvasTearDown','createCombat','updateCombat','deleteCombat','combatStart','updateUser','createActor','updateActor','deleteActor','createItem','updateItem','deleteItem','updateSetting','nightCityAtlasAccessChanged'])Hooks.on(hook,schedule);

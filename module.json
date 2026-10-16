@@ -2,7 +2,7 @@
   "id": "night-city-ui",
   "title": "Найт-Сити — общий интерфейс",
   "description": "Blackglass для Foundry VTT 12 и Cyberpunk RED: общая навигация, просторный интерфейс, компактные DEADLINE и REDLINE, согласованное оформление окон.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "compatibility": {
     "minimum": "12",
     "verified": "12.331",
@@ -37,7 +37,7 @@
   "readme": "https://github.com/Defaulter444/night-city-ui/blob/main/README.md",
   "url": "https://github.com/Defaulter444/night-city-ui",
   "manifest": "https://raw.githubusercontent.com/Defaulter444/night-city-ui/main/module.json",
-  "download": "https://github.com/Defaulter444/night-city-ui/releases/download/v0.3.1/night-city-ui.zip",
+  "download": "https://github.com/Defaulter444/night-city-ui/releases/download/v0.3.2/night-city-ui.zip",
   "bugs": "https://github.com/Defaulter444/night-city-ui/issues",
   "changelog": "https://github.com/Defaulter444/night-city-ui/blob/main/CHANGELOG.md"
 }

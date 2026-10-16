@@ -1,5 +1,9 @@
 # Blackglass character actions QA
 
+## Atlas access follow-up, version 0.3.2
+
+Date: 2026-10-16. Foundry VTT 12.331, Cyberpunk RED Core v0.92.4, isolated deadline-test world, 1280 × 720. The GM enabled player access to Atlas 0.2.0; a separate Player session opened the map through the City navigation button. Revoking access closed the player's Atlas and removed the City button without reloading. Re-enabling restored access. Both sessions were reloaded to verify persistence. Browser error logs were empty at the final check. Night City UI: 36 passing tests, including 7 access checks. The production campaign was not changed. The earlier combat QA below remains specific to version 0.3.1.
+
 Date: 2026-10-16. Night City UI 0.3.1 with REDLINE COMBAT 0.2.0.
 Result: passed for the tested scope below; release candidate verified before publication.
 

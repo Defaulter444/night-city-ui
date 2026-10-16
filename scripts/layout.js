@@ -4,7 +4,7 @@ export const intersects = (a, b, gap = 0) => Boolean(a && b && a.left < b.right 
 const box = (left, top, width, height) => ({ left, top, width, height, right: left + width, bottom: top + height });
 
 /** Calculate only presentation bounds; never move tokens or alter world data. */
-export function layoutHUD({ width, height, sidebar, controls, navigation, hotbar, players, timer, timerManaged = true, dockHeight = 180, spacious = false, dockWidth = Infinity }) {
+export function layoutHUD({ width, height, sidebar, controls, navigation, hotbar, players, playersFloating = false, timer, timerManaged = true, dockHeight = 180, spacious = false, dockWidth = Infinity }) {
   width = Math.max(320, finite(width, 1440));
   height = Math.max(320, finite(height, 900));
   const gap = 10;
@@ -12,7 +12,8 @@ export function layoutHUD({ width, height, sidebar, controls, navigation, hotbar
   const left = clamp(spacious ? 66 : (controls ? controls.right + gap : 112), gap, width - 220);
   const right = clamp(sidebar && sidebar.left >= left + 220 ? sidebar.left - gap : width - gap, left + 210, width - gap);
   const top = spacious ? 0 : clamp(Math.max(60, navigation?.bottom + gap || 0), gap, height - 180);
-  const bottom = Math.max(top + 120, Math.min(height - gap, hotbar?.top - gap || height, players?.top - gap || height));
+  // A freely placed Players panel must not lift or shrink the battlefield dock.
+  const bottom = Math.max(top + 120, Math.min(height - gap, hotbar?.top - gap || height, !playersFloating && players?.top - gap || height));
   const toolbar = spacious ? box(0, 0, width, 48) : box(left, top, right - left, 44);
   const contentTop = toolbar.bottom + gap;
   const timerWidth = Math.min(timer?.width || 300, right - left);

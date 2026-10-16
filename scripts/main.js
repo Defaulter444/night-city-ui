@@ -2,12 +2,13 @@ import { layoutHUD } from './layout.js';
 import { canOpenNet, sheetActor, atlasAccess } from './access.js';
 import { ownsDockPresentation, resolveHUDPresentation, updateDock, removeDockAdapter } from './presentation.js';
 import { createPopover } from './popover.js';
+import { createPlayersPanel } from './players.js';
 
 const ID = 'night-city-ui';
 const moduleAPI = id => game.modules.get(id)?.active ? game.modules.get(id).api : null;
 const active = id => Boolean(game.modules.get(id)?.active);
 const pref = key => game.settings.get(ID, key);
-let shell, frame, observer, resizing, timerObserver, currentTimer, events, lastLayout, morePopover, agentPopover;
+let shell, frame, observer, resizing, timerObserver, currentTimer, events, lastLayout, morePopover, agentPopover, playersPanel, currentPlayers;
 let ready = false;
 const observed = new Set();
 
@@ -25,6 +26,21 @@ function rect(selector) {
   return style.display !== 'none' && style.visibility !== 'hidden' && bounds.width > 0 && bounds.height > 0 ? bounds : null;
 }
 function currentActor() { return sheetActor({user:game.user,controlled:canvas?.ready ? canvas.tokens?.controlled : []}); }
+async function savePlayers(patch) {
+  for(const [key,value] of Object.entries(patch))await game.settings.set(ID,{visible:'showPlayers',expanded:'playersExpanded',position:'playersPosition'}[key],value);
+}
+async function resetPlayers() {
+  if(playersPanel)return playersPanel.reset();
+  await savePlayers({visible:true,expanded:false,position:{}});
+}
+function updatePlayers() {
+  const panel=document.querySelector('#ui-left > #players');
+  if(panel!==currentPlayers||(!playersPanel&&panel)){
+    playersPanel?.destroy();currentPlayers=panel;
+    playersPanel=panel?createPlayersPanel({panel,onSave:savePlayers,onLayout:schedule,onError:error=>{console.error(`${ID} | Players`,error);ui.notifications.warn('Не удалось сохранить настройки панели игроков.');}}):null;
+  }
+  playersPanel?.update({visible:pref('showPlayers'),expanded:pref('playersExpanded'),position:pref('playersPosition'),spacious:pref('spacious')});
+}
 function redlineSheetButton() { return active('redline-combat') ? document.querySelector('#redline-combat-hud [data-action="sheet"]:not(:disabled)') : null; }
 function netAccess() {
   return canOpenNet({ user:game.user, actors:game.actors?.contents ?? [], allowSpectators:active('cpr-netrunning') && game.settings.get('cpr-netrunning','allowSpectators') });
@@ -43,6 +59,7 @@ function actionDefinitions() {
     timer: { label:'Настроить таймер', icon:'fa-stopwatch', hint:'Подпись, длительность, запуск и видимость', gm:true, available:typeof moduleAPI('cpr-deadline')?.open==='function', run:()=>moduleAPI('cpr-deadline').open() },
     collapseTimer: { label:'Свернуть / развернуть таймер', icon:'fa-clock', available:typeof moduleAPI('cpr-deadline')?.toggleCollapsed==='function', run:()=>moduleAPI('cpr-deadline').toggleCollapsed() },
     positionTimer: { label:'Вернуть таймер на место', icon:'fa-arrow-rotate-left', hint:'Только положение на вашем экране', available:typeof moduleAPI('cpr-deadline')?.resetPosition==='function', run:()=>moduleAPI('cpr-deadline').resetPosition() },
+    positionPlayers: { label:'Вернуть панель игроков на место', icon:'fa-users', hint:'Показать компактную панель в исходном положении на вашем экране', available:true, run:resetPlayers },
     gmAgent: { label:'Выдать Агент / пульт ведущего', icon:'fa-tower-broadcast', gm:true, available:typeof agent?.openGMPanel==='function', run:()=>agent.openGMPanel() },
     files: { label:game.user.isGM?'Файлы и терминалы':'Доступные терминалы', icon:'fa-folder-open', available:typeof agent?.openWorkspace==='function', run:()=>agent.openWorkspace(game.user.isGM ? {} : {tab:'terminals'}) },
     hud: { label:'Показать / скрыть боевую панель', icon:'fa-bars-progress', hint:'Личное переключение REDLINE', available:typeof moduleAPI('redline-combat')?.toggle==='function', run:()=>moduleAPI('redline-combat').toggle() },
@@ -85,9 +102,9 @@ function mount() {
   agentEntry.append(button('agent'),agentToggle);
   for(const action of ['actor','agent','market','net','city','battle'])tools.append(action==='agent'?agentEntry:button(action));
   const menu=shell.querySelector('.ncu-menu');
-  for(const action of ['timer','files','hud','refreshHud','collapseTimer','positionTimer'])menu.append(button(action,true));
+  for(const action of ['timer','files','hud','refreshHud','collapseTimer','positionTimer','positionPlayers'])menu.append(button(action,true));
   menu.insertAdjacentHTML('beforeend','<hr class="ncu-rule"><h3>На этом экране</h3>');
-  for(const [key,label] of [['spacious','Просторный интерфейс Foundry'],['theme','Общая тема окон'],['compactTools','Убрать повторные значки слева'],['contextHud','Показывать боевые панели по ситуации']]) {
+  for(const [key,label] of [['spacious','Просторный интерфейс Foundry'],['theme','Общая тема окон'],['compactTools','Убрать повторные значки слева'],['contextHud','Показывать боевые панели по ситуации'],['showPlayers','Показывать панель игроков']]) {
     const row=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.dataset.ncuSetting=key;input.checked=pref(key);row.append(input,document.createTextNode(label));menu.append(row);
   }
   const disable=document.createElement('button');disable.type='button';disable.dataset.ncuDisable='true';disable.innerHTML='<i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i><span>Вернуться к исходному интерфейсу</span>';
@@ -130,6 +147,7 @@ function mount() {
 }
 
 function destroy() {
+  playersPanel?.destroy();playersPanel=null;currentPlayers=null;
   cancelAnimationFrame(frame);frame=null;events?.abort();morePopover=null;agentPopover=null;observer?.disconnect();resizing?.disconnect();timerObserver?.disconnect();currentTimer=null;observed.clear();shell?.remove();shell=null;
   for(const element of document.querySelectorAll('.ncu-relocated-tool'))element.classList.remove('ncu-relocated-tool');
   for(const element of document.querySelectorAll('#cpr-deadline-hud,#redline-combat-hud'))for(const c of ['ncu-docked','ncu-idle','ncu-no-queue','ncu-no-actor','ncu-tight-dock'])element.classList.remove(c);
@@ -140,6 +158,7 @@ function schedule() { if(!ready||frame)return;frame=requestAnimationFrame(()=>{f
 
 function refresh() {
   if(!pref('enabled')){destroy();return;}mount();cls(document.body,'ncu-enabled',true);cls(document.body,'ncu-theme',pref('theme'));cls(document.body,'ncu-spacious',pref('spacious'));
+  updatePlayers();
   if(!pref('spacious'))setScenes(false);
   const scene=canvas?.scene;
   const sceneName=scene?.navName||scene?.name||'Сцены';
@@ -162,7 +181,7 @@ function refresh() {
   if(timer!==currentTimer){timerObserver?.disconnect();currentTimer=timer;if(timer){timerObserver=new MutationObserver(schedule);timerObserver.observe(timer,{attributes:true,attributeFilter:['class','hidden']});}}
   const controlBoxes=[...document.querySelectorAll('#controls .scene-control,#controls .control-tool')].map(rect).filter(Boolean);
   const controls=controlBoxes.length?{right:Math.max(...controlBoxes.map(b=>b.right))}:null;
-  lastLayout=layoutHUD({width:innerWidth,height:innerHeight,sidebar:rect('#sidebar'),controls,navigation:rect('#navigation'),hotbar:rect('#hotbar'),players:rect('#players'),timer:rect(timer),timerManaged,dockHeight:dockView.height,dockWidth:dockView.width,spacious:pref('spacious')});
+  lastLayout=layoutHUD({width:innerWidth,height:innerHeight,sidebar:rect('#sidebar'),controls,navigation:rect('#navigation'),hotbar:rect('#hotbar'),players:rect(currentPlayers),playersFloating:Boolean(playersPanel),timer:rect(timer),timerManaged,dockHeight:dockView.height,dockWidth:dockView.width,spacious:pref('spacious')});
   const {toolbar,combat,dock}=lastLayout;
   for(const [name,value] of Object.entries({left:toolbar.left,top:toolbar.top,width:toolbar.width,'combat-left':combat.left,'combat-top':combat.top,'combat-width':combat.width,'dock-left':dock.left,'dock-width':dock.width,'dock-bottom':innerHeight-dock.bottom,'dock-height':dock.height,'timer-left':lastLayout.timer?.left??0,'timer-top':lastLayout.timer?.top??0}))css(`--ncu-${name}`,value);
   cls(shell,'ncu-compact',lastLayout.compact);
@@ -185,7 +204,8 @@ function refresh() {
 }
 
 Hooks.once('init',()=>{
-  for(const [key,name,defaultValue] of [['enabled','Найт-Сити: общий интерфейс',true],['spacious','Найт-Сити: просторный интерфейс Foundry',true],['dockExpanded','Найт-Сити: раскрытая карточка персонажа',false],['theme','Найт-Сити: общая тема окон',true],['compactTools','Найт-Сити: убрать повторные значки',true],['contextHud','Найт-Сити: боевые панели по ситуации',true]])game.settings.register(ID,key,{name,scope:'client',config:key!=='dockExpanded',type:Boolean,default:defaultValue,onChange:schedule});
+  for(const [key,name,defaultValue] of [['enabled','Найт-Сити: общий интерфейс',true],['spacious','Найт-Сити: просторный интерфейс Foundry',true],['dockExpanded','Найт-Сити: раскрытая карточка персонажа',false],['theme','Найт-Сити: общая тема окон',true],['compactTools','Найт-Сити: убрать повторные значки',true],['contextHud','Найт-Сити: боевые панели по ситуации',true],['showPlayers','Найт-Сити: показывать панель игроков',true],['playersExpanded','Найт-Сити: развернуть панель игроков',false]])game.settings.register(ID,key,{name,scope:'client',config:!['dockExpanded','playersExpanded'].includes(key),type:Boolean,default:defaultValue,onChange:schedule});
+  game.settings.register(ID,'playersPosition',{name:'Найт-Сити: положение панели игроков',scope:'client',config:false,type:Object,default:{},onChange:schedule});
   game.keybindings.register(ID,'menu',{name:'Найт-Сити — открыть меню',editable:[{key:'KeyN',modifiers:['Alt']}],onDown:()=>{void openMenu();return true;}});
 });
 async function openMenu(){if(!pref('enabled'))await game.settings.set(ID,'enabled',true);refresh();setMenu(true,true);}

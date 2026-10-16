@@ -657,3 +657,115 @@ body.ncu-enabled.ncu-spacious #sidebar :is(a, button, input, select, textarea):f
     visibility: visible;
   }
 }
+
+/* The real PlayerList is movable and explicitly collapsed. Its native header,
+ * user rows, context menus and module-injected controls are never recreated.
+ * AV-dock PlayerList is excluded by the direct #ui-left selector.
+ */
+body.ncu-enabled #ui-left > #players.ncu-players-managed {
+  position: fixed !important;
+  left: var(--ncu-players-left, 64px) !important;
+  top: var(--ncu-players-top, calc(100vh - 46px)) !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 64;
+  box-sizing: border-box;
+  width: 160px;
+  max-width: calc(100vw - 16px);
+  height: auto !important;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  color: #d6dfe5;
+  border: 1px solid #34414a;
+  border-radius: 4px;
+  background: #11191ff5;
+  box-shadow: 0 3px 12px #0004;
+  pointer-events: auto;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed.ncu-players-hidden {
+  display: none !important;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed > h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  height: 36px;
+  min-height: 36px;
+  margin: 0;
+  padding: 4px 36px 4px 8px;
+  border: 0;
+  color: inherit;
+  font: 12px/1.25 "Rubik", Arial, sans-serif;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed.ncu-players-dragging > h3 {
+  cursor: grabbing;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed > h3 > .players-mode {
+  display: none;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed > .ncu-players-toggle {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  min-height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #46535d;
+  border-radius: 3px;
+  color: #d6dfe5;
+  background: #1a232a;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed > .ncu-players-toggle i {
+  margin: 0;
+  pointer-events: none;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed > .ncu-players-toggle:focus-visible {
+  outline: 2px solid #8fdce4;
+  outline-offset: -2px;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed.ncu-players-collapsed > :not(h3):not(.ncu-players-toggle) {
+  display: none !important;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed:not(.ncu-players-collapsed) > #player-list {
+  position: static;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  max-height: min(45vh, 320px);
+  margin: 0;
+  padding: 4px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 0;
+  border-top: 1px solid #34414a;
+  border-radius: 0;
+  background: transparent;
+  visibility: visible;
+}
+
+body.ncu-enabled #ui-left > #players.ncu-players-managed:not(.ncu-players-collapsed):has(.player.context) > #player-list {
+  max-height: none;
+  overflow: visible;
+}

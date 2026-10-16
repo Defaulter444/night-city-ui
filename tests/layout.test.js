@@ -71,3 +71,13 @@ test('combat adjustment preserves the safe boundary above a manually placed time
   assert.ok(!intersects(result.timer,result.dock,10));
   assert.ok(result.dock.height<=210);
 });
+
+test('moving a floating Players panel never changes battlefield bounds',()=>{
+  const input=fixture(1280,768);
+  const withoutPlayers=layoutHUD({...input,players:null});
+  for(const top of [8,160,500,720]){
+    assert.deepEqual(layoutHUD({...input,players:r(64,top,160,36),playersFloating:true}),withoutPlayers);
+  }
+  assert.ok(layoutHUD({...input,players:r(64,500,160,100)}).bottom<withoutPlayers.bottom,
+    'the unmoved native panel still reserves space when the floating adapter is absent');
+});

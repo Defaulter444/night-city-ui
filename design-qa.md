@@ -1,5 +1,19 @@
 # Blackglass character actions QA
 
+## Compact Players controls, version 0.3.5
+
+Date: 2026-10-16. Isolated `deadline-test`, Foundry12.331 / CPR0.92.4, with REDLINE0.3.1. The current user request supersedes the previous full-width dock proportions: smaller default80% with a personal slider, queue only after combat starts, and a controllable Players widget.
+
+85 Night City UI tests and99 REDLINE tests passed; syntax/diff checks passed. Independent controller tests preserve the native header/list and third-party child listeners, verify pointer thresholds/cancellation/blur/cleanup/rebinding, and caught a rapid-save race that is now fixed with per-key revisions.
+
+Live GM checks: Players160×38 compact default; own expansion; native offline toggle; drag64,893→234,223 without battlefield movement; reload persistence; More hide/reset; native restoration on NCU disable and personal preferences on re-enable. A duplicate native mode caret is hidden only while managed; native offline behavior remains. AV nodes are not managed. The user's trade button and AV were not present live, so their behavior is not claimed as a live check.
+
+REDLINE current screenshots and detailed geometry: [docs/compact](https://github.com/Defaulter444/CPR-RED-COMBAT/tree/main/docs/compact), [QA](https://github.com/Defaulter444/CPR-RED-COMBAT/blob/main/foundry/redline-combat/QA.md). Wide1672×941 default80 dock880×156.36 and active queue880×64.36; inactive queue is absent. 1280×720 dock880×153.16. Narrow1024×768 with125% and expanded DEADLINE retains queue, scrollable Skills and macros. Scale55/80/125, reload/reset, native attack cancellation and empty browser errors were confirmed. Current checks used GM; prior Player checks below remain historical. Production was not changed.
+
+No actionable P0/P1/P2 remains in this tested scope. Client Players visibility, position and expansion do not modify world or user Documents. No new source artwork is required for this scoped correction; earlier visual-truth comparisons below remain historical.
+
+final result: passed
+
 ## Blackglass Dock compatibility, version 0.3.4
 
 Date: 2026-10-16. Isolated `deadline-test`, Foundry 12.331 / Cyberpunk RED Core 0.92.4, with REDLINE COMBAT 0.3.0. The first displayed Blackglass Dock concept is implemented by REDLINE itself. Night City UI detects its outer class/data marker, clears legacy presentation classes and injected toggles, and excludes it from legacy sizing/visibility CSS. Older REDLINE versions retain their existing adapter. DEADLINE styles were not changed.

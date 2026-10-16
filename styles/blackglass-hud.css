@@ -1,0 +1,504 @@
+/* Selected Blackglass reference: REDLINE + DEADLINE only.
+ * Load after shell.css and spacious.css. Placement belongs to layout.js.
+ * Compact bounds: initiative 64px; actor 80px + optional targets 32px; timer 54px.
+ * All controls and data remain the existing module DOM, including collapse/drag.
+ */
+body.ncu-enabled.ncu-spacious #redline-combat-hud {
+  --redline-bg: #101316f5;
+  --redline-line: #36424a;
+  --redline-text: #e8e7e2;
+  --redline-muted: #adb5bb;
+  --redline-red: #f3485d;
+  --redline-cyan: #8fdce4;
+  --redline-yellow: #edc66a;
+  font-size: 14px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-panel {
+  background: var(--redline-bg);
+  border-color: var(--redline-line);
+  border-radius: 4px;
+  box-shadow: 0 3px 12px #0004;
+  backdrop-filter: none;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud button {
+  color: var(--redline-text);
+  background: #1a232a;
+  border-color: #46535d;
+  border-radius: 3px;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud button:hover:not(:disabled) {
+  background: #252f38;
+  border-color: var(--redline-cyan);
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud button:focus-visible {
+  outline: 2px solid var(--redline-cyan);
+  outline-offset: -3px;
+}
+
+/* One horizontal initiative row. Native turn/selection handlers stay attached. */
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-header {
+  display: none;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-combat {
+  top: var(--ncu-combat-top);
+  height: 64px;
+  min-height: 64px;
+  padding: 1px 8px;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-round {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 76px;
+  min-width: 0;
+  height: 48px;
+  gap: 8px;
+  padding-right: 10px;
+  border-right: 1px solid var(--redline-line);
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-round .redline-label {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-round strong {
+  color: var(--redline-text);
+  font: 25px/1 "Tektur", "Consolas", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-queue {
+  flex: 1 1 0;
+  width: auto;
+  height: 60px;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-color: #52626d #101316;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit {
+  flex: 0 0 154px;
+  height: 48px;
+  min-height: 48px;
+  gap: 8px;
+  padding: 5px 7px;
+  background: #151d22;
+  border-color: #40505a;
+  font-size: 14px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit-name strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit-name small {
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit .redline-portrait {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 36px;
+  background: #161e23;
+  border-color: #52616b;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit.is-selected {
+  background: #1d2c32;
+  border-color: #69939a;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit.is-current {
+  border-color: var(--redline-yellow);
+  box-shadow: inset 2px 0 var(--redline-yellow);
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit.is-current:hover:not(:disabled) {
+  border-color: var(--redline-yellow);
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-initiative {
+  color: var(--redline-yellow);
+  font-size: 17px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-turn-control {
+  flex: 0 0 auto;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 0;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-turn-control > span {
+  display: none;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-next {
+  height: 44px;
+  min-height: 44px;
+  padding: 6px 11px;
+  color: var(--redline-red);
+  background: #28171d;
+  border-color: var(--redline-red);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-next:hover:not(:disabled) {
+  color: var(--redline-text);
+  background: #43212b;
+  border-color: #ff7486;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-notices {
+  top: calc(var(--ncu-combat-top) + 74px);
+}
+
+/* The two adjacent bottom panels share an edge: 80px actor + 32px targets. */
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-bottom {
+  gap: 0;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-bottom {
+  width: min(540px, var(--ncu-dock-width, 540px));
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-targets {
+  flex: 0 0 32px;
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+  flex-wrap: nowrap;
+  padding: 4px 10px;
+  gap: 8px;
+  border-left: 2px solid var(--redline-red);
+  border-radius: 4px 4px 0 0;
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-targets > .redline-label {
+  flex: 0 0 auto;
+  font: 12px/20px "Rubik", Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-target-list {
+  flex-wrap: nowrap;
+  min-width: 0;
+  max-height: 22px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-target-list > span {
+  flex: 0 0 auto;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-dock {
+  max-height: calc(var(--ncu-dock-height) - 32px);
+  border-top: 1px solid var(--redline-line);
+  border-radius: 0 0 4px 4px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-empty-targets .redline-dock {
+  max-height: var(--ncu-dock-height);
+  border-radius: 4px;
+}
+
+/* Compact native actor DOM: flatten only non-semantic grouping divs into the grid.
+ * The original sheet button stays intact and retains its click handler/tab order.
+ */
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-actor {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 92px 92px 100px;
+  grid-template-rows: 1fr;
+  align-items: center;
+  gap: 8px;
+  height: 78px;
+  min-height: 78px;
+  padding: 8px 10px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-identity,
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-identity-text {
+  display: contents;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-portrait-large {
+  grid-column: 1;
+  grid-row: 1;
+  width: 44px;
+  height: 54px;
+  background: #151d22;
+  border-color: #59717b;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-identity h2 {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  margin: 0;
+  padding-bottom: 9px;
+  border-bottom: 2px solid #8fdce480;
+  color: var(--redline-text);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-vitals {
+  grid-column: 3;
+  grid-row: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-vitals > .redline-label {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-health {
+  color: var(--redline-cyan);
+  font: 24px/1.2 "Tektur", "Consolas", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-health small {
+  color: #bdc6cc;
+  font-size: 17px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-vitals .redline-meter {
+  display: block;
+  height: 3px;
+  margin: 4px 0 0;
+  background: #35424b;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact [data-action="sheet"] {
+  grid-column: 4;
+  grid-row: 1;
+  min-height: 34px;
+  height: 34px;
+  padding: 4px;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud [data-ncu-dock-toggle] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 5px 8px;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud [data-ncu-dock-toggle] i {
+  margin: 0;
+  font-size: 9px;
+  pointer-events: none;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact [data-ncu-dock-toggle] {
+  position: static;
+  grid-column: 5;
+  grid-row: 1;
+  height: 34px;
+}
+
+/* The original card becomes a compact header above native system actions. */
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-actor {
+  grid-template-columns: minmax(170px, 1fr) minmax(200px, 1.15fr) 94px;
+  align-items: start;
+  gap: 10px;
+  padding: 10px 12px 12px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-identity {
+  grid-column: 1;
+  grid-row: 1;
+  gap: 9px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-portrait-large {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 54px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-identity h2 {
+  margin: 2px 0 6px;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-vitals {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 0;
+  border: 0;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-health {
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-meter {
+  height: 3px;
+  margin: 4px 0 6px;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-armor {
+  gap: 3px 8px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) [data-ncu-dock-toggle] {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  grid-column: 3;
+  grid-row: 1;
+  align-self: start;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-weapons {
+  grid-column: 1 / -1;
+  padding: 10px 0 0;
+  border-left: 0;
+  border-top: 1px solid var(--redline-line);
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-weapons ul {
+  max-height: none;
+  overflow: visible;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-weapon-controls .redline-action-primary {
+  color: var(--redline-red);
+  background: #28171d;
+  border-color: var(--redline-red);
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-action-tools {
+  display: none;
+}
+
+/* Keep result announcements available without adding another compact grid row. */
+body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-action-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-weapons li {
+  font-size: 13px;
+}
+
+/* Native DEADLINE layout/state/drag logic remains responsible for its dimensions.
+ * Collapsed height is 54px; expanded form and GM controls retain their own markup.
+ */
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud {
+  --cprd-red: #f3485d;
+  --cprd-text: #e8e7e2;
+  --cprd-muted: #adb5bb;
+  background: #101316f5;
+  border-color: #36424a;
+  border-radius: 4px;
+  box-shadow: 0 3px 12px #0004;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud .cprd-button {
+  color: #bdc6cc;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud .cprd-button:focus-visible {
+  outline: 2px solid #8fdce4;
+  outline-offset: -2px;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud.cprd-collapsed {
+  min-height: 54px;
+  padding: 8px 10px 12px;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud.cprd-collapsed .cprd-header {
+  min-height: 32px;
+  gap: 8px;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud.cprd-collapsed .cprd-compact-label {
+  color: #e8e7e2;
+  font-size: 11px;
+  line-height: 32px;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud.cprd-collapsed .cprd-compact-time {
+  font-size: min(26px, calc((var(--cprd-content-width) - 44px) / (var(--cprd-digit-count) * .61)));
+  line-height: 32px;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud.cprd-collapsed .cprd-collapse {
+  width: 28px;
+  min-width: 28px;
+  height: 32px;
+  min-height: 32px;
+}
+
+body.ncu-enabled.ncu-spacious #cpr-deadline-hud.cprd-collapsed .cprd-progress {
+  left: 12px;
+  right: calc(50% - 4px);
+  bottom: 7px;
+  height: 3px;
+}
+
+/* A narrower available dock keeps identity/health and both native actions visible. */
+@media (max-width: 1100px) {
+  body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-actor {
+    grid-template-columns: 40px minmax(0, 1fr) 88px 92px 100px;
+    gap: 6px;
+    padding-inline: 8px;
+  }
+
+  body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-portrait-large {
+    width: 40px;
+    height: 50px;
+  }
+}

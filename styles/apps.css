@@ -1,0 +1,443 @@
+/* Night City UI — isolated-test adapters.
+ * Every selector requires body.ncu-enabled.ncu-theme and a verified application root.
+ * No canvas transforms, document fields, visibility rules, or sheet geometry.
+ * !important is limited to properties already forced by the source module/core.
+ */
+
+/* Shared window chrome, only for these four named applications. */
+body.ncu-enabled.ncu-theme :is(.nca-app, .nca-workspace, .ncm-app, .crns-window, .night-city-atlas-window) {
+  border-color: var(--ncu-line, #3a424e);
+  border-radius: 5px;
+  color-scheme: dark;
+}
+
+body.ncu-enabled.ncu-theme :is(.nca-app, .nca-workspace, .ncm-app, .crns-window, .night-city-atlas-window) > .window-header {
+  background: var(--ncu-bg, #101318);
+  color: var(--ncu-text, #eef0f3);
+  border-bottom: 1px solid var(--ncu-line, #3a424e);
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-theme :is(.nca-app, .nca-workspace, .ncm-app, .crns-window, .night-city-atlas-window) > .window-content {
+  background: var(--ncu-bg, #101318) !important;
+  color: var(--ncu-text, #eef0f3);
+}
+
+/* This does not make legacy links keyboard-operable; it only keeps existing
+ * keyboard focus unmistakable. Markup/interaction fixes belong to adapters.js. */
+body.ncu-enabled.ncu-theme :is(.nca-app, .nca-workspace, .ncm-app, .crns-window, .night-city-atlas-window)
+  :is(button, input, select, textarea, summary, a[href], [tabindex]):focus-visible {
+  outline: 2px solid var(--ncu-focus, #ff98a3) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+/* Agent 0.17.2: retain its navigation, message layout, reader, and map. */
+body.ncu-enabled.ncu-theme :is(.nca-app, .nca-workspace),
+body.ncu-enabled.ncu-theme .nca-app .nca-os {
+  --nca-bg: var(--ncu-bg, #101318);
+  --nca-panel: var(--ncu-panel, #191e26);
+  --nca-raised: var(--ncu-raised, #252d38);
+  --nca-line: var(--ncu-line, #3a424e);
+  --nca-text: var(--ncu-text, #eef0f3);
+  --nca-muted: var(--ncu-muted, #afb8c5);
+  --nca-accent: var(--ncu-accent, #ed394a);
+  --nca-selection: #35232c;
+  --nca-heading: "Tektur", "Rubik", sans-serif;
+  --nca-body: "Rubik", "Segoe UI", sans-serif;
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os :is(.nca-top, .os-nav, .nca-side, .nca-head, .nca-compose),
+body.ncu-enabled.ncu-theme .nca-app .nca-os :is(.os-card, .os-disclosure) {
+  background-color: var(--ncu-panel, #191e26);
+  border-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os :is(.nca-main, .os-systembar) {
+  background-color: var(--ncu-bg, #101318);
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os .nca-top {
+  min-height: 54px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-top-width: 2px;
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os .nca-brand strong {
+  font-size: 21px;
+  letter-spacing: 1px;
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os .os-hero {
+  min-height: 108px;
+  padding: 12px 16px;
+  border-color: var(--ncu-line, #3a424e);
+  border-radius: 4px;
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os .os-hero h2.os-clock {
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os .os-hero :is(p, .os-clock-date) {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+body.ncu-enabled.ncu-theme .nca-app .nca-os .os-nav button.on {
+  color: #ffd9de;
+  border-color: #75414c;
+  background: #35232c;
+  box-shadow: inset 3px 0 var(--ncu-accent, #ed394a);
+}
+
+/* StreetLife 0.3.1: reuse its cards and responsive layout; remove decorative glow. */
+body.ncu-enabled.ncu-theme .ncm-app {
+  --sl-red: var(--ncu-accent, #ed394a);
+  --sl-cyan: #b8d3dd;
+  --sl-edge: var(--ncu-line, #3a424e);
+  --sl-ink: var(--ncu-muted, #afb8c5);
+  --sl-bg: var(--ncu-bg, #101318);
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .ncm-shell {
+  font-family: "Rubik", "Segoe UI", sans-serif;
+  font-size: 14px;
+  color: var(--ncu-text, #eef0f3);
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-nav, .sl-customer, .sl-panel, .ncm-status) {
+  background-color: var(--ncu-panel, #191e26);
+  border-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-brand {
+  background: transparent !important;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-brand img {
+  max-height: 68px;
+  object-fit: contain;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-brand > span {
+  margin-top: 9px;
+  font-size: 10px;
+  letter-spacing: .3px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-nav nav button {
+  background: transparent !important;
+  border-bottom-color: var(--ncu-line, #3a424e) !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-nav nav button > i {
+  font-size: 20px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-nav nav button.active {
+  background: #35232c !important;
+  border-color: #75414c !important;
+  border-left-color: var(--ncu-accent, #ed394a) !important;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(button.active, button.primary) {
+  box-shadow: none !important;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-nav nav button.active :is(i, small) {
+  color: #ffd9de;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-card, .sl-card.cyan) {
+  border-color: var(--ncu-line, #3a424e) !important;
+  background: var(--ncu-panel, #191e26) !important;
+  box-shadow: none !important;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-card, .sl-card.cyan):hover {
+  border-color: var(--ncu-accent, #ed394a) !important;
+  background: var(--ncu-raised, #252d38) !important;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-card, .sl-card.cyan) h2 {
+  color: var(--ncu-text, #eef0f3);
+  font-family: "Rubik", "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-card, .sl-card.cyan) > div > i {
+  color: var(--ncu-accent, #ed394a);
+  font-size: 23px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-card > img {
+  height: 100px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-card p {
+  font-size: 13px;
+  color: var(--ncu-muted, #afb8c5);
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-hero, .sl-hero.large, .sl-store-hero) {
+  min-height: 116px;
+  border-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-hero, .sl-hero.large) > div {
+  padding: 12px 18px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app :is(.sl-hero, .sl-hero.large, .sl-store-hero) h1 {
+  font-size: 30px;
+  line-height: 1.15;
+  letter-spacing: 1px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-hero.large strong {
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-top: 7px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-store-hero {
+  padding: 10px 14px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-store-hero > div {
+  padding: 8px 12px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-intro {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-motto {
+  font-size: 15px;
+  line-height: 1.35;
+  padding-top: 8px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .sl-motto small {
+  margin-top: 10px;
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .ncm-product {
+  background: var(--ncu-panel, #191e26);
+  border-bottom-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .ncm-product:hover {
+  background: var(--ncu-raised, #252d38);
+}
+
+body.ncu-enabled.ncu-theme .ncm-app .ncm-product.selected {
+  background: #30232b;
+  box-shadow: inset 3px 0 var(--ncu-accent, #ed394a);
+}
+
+/* Netrunning 1.12.0 console: chrome only. Architecture SVG, status colours,
+ * entity positions, fog, floor states, scanner and camera feeds are untouched. */
+body.ncu-enabled.ncu-theme .crns-window .crns-console.crns-root {
+  --crns-accent: var(--ncu-accent, #ed394a);
+  --crns-bg: var(--ncu-bg, #101318);
+  --crns-panel: var(--ncu-panel, #191e26);
+  --crns-text: var(--ncu-text, #eef0f3);
+  --crns-dim: var(--ncu-muted, #afb8c5);
+  --crns-border: var(--ncu-line, #3a424e);
+  background: var(--ncu-bg, #101318);
+  color: var(--ncu-text, #eef0f3);
+  font-family: "Rubik", "Segoe UI", sans-serif;
+}
+
+body.ncu-enabled.ncu-theme .crns-console :is(.nc-top, .nc-panel, .nc-viewbar, .nc-map-toolbar) {
+  background: var(--ncu-panel, #191e26);
+  border-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-theme .crns-console .nc-panel {
+  border-left-width: 1px;
+  border-radius: 3px;
+}
+
+body.ncu-enabled.ncu-theme .crns-console .nc-panel > h2 {
+  color: var(--ncu-text, #eef0f3);
+  background: #202630;
+  border-bottom-color: var(--ncu-line, #3a424e);
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: .2px;
+}
+
+body.ncu-enabled.ncu-theme .crns-console .nc-top {
+  border-left: 3px solid var(--ncu-accent, #ed394a);
+}
+
+body.ncu-enabled.ncu-theme .crns-console .nc-top strong {
+  color: var(--ncu-text, #eef0f3);
+  font-size: 20px;
+  letter-spacing: .4px;
+}
+
+body.ncu-enabled.ncu-theme .crns-console .nc-top > div > i {
+  color: var(--ncu-accent, #ed394a);
+}
+
+body.ncu-enabled.ncu-theme .crns-console :is(.nc-top small, .nc-motto, .nc-view-label, .nc-view-status) {
+  color: var(--ncu-muted, #afb8c5);
+}
+
+body.ncu-enabled.ncu-theme .crns-console.crns-root :is(.nc-nav, .nc-viewbar, .nc-map-toolbar) button {
+  color: var(--ncu-text, #eef0f3) !important;
+  background: #242c36 !important;
+  border-color: var(--ncu-line, #3a424e) !important;
+  box-shadow: none !important;
+}
+
+body.ncu-enabled.ncu-theme .crns-console.crns-root :is(.nc-nav, .nc-viewbar, .nc-map-toolbar) button:hover {
+  background: #303a47 !important;
+  border-color: #78899b !important;
+}
+
+body.ncu-enabled.ncu-theme .crns-console.crns-root :is(.nc-nav, .nc-viewbar) button.active {
+  color: #ffe3e7 !important;
+  background: #35232c !important;
+  border-color: #97505e !important;
+  box-shadow: inset 0 -2px var(--ncu-accent, #ed394a) !important;
+}
+
+body.ncu-enabled.ncu-theme .crns-console :is(.nc-left, .nc-right, .nc-main) {
+  scrollbar-color: #596573 var(--ncu-bg, #101318);
+}
+
+/* Atlas 0.1.0: list/detail chrome only. No marker, stage, viewport, image,
+ * map-transform, pin colour, placement-banner or coordinate overrides. */
+body.ncu-enabled.ncu-theme .night-city-atlas-window .nc-atlas {
+  --nc-bg: var(--ncu-bg, #101318);
+  --nc-panel: var(--ncu-panel, #191e26);
+  --nc-panel-raised: var(--ncu-raised, #252d38);
+  --nc-line: var(--ncu-line, #3a424e);
+  --nc-muted: var(--ncu-muted, #afb8c5);
+  --nc-text: var(--ncu-text, #eef0f3);
+  font-family: "Rubik", "Segoe UI", sans-serif;
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas :is(.nc-atlas__header, .nc-atlas__footer, .nc-atlas__map-toolbar, .nc-atlas__map-caption) {
+  background: var(--ncu-panel, #191e26);
+  border-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas .nc-atlas__header {
+  min-height: 64px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas .nc-atlas__identity h1 {
+  font-family: "Tektur", "Rubik", sans-serif;
+  font-size: 23px;
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas .nc-atlas__identity .nc-atlas__eyebrow {
+  color: var(--ncu-muted, #afb8c5);
+}
+
+/* Counter only these catalogue controls against CPR's generic button background. */
+body.ncu-enabled.ncu-theme .night-city-atlas-window .nc-atlas .nc-atlas__location,
+body.ncu-enabled.ncu-theme .night-city-atlas-window .nc-atlas .nc-atlas__favorite {
+  background: transparent;
+  color: var(--ncu-text, #eef0f3);
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas .nc-atlas__location-row {
+  border-bottom-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas .nc-atlas__location-row:hover {
+  background: var(--ncu-raised, #252d38);
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas .nc-atlas__location-row.is-selected {
+  background: #35232c;
+  border-left-color: var(--ncu-accent, #ed394a);
+}
+
+body.ncu-enabled.ncu-theme .night-city-atlas-window .nc-atlas .nc-atlas__favorite[aria-pressed="true"],
+body.ncu-enabled.ncu-theme .night-city-atlas-window .nc-atlas .nc-atlas__favorite:hover {
+  color: var(--nc-amber, #f0c779);
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas :is(.nc-atlas__location-name, .nc-atlas__description) {
+  font-size: 13px;
+}
+
+body.ncu-enabled.ncu-theme .nc-atlas .nc-atlas__description {
+  color: var(--ncu-text, #eef0f3);
+  line-height: 1.65;
+}
+
+/* CPR 0.92.4 native character sheet: palette variables only.
+ * :has identifies its actual template without touching other ActorSheet types.
+ * Keep the existing grid, rem sizes, tabs, scroll containers and roll bindings. */
+body.ncu-enabled.ncu-theme .sheet.actor:has(.actor-sheet.character) {
+  --cpr-background-window: var(--ncu-bg, #101318);
+  --cpr-background-border: #39424e;
+  --cpr-background-box: var(--ncu-panel, #191e26);
+  --cpr-background-header: #11161d;
+  --cpr-background-pill: #28333f;
+  --cpr-background-row-even: #232b35;
+  --cpr-background-row-odd: #191f27;
+  --cpr-background-tab-active: #7c2939;
+  --cpr-background-tab-inactive: #151b23;
+  --cpr-background-tab-underlay: #3a424e;
+  --cpr-background-cyberdeck-section-header: #293440;
+  --cpr-background-foundry-input: #252e39;
+  --cpr-background-toggle-checked: #a4384a;
+  --cpr-text-normal: var(--ncu-text, #eef0f3);
+  --cpr-text-input: var(--ncu-text, #eef0f3);
+  --cpr-text-window: var(--ncu-text, #eef0f3);
+  --cpr-text-header: var(--ncu-text, #eef0f3);
+  --cpr-text-pill: var(--ncu-text, #eef0f3);
+  --cpr-text-foundry-input: var(--ncu-text, #eef0f3);
+  --cpr-text-icon-normal: #cbd3dd;
+  --cpr-text-icon-dimmed: #8b96a5;
+  --cpr-text-icon-highlight: #ff8796;
+  --cpr-text-tab-normal: #f0edf0;
+  --cpr-text-tab-highlight: #ffd5dc;
+  --cpr-text-header-line: #b64a5d;
+  --cpr-text-header-line-box: #cbd3dd;
+  --cpr-text-header-arrow: #d56377;
+  --cpr-text-hint: var(--ncu-muted, #afb8c5);
+  --cpr-text-foundry-hint: var(--ncu-muted, #afb8c5);
+  --cpr-text-foundry-hover: #ffd5dc;
+  color-scheme: dark;
+}
+
+body.ncu-enabled.ncu-theme .sheet.actor:has(.actor-sheet.character) > .window-header {
+  background: var(--ncu-bg, #101318);
+  border-bottom: 1px solid var(--ncu-line, #3a424e);
+  color: var(--ncu-text, #eef0f3);
+}
+
+body.ncu-enabled.ncu-theme .sheet.actor .actor-sheet.character
+  :is(button, input, select, textarea, a[href], [tabindex]):focus-visible {
+  outline: 2px solid var(--ncu-focus, #ff98a3) !important;
+  outline-offset: -2px;
+}
+
+/* Only decorative transitions in the adapted chrome; network-map animations
+ * retain the NET module's own motion preference and state semantics. */
+@media (prefers-reduced-motion: reduce) {
+  body.ncu-enabled.ncu-theme .ncm-app :is(button, .sl-card),
+  body.ncu-enabled.ncu-theme .nca-app .nca-os :is(button, .os-hero),
+  body.ncu-enabled.ncu-theme .nc-atlas :is(.nc-atlas__location, .nc-atlas__favorite) {
+    transition: none !important;
+  }
+}

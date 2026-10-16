@@ -1,0 +1,659 @@
+/* Black glass native chrome for Foundry 12.331.
+ * Load after foundry.css. Scope deliberately excludes sheets and popout apps.
+ * Scene popover geometry belongs to blackglass-shell.css. Native collapse,
+ * disabled controls, role attributes and document event handlers remain intact.
+ */
+body.ncu-enabled.ncu-spacious #ui-left {
+  z-index: 64;
+  flex: 0 0 64px;
+  width: 64px;
+  min-width: 64px;
+}
+
+body.ncu-enabled.ncu-spacious #ui-top,
+body.ncu-enabled.ncu-spacious #ui-top.offset {
+  margin: 0;
+}
+
+body.ncu-enabled.ncu-spacious #ui-right {
+  flex: 0 0 320px;
+  width: 320px;
+}
+
+body.ncu-enabled.ncu-spacious #ui-right:has(#sidebar.collapsed) {
+  flex-basis: 52px;
+  width: 52px;
+}
+
+/* The primary rail stays narrow. Native active sub-tools form a flyout;
+ * keyboard focus and touch keep every tool accessible. ncu-tools-open is an
+ * optional presentation latch for a click/keyboard adapter, never a game flag.
+ */
+body.ncu-enabled.ncu-spacious #controls {
+  position: fixed;
+  left: 6px;
+  top: 58px;
+  bottom: 64px;
+  z-index: 67;
+  width: 44px;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools {
+  flex: 0 0 44px;
+  width: 44px;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #4a555e transparent;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools.main-controls {
+  margin-right: 0;
+  padding: 0;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools.sub-controls {
+  position: absolute;
+  top: 0;
+  left: 44px;
+  width: 58px;
+  max-height: 100%;
+  padding: 6px;
+  border: 1px solid #34414a;
+  border-radius: 4px;
+  background: #10171bf5;
+  box-shadow: 5px 5px 18px #0007;
+  visibility: hidden;
+  pointer-events: none;
+  flex-wrap: nowrap;
+}
+
+body.ncu-enabled.ncu-spacious #controls:is(:hover, :focus-within, .ncu-tools-open) ol.control-tools.sub-controls.active,
+body.ncu-enabled.ncu-spacious #controls:has(.context) ol.control-tools.sub-controls.active {
+  visibility: visible;
+}
+
+body.ncu-enabled.ncu-spacious #controls:is(:hover, :focus-within, .ncu-tools-open) ol.control-tools.sub-controls.active:not(.disabled),
+body.ncu-enabled.ncu-spacious #controls:has(.context) ol.control-tools.sub-controls.active:not(.disabled) {
+  pointer-events: auto;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  margin: 0 0 6px;
+  border: 1px solid #34414a;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: linear-gradient(150deg, #171f25, #0c1115);
+  color: #d9dfe3;
+  font-size: 20px;
+  line-height: 36px;
+  text-shadow: none;
+  box-shadow: inset 0 1px #ffffff05;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li:hover {
+  color: #fff;
+  border-color: #7d8a94;
+  background: #253039;
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li.active {
+  color: #ff6977;
+  border-color: #f24658;
+  background: linear-gradient(135deg, #362027, #172026);
+  box-shadow: inset 2px 0 #f24658, 0 0 0 1px #ed394a1a;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li.toggle {
+  color: #a7d9df;
+  border-color: #49636a;
+  background: #15242b;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li.toggle.active {
+  color: #c4f4f8;
+  border-color: #8bd5dd;
+  background: #20373d;
+  box-shadow: inset 2px 0 #8bd5dd;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools.disabled {
+  opacity: .4;
+  pointer-events: none;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools.disabled > li {
+  pointer-events: none;
+}
+
+/* Scene names remain native links with player-presence markers. */
+body.ncu-enabled.ncu-spacious #navigation .nav-item {
+  min-height: 34px;
+  padding: 0 9px;
+  line-height: 32px;
+  color: #d9dfe3;
+  border: 1px solid #34414a;
+  border-radius: 3px;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene {
+  background: #151e24;
+  color: #e4e9ec;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene.gm {
+  background: #22212b;
+  border-color: #6f657e;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene:is(.view, .context) {
+  background: #2b2027;
+  border-color: #ed394a;
+  box-shadow: inset 2px 0 #ed394a;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene .scene-name {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene ul.scene-players {
+  top: 25px;
+}
+
+/* Native sidebar width is intentionally not !important: Foundry animates its
+ * inline width when collapsing, and that behavior must continue to win.
+ */
+body.ncu-enabled.ncu-spacious #sidebar {
+  position: fixed;
+  top: 58px;
+  right: 10px;
+  bottom: 10px;
+  width: 300px;
+  height: calc(100% - 68px);
+  max-height: calc(100% - 68px);
+  margin: 0;
+  border: 1px solid #34414a;
+  border-radius: 4px;
+  background: linear-gradient(105deg, #121a20f7, #0d1317fa);
+  color: #e4e9ec;
+  box-shadow: 0 4px 18px #0003;
+  --cpr-background-foundry-input: #1c2730;
+  --cpr-text-foundry-input: #e4e9ec;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar.collapsed {
+  bottom: auto;
+  height: auto;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs {
+  --sidebar-tab-height: 40px;
+  --sidebar-tab-width: 26px;
+  flex: 0 0 40px;
+  min-height: 40px;
+  margin: 0;
+  padding: 0 3px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #34414a;
+  font-size: 16px;
+  background: #0d1419b3;
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .item,
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .collapse {
+  height: 40px;
+  line-height: 38px;
+  color: #c9d1d7;
+  border: 0;
+  border-radius: 3px 3px 0 0;
+  text-align: center;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .item:hover,
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .collapse:hover {
+  color: #fff;
+  background: #253039;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .item.active {
+  color: #fff;
+  border: 0;
+  background: linear-gradient(#ed394a0a, #ed394a28);
+  box-shadow: inset 0 -2px #f24658;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar.collapsed #sidebar-tabs {
+  flex-basis: auto;
+  padding: 3px 0;
+  gap: 2px;
+  border: 0;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar.collapsed #sidebar-tabs > .item,
+body.ncu-enabled.ncu-spacious #sidebar.collapsed #sidebar-tabs > .collapse {
+  flex: 0 0 38px;
+  min-height: 38px;
+  height: 38px;
+  line-height: 36px;
+  border: 0;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar.collapsed #sidebar-tabs > .item.active {
+  border: 0;
+  border-radius: 3px;
+  box-shadow: inset 2px 0 #f24658;
+}
+
+/* Native combat tracker only. Popout combat trackers retain their host skin. */
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar {
+  --sidebar-item-height: 64px;
+  min-height: 0;
+  font-family: "Rubik", Arial, sans-serif;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar .combat-tracker-header {
+  flex: 0 0 auto;
+  padding: 5px 9px 7px;
+  border-bottom: 1px solid #34414a;
+  background: #0e151b70;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar .combat-tracker-header .encounters,
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar .combat-tracker-header .encounter-controls {
+  min-height: 30px;
+  align-items: center;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar .combat-tracker-header a.combat-button {
+  min-height: 28px;
+  line-height: 28px;
+  color: #aab4bd;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar .combat-tracker-header a.combat-button:hover {
+  color: #fff;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar .combat-tracker-header .encounters h4 {
+  color: #acb7bf;
+  font-size: 12px;
+  line-height: 28px;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar .combat-tracker-header .encounter-title {
+  min-width: 0;
+  margin-left: 0;
+  color: #eef1f3;
+  font-size: 15px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar #combat-tracker {
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #4a555e transparent;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant {
+  min-height: 64px;
+  padding: 7px 9px 7px 12px;
+  align-items: center;
+  border-top: 0;
+  border-bottom: 1px solid #303c45;
+  background: transparent;
+  line-height: normal;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant:is(:hover, .hover) {
+  background: #253039a3;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant.active {
+  background: linear-gradient(90deg, #27343dbb, #1a252ca6);
+  box-shadow: inset 4px 0 #f24658;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant > .token-image {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 48px;
+  margin: 0;
+  padding: 1px;
+  border: 1px solid #4b5d68;
+  border-radius: 3px;
+  background: #18242b;
+  object-fit: contain;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-name {
+  min-width: 0;
+  margin: 0 7px 0 11px;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-name h4 {
+  flex: 0 0 auto;
+  min-height: 24px;
+  margin: 0 0 1px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 24px;
+  text-overflow: ellipsis;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-name .combatant-controls {
+  align-items: center;
+  gap: 3px;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-name .combatant-control {
+  color: #8997a2;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-name .combatant-control:is(.active, :hover) {
+  color: #f0f3f5;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-resource {
+  flex-basis: 29px;
+  color: #b4c1c8;
+  border-color: #34414a;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-initiative {
+  flex-basis: 34px;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .token-initiative .initiative {
+  font-size: 15px;
+  line-height: 44px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar li.combatant .roll {
+  width: 32px;
+  height: 44px;
+  margin: 0;
+  background-size: 26px;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar #combat-controls {
+  min-height: 44px;
+  margin: 0;
+  padding: 4px;
+  align-items: center;
+  border-top: 1px solid #34414a;
+  background: #0c1318b3;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar #combat-controls a {
+  min-height: 34px;
+  border-radius: 3px;
+  color: #dce3e8;
+  font-size: 16px;
+  line-height: 34px;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar #combat-controls a.center {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .combat-sidebar #combat-controls a:hover {
+  background: #29343d;
+  color: #fff;
+}
+
+/* All 10 macro slots and every native auxiliary action remain available.
+ * Do not set #action-bar display: native collapse and jQuery own that state.
+ */
+body.ncu-enabled.ncu-spacious #hotbar {
+  --macro-size: 42px;
+  --hotbar-height: 44px;
+  --hotbar-width: 610px;
+  position: fixed;
+  left: 236px;
+  bottom: 10px;
+  width: var(--hotbar-width);
+  height: var(--hotbar-height);
+  max-width: calc(100vw - 556px);
+  margin: 0;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .bar-controls {
+  border-color: #34414a;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #151f25, #0b1115);
+  color: #dce3e8;
+  box-shadow: inset 0 1px #ffffff05;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-directory-controls {
+  flex: 0 0 38px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-directory-controls a {
+  flex: 1;
+  width: 100%;
+  height: 20px;
+  min-height: 20px;
+  line-height: 20px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #macro-list {
+  flex: 0 0 auto;
+  height: var(--hotbar-height);
+  padding: 0;
+  border-color: transparent;
+  grid-template-columns: repeat(10, 42px);
+  grid-template-rows: 42px;
+  gap: 4px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar.locked #macro-list {
+  border-color: #ed394a;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .macro {
+  border: 1px solid #34414a;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #151f25, #0b1115);
+  box-shadow: inset 0 1px #ffffff05;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .macro:is(:hover, .active:hover) {
+  border-color: #ed394a;
+  background-color: #26323a;
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .macro .macro-key {
+  top: 2px;
+  right: 2px;
+  padding: 0 3px;
+  color: #e9eef1;
+  background: #0a0e12bf;
+  font-size: 10px;
+  line-height: 15px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .macro.inactive .macro-key {
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: transparent;
+  font-size: 12px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-lock {
+  flex: 0 0 30px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-lock a.page-control {
+  line-height: 40px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-page-controls {
+  flex: 0 0 66px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-page-controls a.page-control {
+  flex: 0 0 22px;
+  height: 40px;
+  line-height: 40px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-page-controls .page-number {
+  font-size: 12px;
+  line-height: 40px;
+}
+
+/* Players opens upward without moving the dock. A focused list and its native
+ * context menu stay visible; the native hidden class is not overridden.
+ */
+body.ncu-enabled.ncu-spacious #ui-left > #players {
+  position: fixed;
+  left: 64px;
+  bottom: 10px;
+  z-index: 68;
+  width: 160px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #34414a;
+  border-radius: 4px;
+  background: #11191ff5;
+  box-shadow: 0 4px 14px #0003;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players > h3 {
+  height: 42px;
+  min-height: 42px;
+  padding: 0 7px;
+  color: #d6dfe5;
+  font-size: 12px;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players > #player-list {
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  bottom: 100%;
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px 4px 0 0;
+  background: #11191ff5;
+  visibility: hidden;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players:is(:hover, :focus-within) > #player-list {
+  max-height: min(45vh, 320px);
+  padding: 5px 0;
+  border: 1px solid #34414a;
+  visibility: visible;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players:has(.player.context) > #player-list {
+  max-height: none;
+  padding: 5px 0;
+  overflow: visible;
+  border: 1px solid #34414a;
+  visibility: visible;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players #player-list > .player {
+  min-height: 28px;
+  line-height: 26px;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players .player-active {
+  margin-top: 9px;
+}
+
+body.ncu-enabled.ncu-spacious #controls .control-tools > li:focus-visible,
+body.ncu-enabled.ncu-spacious #navigation :is(a, [tabindex]):focus-visible,
+body.ncu-enabled.ncu-spacious #hotbar :is(a, .macro):focus-visible,
+body.ncu-enabled.ncu-spacious #ui-left > #players :is(h3, #player-list):focus-visible,
+body.ncu-enabled.ncu-spacious #sidebar :is(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid #8fdce4;
+  outline-offset: -3px;
+  text-shadow: none;
+}
+
+/* 1024px: keep a full 300px sidebar and use two rows of five 42px macros. */
+@media (max-width: 1240px) {
+  body.ncu-enabled.ncu-spacious #hotbar {
+    --hotbar-height: 90px;
+    --hotbar-width: 382px;
+  }
+
+  body.ncu-enabled.ncu-spacious #hotbar #macro-list {
+    grid-template-columns: repeat(5, 42px);
+    grid-template-rows: repeat(2, 42px);
+  }
+}
+
+@media (max-width: 1000px) {
+  body.ncu-enabled.ncu-spacious #hotbar {
+    left: 64px;
+    max-width: calc(100vw - 384px);
+  }
+
+  body.ncu-enabled.ncu-spacious #ui-left > #players {
+    bottom: 110px;
+  }
+}
+
+@media (hover: none) {
+  body.ncu-enabled.ncu-spacious #controls ol.control-tools.sub-controls.active {
+    visibility: visible;
+  }
+
+  body.ncu-enabled.ncu-spacious #controls ol.control-tools.sub-controls.active:not(.disabled) {
+    pointer-events: auto;
+  }
+
+  body.ncu-enabled.ncu-spacious #ui-left > #players > #player-list {
+    max-height: min(30vh, 180px);
+    padding: 4px 0;
+    overflow-y: auto;
+    border: 1px solid #34414a;
+    visibility: visible;
+  }
+}

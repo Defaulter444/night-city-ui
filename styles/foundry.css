@@ -1,0 +1,382 @@
+/* Foundry VTT 12.331 chrome. Opt-in client mode; no canvas or application skin.
+ * Native markup, role attributes, event handlers and collapse states stay intact.
+ * #ui-left reserves the 208px Players footprint at the bottom. Scene controls
+ * use only 92px; #ui-top starts 108px earlier, keeping scene navigation at x=100.
+ */
+body.ncu-enabled.ncu-spacious #ui-left {
+  flex: 0 0 208px;
+  width: 208px;
+  min-width: 208px;
+}
+
+body.ncu-enabled.ncu-spacious #logo {
+  display: none;
+}
+
+body.ncu-enabled.ncu-spacious #ui-top,
+body.ncu-enabled.ncu-spacious #ui-top.offset {
+  margin: 0 8px 0 -108px;
+}
+
+/* Two native tool columns. Each has room for a thin scrollbar on short screens. */
+body.ncu-enabled.ncu-spacious #controls {
+  min-height: 0;
+  width: 92px;
+  padding: 8px 4px;
+  box-sizing: border-box;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools {
+  flex: 0 0 40px;
+  width: 40px;
+  height: max-content;
+  max-height: 100%;
+  align-self: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #626e7c transparent;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools:not(.disabled) {
+  pointer-events: auto;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools.main-controls {
+  margin-right: 4px;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools.sub-controls {
+  flex-wrap: nowrap;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li {
+  width: 34px;
+  height: 34px;
+  box-sizing: border-box;
+  margin: 0 0 5px;
+  font-size: 19px;
+  line-height: 32px;
+  color: var(--ncu-text, #eef0f3);
+  background: var(--ncu-bg, #101318);
+  border: 1px solid var(--ncu-line, #3a424e);
+  border-radius: 4px;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li:hover {
+  background: #252d38;
+  border-color: #788696;
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li.active {
+  background: #38212a;
+  border-color: var(--ncu-accent, #ed394a);
+  box-shadow: inset 2px 0 var(--ncu-accent, #ed394a);
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li.toggle {
+  background: #242036;
+  border-color: #75638f;
+}
+
+body.ncu-enabled.ncu-spacious #controls ol.control-tools > li.toggle.active {
+  background: #383044;
+  border-color: #bca5e5;
+  box-shadow: inset 2px 0 #bca5e5;
+}
+
+/* Keep scene names and presence markers; remove only decorative glow/spacing. */
+body.ncu-enabled.ncu-spacious #navigation {
+  margin-top: 8px;
+}
+
+body.ncu-enabled.ncu-spacious #navigation .nav-item {
+  min-height: 30px;
+  line-height: 28px;
+  padding: 0 7px;
+  margin: 0 5px 8px 0;
+  border-color: var(--ncu-line, #3a424e);
+  border-radius: 4px;
+  font-size: 12px;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #nav-toggle {
+  flex: 0 0 30px;
+  height: 30px;
+  padding: 0;
+  background: var(--ncu-bg, #101318);
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene {
+  color: var(--ncu-text, #eef0f3);
+  background: var(--ncu-panel, #191e26);
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene.gm {
+  background: #242036;
+  border-color: #75638f;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene:is(.view, .context) {
+  background: #38212a;
+  border-color: var(--ncu-accent, #ed394a);
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene ul.scene-players {
+  top: 23px;
+}
+
+body.ncu-enabled.ncu-spacious #navigation a:hover {
+  text-shadow: none;
+}
+
+/* 10 x 34px slots; auxiliary buttons run horizontally to keep usable targets.
+ * Do not override #action-bar display: native slideUp/Down owns collapse.
+ */
+body.ncu-enabled.ncu-spacious #hotbar {
+  --macro-size: 34px;
+  --hotbar-height: 36px;
+  --hotbar-width: 532px;
+  width: var(--hotbar-width);
+  height: var(--hotbar-height);
+  max-width: 100%;
+  margin-bottom: 8px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .bar-controls {
+  box-sizing: border-box;
+  color: var(--ncu-text, #eef0f3);
+  background: var(--ncu-bg, #101318);
+  border-color: var(--ncu-line, #3a424e);
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-directory-controls {
+  flex: 0 0 68px;
+  flex-direction: row;
+  align-items: center;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-directory-controls a {
+  flex: 1 1 32px;
+  height: 32px;
+  line-height: 32px;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #macro-list {
+  flex: 0 0 auto;
+  height: var(--hotbar-height);
+  box-sizing: border-box;
+  grid-template-columns: repeat(10, 34px);
+  grid-template-rows: 34px;
+  border-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-spacious #hotbar.locked #macro-list {
+  border-color: var(--ncu-accent, #ed394a);
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .macro {
+  box-sizing: border-box;
+  background: var(--ncu-bg, #101318);
+  border-color: var(--ncu-line, #3a424e);
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .macro:hover {
+  border-color: var(--ncu-accent, #ed394a);
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar .macro .macro-key {
+  top: 1px;
+  right: 1px;
+  padding: 0 2px;
+  font-size: 10px;
+  line-height: 13px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-lock {
+  flex: 0 0 34px;
+  justify-content: center;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-lock a.page-control {
+  line-height: 32px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-page-controls {
+  flex: 0 0 72px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-page-controls a.page-control {
+  flex: 0 0 25px;
+  height: 32px;
+  line-height: 32px;
+}
+
+body.ncu-enabled.ncu-spacious #hotbar #hotbar-page-controls .page-number {
+  flex: 1;
+  font-size: 12px;
+  line-height: 32px;
+}
+
+/* Only the standard left-column Players panel; leave the AV dock's version alone.
+ * Its h3 keeps the native offline-user toggle. The list remains keyboard-focusable.
+ */
+body.ncu-enabled.ncu-spacious #ui-left > #players {
+  flex: none;
+  width: 200px;
+  margin: 0 0 8px 4px;
+  padding: 0;
+  color: var(--ncu-text, #eef0f3);
+  background: var(--ncu-bg, #101318);
+  border-color: var(--ncu-line, #3a424e);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players > h3 {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 34px;
+  min-height: 34px;
+  margin: 0;
+  padding: 0 6px;
+  border: 0;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players > h3 .players-mode {
+  margin-left: auto;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players > #player-list {
+  max-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players:is(:hover, :focus-within) > #player-list {
+  max-height: min(45vh, 320px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 4px;
+}
+
+/* Native context menus are appended inside the row. Keep them unclipped. */
+body.ncu-enabled.ncu-spacious #ui-left > #players:has(.player.context) > #player-list {
+  max-height: none;
+  overflow: visible;
+  padding-bottom: 4px;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players #player-list > .player {
+  min-height: 24px;
+  line-height: 22px;
+  font-size: 12px;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players .player.context .player-name {
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #ui-left > #players .player-active.active {
+  box-shadow: none;
+}
+
+/* Sidebar keeps its native 300px width and native collapsed inline width.
+ * Restrict input tokens to the sidebar; do not restyle chat cards or popout apps.
+ */
+body.ncu-enabled.ncu-spacious #sidebar {
+  --cpr-background-foundry-input: #252d38;
+  --cpr-text-foundry-input: #eef0f3;
+  color: var(--ncu-text, #eef0f3);
+  background: var(--ncu-bg, #101318);
+  border-color: var(--ncu-line, #3a424e);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs {
+  margin-bottom: 3px;
+  border-bottom-color: var(--ncu-line, #3a424e);
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .item {
+  border-radius: 3px 3px 0 0;
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .collapse {
+  text-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar-tabs > .item.active {
+  color: var(--ncu-text, #eef0f3);
+  background: #38212a;
+  border-color: var(--ncu-accent, #ed394a);
+  box-shadow: none;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar.collapsed #sidebar-tabs > .item.active {
+  border-color: var(--ncu-accent, #ed394a);
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .directory .directory-header {
+  margin-bottom: 2px;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .directory .action-buttons button {
+  margin: 3px;
+  box-shadow: none;
+  text-shadow: none;
+  border-color: var(--ncu-line, #3a424e);
+}
+
+body.ncu-enabled.ncu-spacious #sidebar .directory .directory-footer:not(:empty) {
+  padding: 6px;
+}
+
+body.ncu-enabled.ncu-spacious #sidebar #chat-controls {
+  margin: 4px 6px;
+}
+
+/* Inset outline remains visible inside scrollable chrome and native tab strips. */
+body.ncu-enabled.ncu-spacious #controls .control-tools > li:focus-visible,
+body.ncu-enabled.ncu-spacious #navigation :is(a, [tabindex]):focus-visible,
+body.ncu-enabled.ncu-spacious #hotbar :is(a, .macro):focus-visible,
+body.ncu-enabled.ncu-spacious #ui-left > #players :is(h3, #player-list):focus-visible,
+body.ncu-enabled.ncu-spacious #sidebar :is(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--ncu-cyan, #8fdce4);
+  outline-offset: -3px;
+  text-shadow: none;
+}
+
+/* Retain all ten slots on smaller viewports, in two rows of five. */
+@media (max-width: 1100px) {
+  body.ncu-enabled.ncu-spacious #hotbar {
+    --hotbar-height: 70px;
+    --hotbar-width: 362px;
+  }
+
+  body.ncu-enabled.ncu-spacious #hotbar #macro-list {
+    grid-template-columns: repeat(5, 34px);
+    grid-template-rows: repeat(2, 34px);
+  }
+}

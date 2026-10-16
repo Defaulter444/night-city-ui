@@ -1,0 +1,69 @@
+/* Blackglass: the selected design, scoped to the reversible client presentation. */
+body.ncu-enabled.ncu-spacious {
+  --ncu-bg:#101316; --ncu-panel:#1a2025; --ncu-line:#323e47;
+  --ncu-text:#e8e7e2; --ncu-muted:#aeb8c0; --ncu-accent:#f3485d; --ncu-cyan:#8fdce4;
+}
+#ncu-shell .ncu-scene-toggle {display:none;}
+body.ncu-enabled.ncu-spacious #ncu-shell {font-family:Roboto,Arial,sans-serif;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar {
+  height:48px; padding:0 14px; gap:10px; border:0; border-bottom:1px solid var(--ncu-line);
+  border-radius:0; background:#101316fa; box-shadow:none;
+}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-brand {
+  font-size:15px; letter-spacing:.055em; padding:0 20px 0 2px; margin:0 4px 0 0;
+  border-color:var(--ncu-line); height:28px;
+}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-brand i {font-size:19px;margin-right:13px;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-tools {flex:0 1 auto;gap:6px;overflow-x:auto;scrollbar-width:none;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar button {
+  min-height:42px; padding:8px 10px; border-radius:0; border:0; border-bottom:2px solid transparent;
+  color:var(--ncu-muted);font-size:14px;flex-shrink:0;
+}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar button i {color:inherit;font-size:16px;width:18px;margin-right:8px;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar button:hover {background:#20262b;color:var(--ncu-text);}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar button.ncu-current {
+  color:var(--ncu-text);border-bottom-color:var(--ncu-accent);font-weight:600;
+}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-mode {display:none;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-more {margin-left:6px;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-scene-toggle {
+  display:flex;align-items:center;gap:6px;margin-left:auto;max-width:270px;min-width:80px;
+  border-left:1px solid var(--ncu-line);padding-left:17px;
+}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-scene-name {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-scene-toggle i:last-child {font-size:11px;margin:0 0 0 6px;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-scene-toggle[aria-expanded="true"] {color:var(--ncu-text);border-bottom-color:var(--ncu-accent);}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-menu {top:56px;right:12px;border-radius:4px;background:#13191e;}
+body.ncu-enabled.ncu-spacious #ncu-shell .ncu-menu button {font-size:14px;}
+body.ncu-enabled.ncu-spacious #navigation {
+  display:none;position:fixed;z-index:66;top:56px;right:10px;left:auto;bottom:auto;
+  width:360px;max-width:calc(100vw - 20px);max-height:calc(100vh - 120px);height:auto;
+  margin:0;padding:12px;background:var(--ncu-bg);border:1px solid var(--ncu-line);border-radius:4px;
+  overflow:visible;pointer-events:auto;box-shadow:0 8px 24px #0008;
+}
+body.ncu-enabled.ncu-spacious.ncu-scenes-open #navigation {display:flex;}
+/* Native #ui-middle is a stacking context below #ui-right and module HUDs. */
+body.ncu-enabled.ncu-spacious.ncu-scenes-open #ui-middle {z-index:66;}
+body.ncu-enabled.ncu-spacious #navigation #nav-toggle {display:none;}
+body.ncu-enabled.ncu-spacious #navigation #scene-list {
+  display:flex!important;height:auto!important;max-height:calc(100vh - 150px);flex-wrap:wrap;gap:4px;
+  overflow-y:auto;overflow-x:hidden;margin:0;padding:0 0 8px;
+}
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene {max-width:100%;white-space:normal;height:auto;}
+body.ncu-enabled.ncu-spacious #navigation #scene-list .scene-name {overflow-wrap:anywhere;}
+body.ncu-enabled.ncu-spacious #navigation #scene-list:has(.scene.context) {overflow:visible;max-height:none;}
+@media(max-width:1180px){
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar{gap:5px;padding-inline:8px;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-brand{padding-right:10px;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-brand span{display:none;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-brand i{margin:0;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-tools{gap:0;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar button{padding-inline:7px;font-size:13px;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-scene-toggle{max-width:190px;}
+}
+@media(max-width:800px){
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-tools button i{margin-right:0;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-tools button span{display:none;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-tools button{min-width:40px;}
+  body.ncu-enabled.ncu-spacious #ncu-shell .ncu-scene-toggle{max-width:160px;}
+}

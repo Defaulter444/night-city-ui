@@ -1,0 +1,68 @@
+body.ncu-enabled {
+  --ncu-bg:#101318; --ncu-panel:#191e26; --ncu-line:#3a424e;
+  --ncu-text:#eef0f3; --ncu-muted:#afb8c5; --ncu-accent:#ed394a; --ncu-cyan:#8fdce4;
+}
+#ncu-shell { position:fixed; z-index:65; left:var(--ncu-left,112px); top:var(--ncu-top,60px); width:var(--ncu-width,900px); color:#eef0f3; font:14px/1.4 "Rubik",Arial,sans-serif; pointer-events:none; }
+#ncu-shell, #ncu-shell * { box-sizing:border-box; }
+#ncu-shell [hidden] { display:none !important; }
+#ncu-shell .ncu-bar { height:44px; display:flex; align-items:center; gap:4px; padding:4px 6px; border:1px solid #3a424e; border-left:3px solid #ed394a; border-radius:5px; background:#101318f5; box-shadow:0 3px 12px #0005; pointer-events:auto; }
+#ncu-shell button { width:auto; min-height:32px; margin:0; border:1px solid transparent; border-radius:4px; padding:5px 9px; background:transparent; color:#d9e0e6; font:inherit; font-size:13px; line-height:1.3; box-shadow:none; text-shadow:none; cursor:pointer; white-space:nowrap; }
+#ncu-shell button i { margin:0 7px 0 0; color:#afb8c5; width:15px; text-align:center; }
+#ncu-shell button:hover { color:#fff; background:#252d38; border-color:#4a5664; }
+#ncu-shell button:focus-visible { outline:2px solid #8fdce4; outline-offset:2px; }
+#ncu-shell button[aria-disabled="true"] { opacity:.5; cursor:help; }
+#ncu-shell .ncu-brand { display:flex; align-items:center; padding:0 13px 0 6px; margin-right:3px; border-right:1px solid #3a424e; font-weight:700; font-size:13px; letter-spacing:.07em; white-space:nowrap; }
+#ncu-shell .ncu-brand i { color:#ed394a; font-size:15px; margin-right:8px; }
+#ncu-shell .ncu-tools { display:flex; align-items:center; gap:2px; flex:1; min-width:0; }
+#ncu-shell .ncu-mode { color:#afb8c5; font-size:11px; white-space:nowrap; margin:0 6px; }
+#ncu-shell .ncu-mode[data-battle="true"] { color:#f5cf84; }
+#ncu-shell .ncu-more { border-color:#3a424e; }
+#ncu-shell .ncu-more[aria-expanded="true"] { border-color:#8fdce4; background:#252d38; }
+#ncu-shell .ncu-menu { position:absolute; right:0; top:52px; width:330px; max-height:calc(100vh - var(--ncu-top,60px) - 70px); overflow:auto; padding:10px; border:1px solid #4a5664; border-radius:5px; background:#14191f; box-shadow:0 12px 34px #0008; pointer-events:auto; }
+#ncu-shell .ncu-menu h3 { margin:7px 7px 8px; padding:0; border:0; font:600 11px/1.4 "Rubik",Arial,sans-serif; text-transform:uppercase; letter-spacing:.1em; color:#afb8c5; }
+#ncu-shell .ncu-menu button { display:flex; align-items:center; width:100%; min-height:36px; text-align:left; white-space:normal; }
+#ncu-shell .ncu-menu button span { flex:1; }
+#ncu-shell .ncu-menu .ncu-hint { display:block; color:#afb8c5; font-size:11px; font-weight:400; margin-top:3px; line-height:1.4; }
+#ncu-shell .ncu-menu .ncu-rule { border:0; border-top:1px solid #3a424e; margin:10px 4px; }
+#ncu-shell .ncu-menu label { display:flex; align-items:center; gap:9px; font-size:12px; padding:7px; color:#d9e0e6; cursor:pointer; }
+#ncu-shell .ncu-menu input { margin:0; accent-color:#ed394a; width:16px; height:16px; }
+#ncu-shell .ncu-menu .ncu-note { color:#afb8c5; font-size:11px; margin:9px 7px 4px; line-height:1.5; }
+#ncu-shell.ncu-compact .ncu-mode { display:none; }
+#ncu-shell.ncu-compact .ncu-brand { font-size:11px; padding-right:8px; }
+#ncu-shell.ncu-compact button { padding-inline:6px; font-size:12px; }
+#ncu-shell.ncu-compact button i { margin-right:5px; }
+body.ncu-enabled .ncu-relocated-tool { display:none !important; }
+body.ncu-enabled #cpr-deadline-hud.ncu-docked:not(.cprd-dragging) { left:var(--ncu-timer-left) !important; top:var(--ncu-timer-top) !important; }
+body.ncu-enabled #cpr-deadline-hud { background:var(--ncu-bg); border-color:var(--ncu-line); }
+body.ncu-enabled #redline-combat-hud { z-index:59 !important; --redline-bg:#14191ff5; --redline-line:var(--ncu-line); --redline-text:var(--ncu-text); --redline-muted:var(--ncu-muted); --redline-cyan:var(--ncu-cyan); font-family:"Rubik",Arial,sans-serif; }
+body.ncu-enabled #redline-combat-hud.ncu-idle { display:none !important; }
+body.ncu-enabled #redline-combat-hud .redline-interface { inset:0; padding:0 !important; display:block; }
+body.ncu-enabled #redline-combat-hud .redline-header { position:absolute; left:var(--ncu-combat-left); top:var(--ncu-combat-top); width:var(--ncu-combat-width); min-height:46px; height:46px; padding:6px 10px; border-radius:5px 5px 0 0; }
+body.ncu-enabled #redline-combat-hud .redline-brand { font-size:13px; }
+body.ncu-enabled #redline-combat-hud .redline-heading > .redline-label { font-size:9px; }
+body.ncu-enabled #redline-combat-hud .redline-preview { display:none; }
+body.ncu-enabled #redline-combat-hud .redline-toolbar { width:auto; flex-wrap:nowrap; gap:5px; }
+body.ncu-enabled #redline-combat-hud .redline-combat { position:absolute; left:var(--ncu-combat-left); top:calc(var(--ncu-combat-top) + 45px); width:var(--ncu-combat-width); min-height:82px; height:82px; overflow:auto; padding:8px; gap:8px; flex-wrap:nowrap; border-radius:0 0 5px 5px; }
+body.ncu-enabled #redline-combat-hud.ncu-no-queue .redline-combat,
+body.ncu-enabled #redline-combat-hud.ncu-no-queue .redline-header { display:none; }
+body.ncu-enabled #redline-combat-hud .redline-round { min-width:38px; }
+body.ncu-enabled #redline-combat-hud .redline-queue { width:auto; }
+body.ncu-enabled #redline-combat-hud .redline-unit { flex-basis:155px; }
+body.ncu-enabled #redline-combat-hud .redline-next { font-size:11px; padding-inline:7px; }
+body.ncu-enabled #redline-combat-hud .redline-turn-control { flex-direction:column; }
+body.ncu-enabled #redline-combat-hud .redline-turn-control > span { max-width:120px; font-size:10px; }
+body.ncu-enabled #redline-combat-hud .redline-bottom { position:absolute; left:var(--ncu-dock-left); width:var(--ncu-dock-width); bottom:var(--ncu-dock-bottom); max-height:var(--ncu-dock-height); margin:0; gap:6px; }
+body.ncu-enabled #redline-combat-hud.ncu-no-actor .redline-bottom { display:none; }
+body.ncu-enabled #redline-combat-hud .redline-targets { min-height:34px; padding:6px 10px; border-radius:4px; }
+body.ncu-enabled #redline-combat-hud .redline-dock { min-height:0; max-height:calc(var(--ncu-dock-height) - 40px); overflow:auto; border-radius:4px; border-top-width:2px; }
+body.ncu-enabled #redline-combat-hud.ncu-tight-dock .redline-targets { display:none; }
+body.ncu-enabled #redline-combat-hud.ncu-tight-dock .redline-dock { max-height:var(--ncu-dock-height); }
+body.ncu-enabled #redline-combat-hud .redline-actor { padding:10px 12px; gap:12px; grid-template-columns:minmax(165px,1.2fr) minmax(125px,.8fr) minmax(160px,1fr); }
+body.ncu-enabled #redline-combat-hud .redline-weapons { grid-column:auto; border-top:0; border-left:1px solid var(--ncu-line); padding:0 0 0 12px; }
+body.ncu-enabled #redline-combat-hud .redline-vitals { padding-left:12px; }
+body.ncu-enabled #redline-combat-hud .redline-identity h2 { font-size:16px; margin:3px 0 7px; }
+body.ncu-enabled #redline-combat-hud .redline-label { font-size:10px; }
+body.ncu-enabled #redline-combat-hud .redline-unit-name small { font-size:10px; }
+body.ncu-enabled #redline-combat-hud .redline-notices { position:absolute; left:var(--ncu-combat-left); top:calc(var(--ncu-combat-top) + 140px); max-width:var(--ncu-combat-width); }
+@media(max-width:1100px) { #ncu-shell .ncu-brand span { display:none; } #ncu-shell .ncu-brand { padding-right:5px; } #ncu-shell .ncu-brand i { margin:0; } #ncu-shell .ncu-tools { overflow-x:auto; } body.ncu-enabled #redline-combat-hud .redline-actor { grid-template-columns:minmax(160px,1fr) minmax(120px,1fr); } body.ncu-enabled #redline-combat-hud .redline-weapons { grid-column:1/-1; border-left:0; border-top:1px solid var(--ncu-line); padding:8px 0 0; } }
+@media(prefers-reduced-motion:reduce) { #ncu-shell *, body.ncu-enabled #redline-combat-hud *, body.ncu-enabled #cpr-deadline-hud * { animation:none !important; transition:none !important; } }

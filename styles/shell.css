@@ -14,11 +14,16 @@ body.ncu-enabled {
 #ncu-shell .ncu-brand { display:flex; align-items:center; padding:0 13px 0 6px; margin-right:3px; border-right:1px solid #3a424e; font-weight:700; font-size:13px; letter-spacing:.07em; white-space:nowrap; }
 #ncu-shell .ncu-brand i { color:#ed394a; font-size:15px; margin-right:8px; }
 #ncu-shell .ncu-tools { display:flex; align-items:center; gap:2px; flex:1; min-width:0; }
+#ncu-shell .ncu-agent-entry { display:flex; align-items:center; flex-shrink:0; }
+#ncu-shell .ncu-agent-toggle { padding-inline:5px; min-width:24px; }
+#ncu-shell .ncu-agent-toggle i { width:12px; margin:0; font-size:10px; }
+#ncu-shell .ncu-agent-toggle[aria-expanded="true"] { color:#fff; background:#252d38; }
 #ncu-shell .ncu-mode { color:#afb8c5; font-size:11px; white-space:nowrap; margin:0 6px; }
 #ncu-shell .ncu-mode[data-battle="true"] { color:#f5cf84; }
 #ncu-shell .ncu-more { border-color:#3a424e; }
 #ncu-shell .ncu-more[aria-expanded="true"] { border-color:#8fdce4; background:#252d38; }
-#ncu-shell .ncu-menu { position:absolute; right:0; top:52px; width:330px; max-height:calc(100vh - var(--ncu-top,60px) - 70px); overflow:auto; padding:10px; border:1px solid #4a5664; border-radius:5px; background:#14191f; box-shadow:0 12px 34px #0008; pointer-events:auto; }
+#ncu-shell .ncu-menu { position:fixed; width:330px; max-width:calc(100vw - 16px); max-height:calc(100vh - 16px); overflow:auto; overscroll-behavior:contain; padding:10px; border:1px solid #4a5664; border-radius:5px; background:#14191f; box-shadow:0 12px 34px #0008; pointer-events:auto; }
+#ncu-shell .ncu-agent-menu { width:290px; }
 #ncu-shell .ncu-menu h3 { margin:7px 7px 8px; padding:0; border:0; font:600 11px/1.4 "Rubik",Arial,sans-serif; text-transform:uppercase; letter-spacing:.1em; color:#afb8c5; }
 #ncu-shell .ncu-menu button { display:flex; align-items:center; width:100%; min-height:36px; text-align:left; white-space:normal; }
 #ncu-shell .ncu-menu button span { flex:1; }

@@ -1,6 +1,5 @@
 /* Compact presentation of existing module controls. All native actions remain intact. */
 body.ncu-enabled.ncu-spacious #ncu-shell .ncu-bar {height:38px;box-shadow:0 2px 8px #0004;}
-body.ncu-enabled.ncu-spacious #ncu-shell .ncu-menu {top:46px;}
 body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-header {height:32px;min-height:32px;padding:3px 8px;}
 body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-heading > .redline-label {display:none;}
 body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-toolbar button {min-height:26px;height:26px;padding:2px 9px;}

@@ -1,12 +1,13 @@
 import { layoutHUD } from './layout.js';
 import { canOpenNet, sheetActor, atlasAccess } from './access.js';
 import { resolveHUDPresentation, updateDock, removeDockAdapter } from './presentation.js';
+import { createPopover } from './popover.js';
 
 const ID = 'night-city-ui';
 const moduleAPI = id => game.modules.get(id)?.active ? game.modules.get(id).api : null;
 const active = id => Boolean(game.modules.get(id)?.active);
 const pref = key => game.settings.get(ID, key);
-let shell, frame, observer, resizing, timerObserver, currentTimer, events, lastLayout;
+let shell, frame, observer, resizing, timerObserver, currentTimer, events, lastLayout, morePopover, agentPopover;
 let ready = false;
 const observed = new Set();
 
@@ -45,8 +46,7 @@ function actionDefinitions() {
     gmAgent: { label:'Выдать Агент / пульт ведущего', icon:'fa-tower-broadcast', gm:true, available:typeof agent?.openGMPanel==='function', run:()=>agent.openGMPanel() },
     files: { label:game.user.isGM?'Файлы и терминалы':'Доступные терминалы', icon:'fa-folder-open', available:typeof agent?.openWorkspace==='function', run:()=>agent.openWorkspace(game.user.isGM ? {} : {tab:'terminals'}) },
     hud: { label:'Показать / скрыть боевую панель', icon:'fa-bars-progress', hint:'Личное переключение REDLINE', available:typeof moduleAPI('redline-combat')?.toggle==='function', run:()=>moduleAPI('redline-combat').toggle() },
-    refreshHud: { label:'Обновить боевую панель', icon:'fa-rotate-right', hint:'Повторно получить текущие данные REDLINE', available:typeof moduleAPI('redline-combat')?.refresh==='function', run:()=>moduleAPI('redline-combat').refresh() },
-    demo: { label:'Учебный пример REDLINE', icon:'fa-graduation-cap', hint:'Отдельная демонстрация боевого интерфейса', available:typeof moduleAPI('redline-combat')?.openDemo==='function', run:()=>moduleAPI('redline-combat').openDemo() }
+    refreshHud: { label:'Обновить боевую панель', icon:'fa-rotate-right', hint:'Повторно получить текущие данные REDLINE', available:typeof moduleAPI('redline-combat')?.refresh==='function', run:()=>moduleAPI('redline-combat').refresh() }
   };
   return definitions;
 }
@@ -61,10 +61,7 @@ function button(action, detailed=false) {
   element.append(icon,label);return element;
 }
 function setMenu(open, focus=false) {
-  if(!shell)return;
-  const menu=shell.querySelector('.ncu-menu'), toggle=shell.querySelector('.ncu-more');
-  menu.hidden=!open;toggle.setAttribute('aria-expanded',String(open));
-  if(open && focus)menu.querySelector('button:not([hidden])')?.focus();
+  morePopover?.setOpen(open,{focus});
 }
 function setScenes(open) {
   open=Boolean(open&&pref('spacious'));
@@ -80,9 +77,15 @@ function mount() {
   sceneToggle.setAttribute('aria-label','Сцены — открыть навигацию');sceneToggle.setAttribute('aria-expanded','false');sceneToggle.setAttribute('aria-controls','navigation');
   sceneToggle.innerHTML='<i class="fa-solid fa-location-dot" aria-hidden="true"></i><span class="ncu-scene-name"></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i>';
   shell.querySelector('.ncu-bar').append(sceneToggle);
-  for(const action of ['actor','agent','market','net','city','battle'])tools.append(button(action));
+  const agentEntry=document.createElement('div');agentEntry.className='ncu-agent-entry';
+  const agentToggle=document.createElement('button');agentToggle.type='button';agentToggle.className='ncu-agent-toggle';
+  agentToggle.setAttribute('aria-label','Агент — инструменты ведущего');agentToggle.title='Агент — инструменты ведущего';
+  agentToggle.setAttribute('aria-controls','ncu-agent-menu');agentToggle.hidden=!game.user.isGM;
+  agentToggle.innerHTML='<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>';
+  agentEntry.append(button('agent'),agentToggle);
+  for(const action of ['actor','agent','market','net','city','battle'])tools.append(action==='agent'?agentEntry:button(action));
   const menu=shell.querySelector('.ncu-menu');
-  for(const action of ['timer','gmAgent','files','hud','refreshHud','collapseTimer','positionTimer','demo'])menu.append(button(action,true));
+  for(const action of ['timer','files','hud','refreshHud','collapseTimer','positionTimer'])menu.append(button(action,true));
   menu.insertAdjacentHTML('beforeend','<hr class="ncu-rule"><h3>На этом экране</h3>');
   for(const [key,label] of [['spacious','Просторный интерфейс Foundry'],['theme','Общая тема окон'],['compactTools','Убрать повторные значки слева'],['contextHud','Показывать боевые панели по ситуации']]) {
     const row=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.dataset.ncuSetting=key;input.checked=pref(key);row.append(input,document.createTextNode(label));menu.append(row);
@@ -90,25 +93,31 @@ function mount() {
   const disable=document.createElement('button');disable.type='button';disable.dataset.ncuDisable='true';disable.innerHTML='<i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i><span>Вернуться к исходному интерфейсу</span>';
   menu.append(disable);
   menu.insertAdjacentHTML('beforeend','<p class="ncu-note">Alt + N — меню Найт-Сити. Оформление и расположение сохраняются только для вас.</p>');
+  const agentMenu=document.createElement('section');agentMenu.id='ncu-agent-menu';agentMenu.className='ncu-menu ncu-agent-menu';
+  agentMenu.setAttribute('aria-label','Агент — инструменты ведущего');agentMenu.hidden=true;agentMenu.append(button('gmAgent',true));
+  shell.append(agentMenu);
   document.body.append(shell);
   events=new AbortController();const {signal}=events;
+  morePopover=createPopover({anchor:shell.querySelector('.ncu-more'),toggle:shell.querySelector('.ncu-more'),panel:menu,signal,
+    onOpen:()=>{agentPopover?.close();setScenes(false);}});
+  agentPopover=createPopover({anchor:agentEntry,toggle:agentToggle,panel:agentMenu,hover:true,signal,
+    canOpen:()=>Boolean(game.user?.isGM),onOpen:()=>{setMenu(false);setScenes(false);},nextFocus:()=>agentEntry.nextElementSibling});
   shell.addEventListener('pointerenter',schedule,{signal});
   shell.addEventListener('focusin',schedule,{signal});
   shell.addEventListener('click',async event=>{
     const target=event.target.closest('button');if(!target)return;
-    if(target.matches('.ncu-more')){setScenes(false);setMenu(target.getAttribute('aria-expanded')!=='true');return;}
-    if(target.matches('.ncu-scene-toggle')){setMenu(false);setScenes(target.getAttribute('aria-expanded')!=='true');return;}
+    if(target.matches('.ncu-scene-toggle')){setMenu(false);agentPopover?.close();setScenes(target.getAttribute('aria-expanded')!=='true');return;}
     if(target.dataset.ncuDisable){await game.settings.set(ID,'enabled',false);ui.notifications.info('Исходный интерфейс возвращён. Alt + N снова включит Найт-Сити.');return;}
     const action=resolveAction(target.dataset.ncuAction);if(!action)return;
     if(action.visible===false||(action.gm&&!game.user.isGM))return;
     if(!action.available){ui.notifications.info(action.reason||'Нужный модуль выключен или ещё загружается.');return;}
     target.disabled=true;
-    try {await action.run();setMenu(false);}catch(error){console.error(`${ID} |`,error);ui.notifications.error('Не удалось открыть инструмент. Подробности в консоли.');}
+    try {await action.run();setMenu(false);agentPopover?.close();}catch(error){console.error(`${ID} |`,error);ui.notifications.error('Не удалось открыть инструмент. Подробности в консоли.');}
     finally{target.disabled=false;schedule();}
   },{signal});
   shell.addEventListener('change',event=>{const key=event.target.dataset.ncuSetting;if(key)void game.settings.set(ID,key,event.target.checked);},{signal});
-  document.addEventListener('pointerdown',event=>{if(!shell.contains(event.target))setMenu(false);if(!event.target.closest('#navigation,.ncu-scene-toggle'))setScenes(false);},{signal});
-  document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!menu.hidden){event.stopPropagation();setMenu(false);shell.querySelector('.ncu-more').focus();}else if(document.body.classList.contains('ncu-scenes-open')){event.stopPropagation();setScenes(false);sceneToggle.focus();}},{signal,capture:true});
+  document.addEventListener('pointerdown',event=>{if(!event.target.closest('#navigation,.ncu-scene-toggle'))setScenes(false);},{signal});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.body.classList.contains('ncu-scenes-open')){event.preventDefault();event.stopPropagation();setScenes(false);sceneToggle.focus();}},{signal,capture:true});
   // Native DEADLINE keeps ownership of drag coordinates. Stop docking once its own drag starts.
   window.addEventListener('pointermove',()=>queueMicrotask(()=>{const timer=document.querySelector('#cpr-deadline-hud');if(timer?.classList.contains('cprd-dragging'))cls(timer,'ncu-docked',false);}),{signal});
   window.addEventListener('pointerup',()=>{setTimeout(schedule,80);},{signal});
@@ -121,7 +130,7 @@ function mount() {
 }
 
 function destroy() {
-  cancelAnimationFrame(frame);frame=null;events?.abort();observer?.disconnect();resizing?.disconnect();timerObserver?.disconnect();currentTimer=null;observed.clear();shell?.remove();shell=null;
+  cancelAnimationFrame(frame);frame=null;events?.abort();morePopover=null;agentPopover=null;observer?.disconnect();resizing?.disconnect();timerObserver?.disconnect();currentTimer=null;observed.clear();shell?.remove();shell=null;
   for(const element of document.querySelectorAll('.ncu-relocated-tool'))element.classList.remove('ncu-relocated-tool');
   for(const element of document.querySelectorAll('#cpr-deadline-hud,#redline-combat-hud'))for(const c of ['ncu-docked','ncu-idle','ncu-no-queue','ncu-no-actor','ncu-tight-dock'])element.classList.remove(c);
   removeDockAdapter();
@@ -164,6 +173,8 @@ function refresh() {
     const action=actions[button.dataset.ncuAction];button.hidden=Boolean(action.visible===false||(action.gm&&!game.user.isGM));button.setAttribute('aria-disabled',String(!action.available));button.title=action.available?(action.hint||action.label):(action.reason||'Нужный модуль выключен или ещё загружается.');
   }
   for(const input of shell.querySelectorAll('[data-ncu-setting]'))input.checked=pref(input.dataset.ncuSetting);
+  shell.querySelector('.ncu-agent-toggle').hidden=!game.user.isGM;
+  morePopover?.position();agentPopover?.position();
   const shortcuts={'nca-agent':'agent','nca-workspace':'files','nca-terminals':'files','nca-agent-gm':'gmAgent','night-city-market':'market','crns':'net','nightCityAtlas':'city','redline-combat':'hud','cpr-deadline':'timer'};
   for(const tool of document.querySelectorAll('#controls [data-tool]'))cls(tool,'ncu-relocated-tool',pref('compactTools')&&shortcuts[tool.dataset.tool]&&actions[shortcuts[tool.dataset.tool]].available);
   for(const selector of ['#sidebar','#controls','#navigation','#hotbar','#action-bar','#players','#cpr-deadline-hud']) {
@@ -177,7 +188,6 @@ Hooks.once('init',()=>{
   game.keybindings.register(ID,'menu',{name:'Найт-Сити — открыть меню',editable:[{key:'KeyN',modifiers:['Alt']}],onDown:()=>{void openMenu();return true;}});
 });
 async function openMenu(){if(!pref('enabled'))await game.settings.set(ID,'enabled',true);refresh();setMenu(true,true);}
-Hooks.on('getSceneControlButtons',controls=>{const token=controls.find(c=>c.name==='token');if(token&&!token.tools.some(t=>t.name===ID))token.tools.push({name:ID,title:'Найт-Сити — инструменты и оформление',icon:'fas fa-city',button:true,onClick:openMenu});});
 Hooks.once('ready',()=>{
   if(game.system.id!=='cyberpunk-red-core')return;ready=true;refresh();
   game.modules.get(ID).api=Object.freeze({openMenu,refresh:schedule,getLayout:()=>structuredClone(lastLayout),setEnabled:enabled=>game.settings.set(ID,'enabled',Boolean(enabled))});

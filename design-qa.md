@@ -1,5 +1,13 @@
 # Blackglass character actions QA
 
+## Navigation corrections, version 0.3.3
+
+Date: 2026-10-16. Isolated deadline-test world, Foundry 12.331 / Cyberpunk RED Core v0.92.4, GM and Player clients at 1280 × 720. More's button bounds were x794.5–869.16, y2.5–44.5; the opened menu began at x794.5, y50.5 (6 px below its button), within the viewport. The previous menu was detached at x938 despite the button ending at x843.16. Demo entries and the duplicate scene tool were absent.
+
+Agent ArrowDown focused the GM console entry at x301.64, y50.5; Escape closed it and restored focus without reopening. The console opened from the new entry, while the normal Agent button still opened the personal device. Opening Agent's disclosure closed More. The separate Player client had no GM disclosure or visible console action, including after ArrowDown on Agent. Its More menu contained only permitted actions. No browser errors were observed in these checks.
+
+56 automated checks passed, including viewport positioning, resize/scroll behavior, hover/focus/touch events, permission loss, listener cleanup and preservation of scrolling inside long menus. Other viewport dimensions and pointer timing are covered by automated controller tests; this live pass used 1280 × 720. Production worlds were not changed.
+
 ## Atlas access follow-up, version 0.3.2
 
 Date: 2026-10-16. Foundry VTT 12.331, Cyberpunk RED Core v0.92.4, isolated deadline-test world, 1280 × 720. The GM enabled player access to Atlas 0.2.0; a separate Player session opened the map through the City navigation button. Revoking access closed the player's Atlas and removed the City button without reloading. Re-enabling restored access. Both sessions were reloaded to verify persistence. Browser error logs were empty at the final check. Night City UI: 36 passing tests, including 7 access checks. The production campaign was not changed. The earlier combat QA below remains specific to version 0.3.1.

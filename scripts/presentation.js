@@ -1,5 +1,17 @@
 import { presentationContext } from './layout.js';
 
+/** REDLINE Blackglass owns its layout, visibility and collapse controls. */
+export function ownsDockPresentation(root) {
+  return Boolean(root?.classList?.contains('redline-blackglass') || root?.dataset?.layout === 'blackglass-dock');
+}
+
+const adapterClasses = ['ncu-actor-compact','ncu-empty-targets','ncu-idle','ncu-no-queue','ncu-no-actor','ncu-tight-dock'];
+function clearDockAdapter(root) {
+  if(!root)return;
+  for(const name of adapterClasses)if(root.classList.contains(name))root.classList.toggle(name,false);
+  root.querySelector('[data-ncu-dock-toggle]')?.remove();
+}
+
 /** Use the same permitted subject for visibility and the space reserved for its card. */
 export function resolveHUDPresentation({combat,controlledSelected,projectedSelected,contextOnly=true,spacious,expanded,hasTargets}) {
   // In contextual mode an assigned character alone must not occupy an idle scene.
@@ -20,6 +32,7 @@ export function dockSize({spacious,expanded,selected,hasTargets}) {
 
 export function updateDock(root,{spacious,expanded,hasTargets,onToggle}) {
   if(!root)return;
+  if(ownsDockPresentation(root)){clearDockAdapter(root);return;}
   for(const [name,value] of [['ncu-actor-compact',spacious&&!expanded],['ncu-empty-targets',spacious&&!hasTargets]]) {
     if(root.classList.contains(name)!==value)root.classList.toggle(name,value);
   }
@@ -43,6 +56,5 @@ export function updateDock(root,{spacious,expanded,hasTargets,onToggle}) {
 
 export function removeDockAdapter(){
   document.querySelectorAll('[data-ncu-dock-toggle]').forEach(button=>button.remove());
-  const root=document.querySelector('#redline-combat-hud');
-  root?.classList.remove('ncu-actor-compact','ncu-empty-targets');
+  clearDockAdapter(document.querySelector('#redline-combat-hud'));
 }

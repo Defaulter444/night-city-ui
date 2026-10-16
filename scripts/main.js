@@ -1,6 +1,6 @@
 import { layoutHUD } from './layout.js';
 import { canOpenNet, sheetActor, atlasAccess } from './access.js';
-import { resolveHUDPresentation, updateDock, removeDockAdapter } from './presentation.js';
+import { ownsDockPresentation, resolveHUDPresentation, updateDock, removeDockAdapter } from './presentation.js';
 import { createPopover } from './popover.js';
 
 const ID = 'night-city-ui';
@@ -152,8 +152,9 @@ function refresh() {
   const controlledSelected=controlled.find(token=>token.actor && ['character','mook'].includes(token.actor.type) && (game.user.isGM||token.actor.isOwner));
   const {context,dock:dockView}=resolveHUDPresentation({combat:battle,controlledSelected,projectedSelected:redlineState?.selected,contextOnly:pref('contextHud'),spacious:pref('spacious'),expanded:pref('dockExpanded'),hasTargets:Boolean(redlineState?.targets?.length)});
   const redline=document.querySelector('#redline-combat-hud');
+  const nativeRedlinePresentation=ownsDockPresentation(redline);
   updateDock(redline,{spacious:pref('spacious'),expanded:pref('dockExpanded'),hasTargets:Boolean(redlineState?.targets?.length),onToggle:()=>game.settings.set(ID,'dockExpanded',!pref('dockExpanded'))});
-  cls(redline,'ncu-idle',!context.hud);cls(redline,'ncu-no-queue',!context.queue);cls(redline,'ncu-no-actor',!context.actor);
+  cls(redline,'ncu-idle',!nativeRedlinePresentation&&!context.hud);cls(redline,'ncu-no-queue',!nativeRedlinePresentation&&!context.queue);cls(redline,'ncu-no-actor',!nativeRedlinePresentation&&!context.actor);
   const timer=document.querySelector('#cpr-deadline-hud');
   const view=active('cpr-deadline') ? game.settings.get('cpr-deadline','view') : null;
   const timerManaged=!Number.isFinite(view?.x)&&!Number.isFinite(view?.y)&&!timer?.classList.contains('cprd-dragging');
@@ -165,7 +166,7 @@ function refresh() {
   const {toolbar,combat,dock}=lastLayout;
   for(const [name,value] of Object.entries({left:toolbar.left,top:toolbar.top,width:toolbar.width,'combat-left':combat.left,'combat-top':combat.top,'combat-width':combat.width,'dock-left':dock.left,'dock-width':dock.width,'dock-bottom':innerHeight-dock.bottom,'dock-height':dock.height,'timer-left':lastLayout.timer?.left??0,'timer-top':lastLayout.timer?.top??0}))css(`--ncu-${name}`,value);
   cls(shell,'ncu-compact',lastLayout.compact);
-  cls(redline,'ncu-tight-dock',dock.height<120);
+  cls(redline,'ncu-tight-dock',!nativeRedlinePresentation&&dock.height<120);
   const mode=shell.querySelector('.ncu-mode');mode.textContent=context.battle?`Бой · раунд ${battle.round}`:'Обычная игра';mode.dataset.battle=String(context.battle);
   cls(shell.querySelector('[data-ncu-action="battle"]'),'ncu-current',context.battle);
   const actions=actionDefinitions();

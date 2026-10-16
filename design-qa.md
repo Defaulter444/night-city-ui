@@ -1,5 +1,17 @@
 # Blackglass character actions QA
 
+## Blackglass Dock compatibility, version 0.3.4
+
+Date: 2026-10-16. Isolated `deadline-test`, Foundry 12.331 / Cyberpunk RED Core 0.92.4, with REDLINE COMBAT 0.3.0. The first displayed Blackglass Dock concept is implemented by REDLINE itself. Night City UI detects its outer class/data marker, clears legacy presentation classes and injected toggles, and excludes it from legacy sizing/visibility CSS. Older REDLINE versions retain their existing adapter. DEADLINE styles were not changed.
+
+Source visual truth, real browser screenshots, full-view and focused combined inputs, required fidelity surfaces and the three resolved P1/P2 iterations are recorded in the [REDLINE project-root design QA](https://github.com/Defaulter444/CPR-RED-COMBAT/blob/main/design-qa.md). Source and final desktop captures are both 1672 × 941 pixels / CSS pixels at 1×. Actual browser evidence is in [docs/blackglass](https://github.com/Defaulter444/CPR-RED-COMBAT/tree/main/docs/blackglass); the source and implementation were inspected together, not inferred from code.
+
+GM and Player checks covered 1672 × 941, 1280 × 720 and 1024 × 768; the latter two included restricted player controls, a native attack dialog and cancellation without ammo loss. At 1024, REDLINE's own skills disclosure fits the map gap; with an expanded DEADLINE it temporarily overlays the dock while leaving queue and macros free. An active collapsed timer ends at y112 and the queue starts at y124; expanded timer ends at y223.72 and queue starts at y236; pausing restores queue y60. NCU disable/re-enable, common theme off/on and REDLINE's standalone header were exercised. One native collapse control remains, with 57 px idle compact dock. Final browser error logs were empty.
+
+59 Night City UI tests and 93 REDLINE tests passed, including legacy exclusion and stale adapter cleanup. No actionable P0/P1/P2 remains in this scope. Residual P3: armor labels can be spaced more like the concept; the empty REDLINE prompt does not change height on collapse. Live sidebar collapse, mobile widths below 1024 px and arbitrary third-party combinations are not claimed. Production worlds were not changed.
+
+final result: passed
+
 ## Navigation corrections, version 0.3.3
 
 Date: 2026-10-16. Isolated deadline-test world, Foundry 12.331 / Cyberpunk RED Core v0.92.4, GM and Player clients at 1280 × 720. More's button bounds were x794.5–869.16, y2.5–44.5; the opened menu began at x794.5, y50.5 (6 px below its button), within the viewport. The previous menu was detached at x938 despite the button ending at x843.16. Demo entries and the duplicate scene tool were absent.

@@ -1,9 +1,10 @@
-/* Selected Blackglass reference: REDLINE + DEADLINE only.
+/* Legacy REDLINE presentation and shared DEADLINE theme.
+ * REDLINE's native Blackglass dock opts out and owns its controls and geometry.
  * Load after shell.css and spacious.css. Placement belongs to layout.js.
  * Compact bounds: initiative 64px; actor 80px + optional targets 32px; timer 54px.
  * All controls and data remain the existing module DOM, including collapse/drag.
  */
-body.ncu-enabled.ncu-spacious #redline-combat-hud {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) {
   --redline-bg: #101316f5;
   --redline-line: #36424a;
   --redline-text: #e8e7e2;
@@ -14,7 +15,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud {
   font-size: 14px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-panel {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-panel {
   background: var(--redline-bg);
   border-color: var(--redline-line);
   border-radius: 4px;
@@ -22,7 +23,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-panel {
   backdrop-filter: none;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud button {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) button {
   color: var(--redline-text);
   background: #1a232a;
   border-color: #46535d;
@@ -31,22 +32,22 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud button {
   text-shadow: none;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud button:hover:not(:disabled) {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) button:hover:not(:disabled) {
   background: #252f38;
   border-color: var(--redline-cyan);
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud button:focus-visible {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) button:focus-visible {
   outline: 2px solid var(--redline-cyan);
   outline-offset: -3px;
 }
 
 /* One horizontal initiative row. Native turn/selection handlers stay attached. */
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-header {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-header {
   display: none;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-combat {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-combat {
   top: var(--ncu-combat-top);
   height: 64px;
   min-height: 64px;
@@ -57,7 +58,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-combat {
   overflow: hidden;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-round {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-round {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,19 +70,19 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-round {
   border-right: 1px solid var(--redline-line);
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-round .redline-label {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-round .redline-label {
   font-family: inherit;
   font-size: 11px;
   letter-spacing: 0;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-round strong {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-round strong {
   color: var(--redline-text);
   font: 25px/1 "Tektur", "Consolas", monospace;
   font-variant-numeric: tabular-nums;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-queue {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-queue {
   flex: 1 1 0;
   width: auto;
   height: 60px;
@@ -94,7 +95,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-queue {
   scrollbar-color: #52626d #101316;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-unit {
   flex: 0 0 154px;
   height: 48px;
   min-height: 48px;
@@ -105,17 +106,17 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit {
   font-size: 14px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit-name strong {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-unit-name strong {
   font-size: 14px;
   font-weight: 600;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit-name small {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-unit-name small {
   font-size: 10px;
   line-height: 1.3;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit .redline-portrait {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-unit .redline-portrait {
   flex: 0 0 32px;
   width: 32px;
   height: 36px;
@@ -123,37 +124,37 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit .redline-portrai
   border-color: #52616b;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit.is-selected {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-unit.is-selected {
   background: #1d2c32;
   border-color: #69939a;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit.is-current {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-unit.is-current {
   border-color: var(--redline-yellow);
   box-shadow: inset 2px 0 var(--redline-yellow);
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-unit.is-current:hover:not(:disabled) {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-unit.is-current:hover:not(:disabled) {
   border-color: var(--redline-yellow);
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-initiative {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-initiative {
   color: var(--redline-yellow);
   font-size: 17px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-turn-control {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-turn-control {
   flex: 0 0 auto;
   flex-direction: row;
   align-items: center;
   margin-left: 0;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-turn-control > span {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-turn-control > span {
   display: none;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-next {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-next {
   height: 44px;
   min-height: 44px;
   padding: 6px 11px;
@@ -164,26 +165,26 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-next {
   white-space: nowrap;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-next:hover:not(:disabled) {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-next:hover:not(:disabled) {
   color: var(--redline-text);
   background: #43212b;
   border-color: #ff7486;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-notices {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-notices {
   top: calc(var(--ncu-combat-top) + 74px);
 }
 
 /* The two adjacent bottom panels share an edge: 80px actor + 32px targets. */
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-bottom {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-bottom {
   gap: 0;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-bottom {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-bottom {
   width: min(540px, var(--ncu-dock-width, 540px));
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-targets {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-targets {
   flex: 0 0 32px;
   height: 32px;
   min-height: 32px;
@@ -196,13 +197,13 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-targets {
   box-shadow: none;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-targets > .redline-label {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-targets > .redline-label {
   flex: 0 0 auto;
   font: 12px/20px "Rubik", Arial, sans-serif;
   letter-spacing: 0;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-target-list {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-target-list {
   flex-wrap: nowrap;
   min-width: 0;
   max-height: 22px;
@@ -213,17 +214,17 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-target-list {
   white-space: nowrap;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-target-list > span {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-target-list > span {
   flex: 0 0 auto;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-dock {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-dock {
   max-height: calc(var(--ncu-dock-height) - 32px);
   border-top: 1px solid var(--redline-line);
   border-radius: 0 0 4px 4px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-empty-targets .redline-dock {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-empty-targets .redline-dock {
   max-height: var(--ncu-dock-height);
   border-radius: 4px;
 }
@@ -231,7 +232,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-empty-targets .redline-doc
 /* Compact native actor DOM: flatten only non-semantic grouping divs into the grid.
  * The original sheet button stays intact and retains its click handler/tab order.
  */
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-actor {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-actor {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 92px 92px 100px;
   grid-template-rows: 1fr;
@@ -242,12 +243,12 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-act
   padding: 8px 10px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-identity,
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-identity-text {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-identity,
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-identity-text {
   display: contents;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-portrait-large {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-portrait-large {
   grid-column: 1;
   grid-row: 1;
   width: 44px;
@@ -256,7 +257,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-por
   border-color: #59717b;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-identity h2 {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-identity h2 {
   grid-column: 2;
   grid-row: 1;
   min-width: 0;
@@ -268,7 +269,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-ide
   line-height: 1.3;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-vitals {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-vitals {
   grid-column: 3;
   grid-row: 1;
   min-width: 0;
@@ -276,31 +277,31 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-vit
   border: 0;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-vitals > .redline-label {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-vitals > .redline-label {
   font-family: inherit;
   font-size: 11px;
   letter-spacing: 0;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-health {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-health {
   color: var(--redline-cyan);
   font: 24px/1.2 "Tektur", "Consolas", monospace;
   font-variant-numeric: tabular-nums;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-health small {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-health small {
   color: #bdc6cc;
   font-size: 17px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-vitals .redline-meter {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-vitals .redline-meter {
   display: block;
   height: 3px;
   margin: 4px 0 0;
   background: #35424b;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact [data-action="sheet"] {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact [data-action="sheet"] {
   grid-column: 4;
   grid-row: 1;
   min-height: 34px;
@@ -311,7 +312,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact [data-action
   white-space: nowrap;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud [data-ncu-dock-toggle] {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) [data-ncu-dock-toggle] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -323,13 +324,13 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud [data-ncu-dock-toggle] {
   white-space: nowrap;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud [data-ncu-dock-toggle] i {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) [data-ncu-dock-toggle] i {
   margin: 0;
   font-size: 9px;
   pointer-events: none;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact [data-ncu-dock-toggle] {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact [data-ncu-dock-toggle] {
   position: static;
   grid-column: 5;
   grid-row: 1;
@@ -337,55 +338,55 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact [data-ncu-do
 }
 
 /* The original card becomes a compact header above native system actions. */
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-actor {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-actor {
   grid-template-columns: minmax(170px, 1fr) minmax(200px, 1.15fr) 94px;
   align-items: start;
   gap: 10px;
   padding: 10px 12px 12px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-identity {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-identity {
   grid-column: 1;
   grid-row: 1;
   gap: 9px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-portrait-large {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-portrait-large {
   flex: 0 0 44px;
   width: 44px;
   height: 54px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-identity h2 {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-identity h2 {
   margin: 2px 0 6px;
   font-size: 15px;
   line-height: 1.25;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-vitals {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-vitals {
   grid-column: 2;
   grid-row: 1;
   padding: 0;
   border: 0;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-health {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-health {
   font-size: 24px;
   line-height: 1.15;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-meter {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-meter {
   height: 3px;
   margin: 4px 0 6px;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-armor {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-armor {
   gap: 3px 8px;
   font-size: 11px;
   line-height: 1.4;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) [data-ncu-dock-toggle] {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) [data-ncu-dock-toggle] {
   position: sticky;
   top: 0;
   z-index: 2;
@@ -394,30 +395,30 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) [data-
   align-self: start;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.ncu-actor-compact) .redline-weapons {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]):not(.ncu-actor-compact) .redline-weapons {
   grid-column: 1 / -1;
   padding: 10px 0 0;
   border-left: 0;
   border-top: 1px solid var(--redline-line);
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-weapons ul {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-weapons ul {
   max-height: none;
   overflow: visible;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-weapon-controls .redline-action-primary {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-weapon-controls .redline-action-primary {
   color: var(--redline-red);
   background: #28171d;
   border-color: var(--redline-red);
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-action-tools {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-action-tools {
   display: none;
 }
 
 /* Keep result announcements available without adding another compact grid row. */
-body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-action-status {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-action-status {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -428,7 +429,7 @@ body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-act
   white-space: nowrap;
 }
 
-body.ncu-enabled.ncu-spacious #redline-combat-hud .redline-weapons li {
+body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]) .redline-weapons li {
   font-size: 13px;
 }
 
@@ -491,13 +492,13 @@ body.ncu-enabled.ncu-spacious #cpr-deadline-hud.cprd-collapsed .cprd-progress {
 
 /* A narrower available dock keeps identity/health and both native actions visible. */
 @media (max-width: 1100px) {
-  body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-actor {
+  body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-actor {
     grid-template-columns: 40px minmax(0, 1fr) 88px 92px 100px;
     gap: 6px;
     padding-inline: 8px;
   }
 
-  body.ncu-enabled.ncu-spacious #redline-combat-hud.ncu-actor-compact .redline-portrait-large {
+  body.ncu-enabled.ncu-spacious #redline-combat-hud:not(.redline-blackglass):not([data-layout="blackglass-dock"]).ncu-actor-compact .redline-portrait-large {
     width: 40px;
     height: 50px;
   }

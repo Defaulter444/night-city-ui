@@ -1,0 +1,70 @@
+/* CYBERPUNK MINIMAL: native palette, shared Hub geometry. Read the active CPR skin variables without replacing them. */
+.pneuma-theme-technical {
+  --pneuma-effect-icon-filter: brightness(0);
+  /* Surfaces and semantic colors */
+  --pvt-bg: var(--cpr-background-chat-card, var(--color-bg-option, #eaeaea));
+  --pvt-panel: var(--cpr-background-chat-card-block-before, var(--cpr-background-box, var(--pvt-bg)));
+  --pvt-rail: color-mix(in srgb, var(--pvt-bg) 92%, #000);
+  --pvt-line: var(--pvt-accent);
+  --pvt-frame: var(--pvt-accent);
+  --pvt-ink: var(--cpr-text-chat-normal, var(--color-text-primary, #191919));
+  --pvt-muted: color-mix(in srgb, var(--pvt-ink) 75%, var(--pvt-bg));
+  --pvt-accent: var(--cpr-background-chat-card-block, var(--cpr-background-border, #b71924));
+  --pvt-success: var(--cpr-text-chat-success, #287a35);
+  --pvt-failure: var(--cpr-text-chat-failure, #b71924);
+  --pvt-hit: var(--pvt-success);
+  --pvt-miss: var(--pvt-failure);
+  --pvt-link: var(--pvt-accent);
+  --pvt-color-scheme: inherit;
+  --pvt-card-shadow: none;
+
+  /* Header, artwork and metadata */
+  --pvt-header-bg: var(--pvt-panel);
+  --pvt-header-shadow: none;
+  --pvt-header-line: var(--pvt-accent);
+  --pvt-title-ink: var(--pvt-ink);
+  --pvt-title-mark: var(--pvt-accent);
+  --pvt-title-trace: var(--pvt-accent);
+  --pvt-art-color: var(--pvt-accent);
+  --pvt-art-opacity: .42;
+  --pvt-privacy-bg: var(--pvt-panel);
+  --pvt-privacy-ink: var(--pvt-ink);
+  --pvt-footer-trace: none;
+
+  /* Rolls and result sections */
+  --pvt-section-ink: var(--pvt-ink);
+  --pvt-result-bar-bg: transparent;
+  --pvt-total-ink: var(--pvt-ink);
+  --pvt-total-border: var(--pvt-accent);
+  --pvt-total-bg: var(--pvt-panel);
+  --pvt-total-shadow: none;
+  --pvt-total-clip: none;
+  --pvt-win-frame: #45cb83;
+  --pvt-lose-frame: #e65d6d;
+  --pvt-win-fill: var(--pvt-panel);
+  --pvt-lose-fill: var(--pvt-panel);
+  --pvt-outcome-ink: var(--pvt-ink);
+  --pvt-win-tint: color-mix(in srgb, var(--pvt-win-frame) 12%, transparent);
+  --pvt-lose-tint: color-mix(in srgb, var(--pvt-lose-frame) 12%, transparent);
+  --pvt-stripe-opacity: 1;
+  --pvt-opposed-line: var(--pvt-line);
+  --pvt-mini-ink: var(--pvt-ink);
+  --pvt-mini-border: var(--pvt-accent);
+
+  /* Controls */
+  --pvt-button-bg: var(--pvt-panel);
+  --pvt-button-ink: var(--pvt-ink);
+  --pvt-button-border: var(--pvt-accent);
+  --pvt-button-hover: color-mix(in srgb, var(--pvt-accent) 12%, var(--pvt-bg));
+  --pvt-damage-button-bg: var(--pvt-button-bg);
+  --pvt-damage-button-ink: var(--pvt-button-ink);
+  --pvt-damage-button-border: var(--pvt-button-border);
+  --pvt-gm-hover: var(--pvt-button-hover);
+
+  /* Composer */
+  --pvt-compose-bg: var(--pvt-bg);
+  --pvt-compose-ink: var(--pvt-ink);
+  --pvt-compose-line: color-mix(in srgb, var(--pvt-ink) 30%, var(--pvt-bg));
+  --pvt-compose-accent: var(--pvt-ink);
+  --pvt-compose-muted: color-mix(in srgb, var(--pvt-ink) 70%, var(--pvt-bg));
+}

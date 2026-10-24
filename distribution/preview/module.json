@@ -1,0 +1,73 @@
+{
+  "id": "night-city-ui",
+  "title": "Найт-Сити — общий интерфейс",
+  "description": "Blackglass для Foundry VTT 12 и Cyberpunk RED: общая навигация, просторный интерфейс, компактные DEADLINE и REDLINE, оформленный чат с портретами и кубиками, эффекты на экране и на токенах, анимация и звук атак, звуковая панель и превью сцен.",
+  "version": "0.4.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12.331",
+    "maximum": "12"
+  },
+  "authors": [
+    {
+      "name": "Defaulter444"
+    },
+    {
+      "name": "GMPneuma",
+      "url": "https://github.com/GMPneuma/PneumaVisualTools"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "cyberpunk-red-core",
+        "type": "system"
+      }
+    ],
+    "recommends": [
+      {
+        "id": "redline-combat",
+        "type": "module",
+        "reason": "Боевые карточки, ЭМИ, светошумовые и нейровторжение для эффектов и анимации атак."
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/main.js",
+    "visual/main.js"
+  ],
+  "styles": [
+    "styles/shell.css",
+    "styles/apps.css",
+    "styles/foundry.css",
+    "styles/spacious.css",
+    "styles/blackglass-shell.css",
+    "styles/blackglass-foundry.css",
+    "styles/blackglass-hud.css",
+    "visual/pneuma-visualtools.css",
+    "visual/chat-cards.css",
+    "visual/chat-hub.css",
+    "visual/chat-theme.css",
+    "visual/chat-dice.css",
+    "styles/visual-blackglass.css"
+  ],
+  "languages": [
+    {
+      "lang": "ru",
+      "name": "Русский",
+      "path": "visual/ru.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "visual/ru.json"
+    }
+  ],
+  "license": "LICENSE",
+  "readme": "https://github.com/Defaulter444/night-city-ui/blob/main/README.md",
+  "url": "https://github.com/Defaulter444/night-city-ui",
+  "manifest": "https://raw.githubusercontent.com/Defaulter444/night-city-ui/refs/heads/claude/pensive-rubin-8opsg3/distribution/preview/module.json",
+  "download": "https://raw.githubusercontent.com/Defaulter444/night-city-ui/refs/heads/claude/pensive-rubin-8opsg3/distribution/preview/night-city-ui.zip",
+  "bugs": "https://github.com/Defaulter444/night-city-ui/issues",
+  "changelog": "https://github.com/Defaulter444/night-city-ui/blob/main/CHANGELOG.md"
+}

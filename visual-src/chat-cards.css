@@ -1,0 +1,682 @@
+/* SHARED CARD STRUCTURE
+ * Layout and component geometry live here. Theme files supply colors and
+ * decoration tokens only. Native/module nodes are retained, including their
+ * visibility, disabled/busy state and delegated event ancestry.
+ * !important is reserved for native inline surfaces, dice dimensions and the
+ * documented Combat Tools button integration; themes never compete on layout.
+ */
+.chat-message.pneuma-chat-card {
+  --pvt-rail-width: 76px;
+  --pvt-space: 8px;
+  --pvt-total-size: 46px;
+  --pvt-total-font: 32px;
+  --pvt-mini-size: 32px;
+  --pvt-opening-end: 3;
+  /* Public Combat Tools button tokens; state and interaction stay native. */
+  --pneuma-chat-success: var(--pvt-success);
+  --pneuma-chat-failure: var(--pvt-failure);
+  --pneuma-chat-button-background: var(--pvt-button-bg);
+  --pneuma-chat-button-color: var(--pvt-button-ink);
+  --pneuma-chat-button-border: var(--pvt-button-border);
+  --pneuma-chat-button-hover-background: var(--pvt-button-hover);
+  --pneuma-chat-button-hover-color: var(--pvt-button-ink);
+  --pneuma-chat-button-focus: var(--pvt-accent);
+  --pneuma-chat-button-selected: var(--pvt-button-hover);
+  --pneuma-chat-button-selected-color: var(--pvt-button-ink);
+  --pneuma-chat-button-selected-border: var(--pvt-accent);
+  --pneuma-chat-button-icon-background: #333;
+  --pneuma-chat-button-icon-color: #fff;
+  --pneuma-chat-button-icon-border: var(--pvt-button-border);
+  --pneuma-chat-button-gm-background: var(--pvt-damage-button-bg);
+  --pneuma-chat-button-gm-color: var(--pvt-damage-button-ink);
+  --pneuma-chat-button-gm-border: var(--pvt-damage-button-border);
+  --pneuma-chat-button-gm-hover-background: var(--pvt-gm-hover);
+  --pneuma-chat-button-gm-hover-color: var(--pvt-damage-button-ink);
+  --pneuma-chat-button-recovery-border: var(--pvt-accent);
+  --pneuma-chat-button-cancel-border: var(--pvt-accent);
+  --pneuma-chat-button-spinner-track: var(--pvt-line);
+  --pneuma-chat-button-spinner-color: var(--pvt-ink);
+  position: relative; display: grid;
+  grid-template-columns: var(--pvt-rail-width) minmax(0, 1fr);
+  grid-template-rows: min-content auto; grid-auto-rows: auto;
+  gap: 0; padding: 0; margin-top: 29px; margin-bottom: 8px;
+  border: 1px solid var(--pvt-frame); border-radius: 0;
+  background: var(--pvt-bg); color: var(--pvt-ink);
+  box-shadow: var(--pvt-card-shadow); overflow: visible;
+  font-family: "Rajdhani", "Roboto Condensed", "Arial Narrow", sans-serif;
+  line-height: 1.3; text-shadow: none; color-scheme: var(--pvt-color-scheme);
+}
+.chat-message.pneuma-chat-card > .message-header,
+.chat-message.pneuma-chat-card .pneuma-card-heading,
+.chat-message.pneuma-chat-card .pvt-section-flow { display: contents; }
+.chat-message.pneuma-chat-card .pneuma-resolution-section { min-width: 0; margin: 0; }
+/* Every unclassified section is full width. Opening rows are opt-in. */
+.chat-message.pneuma-chat-card .pvt-section-flow > *,
+.chat-message.pneuma-chat-card .pvt-full-section {
+  grid-column: 1 / -1; grid-row: auto; min-width: 0;
+  margin: 0; padding: var(--pvt-space);
+}
+.chat-message.pneuma-chat-card .pvt-section-flow > .pvt-section-flow { padding: 0; }
+.chat-message.pneuma-chat-card .pvt-opening-row {
+  grid-column: 2; grid-row: var(--pvt-row, 2); min-width: 0;
+  margin: 0; padding: 3px var(--pvt-space) var(--pvt-space);
+  align-self: stretch; overflow-wrap: anywhere;
+}
+.chat-message.pneuma-chat-card.pneuma-plain-chat > .message-content { padding-block: 10px; }
+.chat-message.pneuma-chat-card .pvt-opening-stack { padding: 0; }
+/* Nested native workflows keep their wrappers. Each roll owns its padding,
+ * so outcome paint and separators reach the right-frame edges without gutters. */
+.chat-message.pneuma-chat-card :is(.pneuma-grapple-rolls > div, .pneuma-quickhack-roll) {
+  margin: 0; padding: 3px var(--pvt-space) var(--pvt-space);
+}
+.chat-message.pneuma-chat-card :is(.pneuma-grapple-note, .pneuma-grapple-controls:not(:empty)) { margin: 0; padding: var(--pvt-space); }
+.chat-message.pneuma-chat-card::after {
+  content: ""; position: absolute; bottom: 2px; left: var(--pvt-rail-width); right: 8px; height: 3px;
+  background: var(--pvt-footer-trace); opacity: .65; pointer-events: none;
+}
+.chat-message.pneuma-chat-card .pneuma-participant-rail {
+  grid-column: 1; grid-row: 1 / var(--pvt-opening-end);
+  align-self: stretch; min-width: 0; margin: 0; padding: 0 0 6px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: var(--pvt-rail); border-right: 1px solid var(--pvt-line);
+}
+.chat-message.pneuma-chat-card .pneuma-chat-portrait {
+  box-sizing: border-box; width: 100%; aspect-ratio: 1; flex: 0 0 auto;
+  overflow: hidden; border: 0; margin: 0; padding: 0;
+}
+.chat-message.pneuma-chat-card .pneuma-chat-portrait img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  object-position: center top; border: 0; border-radius: 0;
+}
+.chat-message.pneuma-chat-card [data-pvt-portrait-controls] {
+  cursor: pointer; touch-action: manipulation; user-select: none;
+}
+.chat-message.pneuma-chat-card [data-pvt-portrait-controls]:focus-visible {
+  outline: 2px solid currentColor; outline-offset: -2px;
+}
+.chat-message.pneuma-chat-card .pneuma-chat-identity {
+  display: flex; flex-direction: column; min-width: 0; width: 100%;
+  box-sizing: border-box; padding: 0 5px; margin: 0; border: 0; text-align: center;
+}
+.chat-message.pneuma-chat-card :is(.message-sender, .pneuma-exchange-attacker, .pneuma-exchange-defender) {
+  color: var(--pvt-ink); font-size: 13px; font-weight: 700;
+}
+.chat-message.pneuma-chat-card .pneuma-rail-name {
+  display: block; width: 100%; min-width: 0; margin: 0; box-sizing: border-box;
+  text-align: center; line-height: 1.2; font-weight: 700;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  overflow-wrap: normal; word-break: normal;
+}
+.chat-message.pneuma-chat-card .pneuma-participant-rail > .pneuma-rail-name { padding-inline: 5px; }
+.chat-message.pneuma-chat-card .pneuma-rail-name-wrap {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  white-space: normal; max-height: 2.4em;
+}
+.chat-message.pneuma-chat-card :is(.pneuma-rail-action, .pneuma-rail-arrow) {
+  width: 100%; box-sizing: border-box; padding: 0 3px; margin: 0;
+  text-align: center; font-size: 11px; line-height: 1.2;
+  overflow-wrap: anywhere; color: var(--pvt-muted);
+}
+.chat-message.pneuma-chat-card .pneuma-exchange-defender-image {
+  width: 48px; height: 48px; flex: 0 0 48px; margin: 0;
+  object-fit: cover; object-position: center top;
+  border: 1px solid var(--pvt-line); border-radius: 2px; background: var(--pvt-panel);
+}
+
+/* Metadata tabs sit outside the card grid and never determine rail height. */
+.chat-message.pneuma-chat-card > .pneuma-card-meta {
+  position: absolute; left: 0; right: 0; bottom: 100%; margin-bottom: 0;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 6px;
+  z-index: 2; font-size: 10px; color: var(--pvt-muted);
+}
+.chat-message.pneuma-chat-card .pneuma-card-meta > .chat-mode-indicator {
+  box-sizing: border-box; display: inline-block; flex: 0 0 var(--pvt-rail-width);
+  width: var(--pvt-rail-width); height: auto; min-height: 0; margin: 0;
+  padding: 3px 2px 4px; border: 1px solid var(--pvt-accent);
+  border-left-width: 3px; border-bottom: 0; border-radius: 3px 3px 0 0;
+  background: var(--pvt-privacy-bg); color: var(--pvt-privacy-ink);
+  text-align: center; font-size: 9px; font-weight: 800; line-height: 1.2;
+  text-transform: uppercase; letter-spacing: 0; text-shadow: none; box-shadow: none;
+}
+.chat-message.pneuma-chat-card .message-metadata {
+  display: flex; flex: 0 0 auto; align-items: center; gap: 5px;
+  margin-left: auto; padding: 2px 6px 3px; white-space: nowrap;
+  border: 1px solid var(--pvt-line); border-bottom: 0; border-radius: 3px 3px 0 0;
+  background: var(--pvt-bg); color: var(--pvt-muted); font-weight: 400; font-size: 10px; line-height: 1.2;
+}
+.chat-message.pneuma-chat-card .message-metadata a { color: var(--pvt-muted); opacity: .8; }
+.chat-message.pneuma-chat-card .message-metadata a:is(:hover, :focus-visible) { color: var(--pvt-ink); opacity: 1; }
+.chat-message.pneuma-chat-card .pneuma-chat-privacy { cursor: pointer; }
+.chat-message.pneuma-chat-card .pneuma-chat-recipients:not([hidden]) {
+  position: absolute; left: var(--pvt-rail-width); bottom: 0; z-index: 3;
+  width: max-content; max-width: calc(100vw - 100px); min-height: 100%;
+  box-sizing: border-box; margin: 0; padding: 4px 7px;
+  border: 1px solid var(--pvt-line); border-left: 0;
+  background: var(--pvt-panel); color: var(--pvt-ink); overflow-wrap: anywhere;
+}
+.chat-message.pneuma-chat-card .pneuma-chat-recipients[hidden] { display: none !important; }
+
+/* One action header, spanning the entire right-side frame. */
+.chat-message.pneuma-chat-card .pneuma-action-header {
+  grid-column: 2; grid-row: 1; position: relative; box-sizing: border-box;
+  min-width: 0; min-height: 56px; width: 100%; margin: 0; padding: 8px var(--pvt-space) 12px;
+  border: 0; align-self: start; background: var(--pvt-header-bg);
+  box-shadow: var(--pvt-header-shadow); color: var(--pvt-ink);
+}
+.chat-message.pneuma-chat-card .pneuma-heading-check > .pneuma-action-header { min-height: 38px; padding-block: 6px 8px; }
+.chat-message.pneuma-chat-card .pneuma-action-header::before {
+  content: ""; position: absolute; inset: 0 0 -7px; pointer-events: none; opacity: .3;
+  background:
+    radial-gradient(circle, var(--pvt-muted) 0 1.5px, transparent 2px) right 3px top 3px / 8px 5px no-repeat,
+    radial-gradient(circle, var(--pvt-muted) 0 1.5px, transparent 2px) right 13px top 3px / 8px 5px no-repeat,
+    radial-gradient(circle, var(--pvt-muted) 0 1.5px, transparent 2px) right 23px top 3px / 8px 5px no-repeat,
+    repeating-linear-gradient(125deg, var(--pvt-muted) 0 3px, transparent 3px 7px) left 2px bottom / 32% 4px no-repeat,
+    linear-gradient(130deg, transparent 0 5px, var(--pvt-muted) 5px) right 8px bottom 12px / 28px 4px no-repeat,
+    linear-gradient(130deg, transparent 0 5px, var(--pvt-muted) 5px) right 40px bottom 12px / 9px 4px no-repeat;
+}
+.chat-message.pneuma-chat-card .pneuma-action-header::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 12px;
+  background: var(--pvt-header-line); pointer-events: none;
+  clip-path: polygon(0 90%, 58% 90%, 62% 0, 100% 0, 96% 15%, 62.4% 15%, 58.4% 100%, 0 100%);
+}
+.chat-message.pneuma-chat-card .pneuma-exchange-weapon {
+  position: relative; display: block; isolation: isolate; min-height: 30px;
+  margin: 0; padding: 0 0 2px 10px; border: 0;
+  font-family: inherit; font-size: 13px; font-weight: 500; line-height: 1.25;
+  letter-spacing: .035em; text-transform: uppercase; color: var(--pvt-title-ink);
+  text-align: left; white-space: normal; overflow-wrap: anywhere;
+}
+.chat-message.pneuma-chat-card .pneuma-heading-check .pneuma-exchange-weapon { min-height: 22px; }
+.chat-message.pneuma-chat-card .pneuma-exchange-weapon:has(.pneuma-exchange-weapon-image, .pneuma-header-symbol) { padding-right: calc(20% + 4px); }
+.chat-message.pneuma-chat-card .pneuma-exchange-weapon::before {
+  content: ""; position: absolute; left: 1px; top: 2px; width: 3px; height: 17px;
+  background: var(--pvt-title-mark); pointer-events: none;
+}
+.chat-message.pneuma-chat-card .pneuma-exchange-weapon::after {
+  content: ""; position: absolute; left: 10px; top: -7px; width: 35%; height: 2px;
+  background: var(--pvt-title-trace); opacity: .8; pointer-events: none;
+}
+.chat-message.pneuma-chat-card .pneuma-heading-check .pneuma-exchange-weapon::after { left: auto; right: 8px; width: 25%; }
+.chat-message.pneuma-chat-card :is(.pneuma-exchange-weapon-image, .pneuma-header-symbol) {
+  position: absolute; inset: 0 0 0 auto; width: 40%; height: 100%; z-index: -1;
+  opacity: var(--pvt-art-opacity); pointer-events: none; border: 0; text-shadow: none;
+}
+.chat-message.pneuma-chat-card .pneuma-exchange-weapon-image {
+  display: block; background-color: var(--pvt-art-color); filter: none;
+  mask-mode: alpha; mask-size: contain; mask-position: right center; mask-repeat: no-repeat;
+}
+.chat-message.pneuma-chat-card .pneuma-header-symbol {
+  width: 36%; right: 4px; display: flex; align-items: center; justify-content: center;
+  font-size: 34px; color: var(--pvt-art-color);
+}
+.chat-message.pneuma-chat-card .pneuma-heading-check .pneuma-header-symbol { font-size: 24px; }
+.chat-message.pneuma-chat-card .pneuma-check-dv { padding: 0 10px; color: var(--pvt-muted); font-size: 12px; }
+
+/* Native roll normalization. Preserve hidden data and live action elements. */
+.chat-message.pneuma-chat-card :is(.rollcard-top:not(.pneuma-action-header), .rollcard-bottom) { min-width: 0; margin: 0; border: 0; padding: 0; background: none; color: inherit; }
+.chat-message.pneuma-chat-card .cpr-block {
+  padding: 4px 0; margin: 0; border: 0; border-radius: 0; box-shadow: none; clip-path: none;
+  background: transparent !important; color: var(--pvt-ink);
+}
+.chat-message.pneuma-chat-card .cpr-block::before,
+.chat-message.pneuma-chat-card .cpr-block::after { display: none; }
+.chat-message.pneuma-chat-card .cpr-block > p { margin-block: 3px; }
+.chat-message.pneuma-chat-card .rollcard-top .text-normal:not(.pneuma-exchange-weapon) { padding: 0; font-size: 16px; font-weight: 700; line-height: 1.2; }
+.chat-message.pneuma-chat-card :is(.rollcard-top .text-small, .rollcard-subtitle) { font-size: 11px; line-height: 1.3; color: var(--pvt-muted); }
+.chat-message.pneuma-chat-card .rollcard-subtitle { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "subtitle-left subtitle-center subtitle-right" "subtitle-2-left subtitle-2-center subtitle-2-right"; }
+.chat-message.pneuma-chat-card :is(.rollcard-subtitle-center, .rollcard-subtitle-2-center) { justify-self: start; }
+.chat-message.pneuma-chat-card .pneuma-relocated-heading,
+.chat-message.pneuma-chat-card .pneuma-popover-source { display: none !important; }
+.chat-message.pneuma-chat-card .pneuma-heading-check .rollcard-subtitle:has(> .pneuma-relocated-heading:only-child) { display: none; }
+.chat-message.pneuma-chat-card.pneuma-has-exchange-header :is(.pneuma-attack-result .rollcard-top .cpr-block > .text-normal, .pneuma-pending-title),
+.chat-message.pneuma-chat-card .pneuma-aoe-card .pneuma-resolution-attack .rollcard-top .text-normal,
+.chat-message.pneuma-chat-card :is(.pneuma-attack-result, .pneuma-resolution-attack, .pneuma-chat-action:has([data-action="rollDamage"])) .rollcard-subtitle-2-center { display: none; }
+.chat-message.pneuma-chat-card :is(.d10-rollcard-data, .d6-rollcard-data, .generic-rollcard-data) { grid-template-columns: minmax(0, 1fr) auto; gap: 3px 5px; align-items: center; }
+.chat-message.pneuma-chat-card :is(.d10-data-div, .d6-data-div, .generic-data-div) { padding: 0; color: var(--pvt-muted); font-size: 11px; line-height: 1.35; }
+
+/* Dice dimensions and total wells are defined once, shared by both themes. */
+.chat-message.pneuma-chat-card :is(.d10-dice-div, .d6-dice-div, .generic-dice-div) { display: flex; align-items: center; justify-content: center; min-width: 0; gap: 2px; }
+.chat-message.pneuma-chat-card :is(.d10-dice-div, .d6-dice-div, .generic-dice-div) img {
+  --pvt-die-size: 64px;
+  box-sizing: border-box; aspect-ratio: 1; object-fit: contain !important;
+  width: var(--pvt-die-size) !important; height: var(--pvt-die-size) !important;
+  min-width: var(--pvt-die-size) !important; max-width: var(--pvt-die-size) !important;
+  min-height: var(--pvt-die-size) !important; max-height: var(--pvt-die-size) !important;
+  flex: 0 0 var(--pvt-die-size); padding: 0 !important; border: 0; background: none;
+}
+.chat-message.pneuma-chat-card .d10-dice-div:has(> img:nth-of-type(2)) {
+  display: grid; grid-template-columns: 36px 28px 36px; grid-template-rows: 36px 28px 36px; gap: 0;
+}
+.chat-message.pneuma-chat-card .d10-dice-div:has(> img:nth-of-type(2)) > img { grid-column: 1 / 3; grid-row: 1 / 3; }
+.chat-message.pneuma-chat-card .d10-dice-div:has(> img:nth-of-type(2)) > img:nth-of-type(2) { grid-column: 2 / 4; grid-row: 2 / 4; z-index: 1; }
+.chat-message.pneuma-chat-card .d10-dice-div:has(> img:nth-of-type(2)) > i { display: none; }
+.chat-message.pneuma-chat-card .d6-dice-div { flex-wrap: wrap; }
+.chat-message.pneuma-chat-card .d6-dice-div.pneuma-balanced-dice { display: grid; justify-content: center; row-gap: 4px; }
+.chat-message.pneuma-chat-card .d6-dice-div img { --pvt-die-size: var(--pvt-damage-size, 44px); }
+.chat-message.pneuma-chat-card :is(.d10-number-div, .d6-number-div, .generic-number-div) {
+  position: relative; isolation: isolate; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+  width: var(--pvt-total-size); height: var(--pvt-total-size); flex: 0 0 var(--pvt-total-size);
+  min-height: 0; padding: 2px; border: 0; margin: 0; background: transparent;
+  /* Native CPR total-color rules can be important. Keep the chosen palette. */
+  color: var(--pvt-result-ink, var(--pvt-total-ink)) !important; font-family: inherit;
+  font-size: var(--pvt-total-font); font-weight: 700; line-height: 1; letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums; text-shadow: var(--pvt-total-shadow);
+  white-space: nowrap; overflow-wrap: normal; word-break: normal;
+}
+.chat-message.pneuma-chat-card :is(.d10-number-div, .d6-number-div, .generic-number-div) > :is(a, span, strong) { color: inherit !important; font-size: inherit; line-height: inherit; white-space: nowrap; }
+.chat-message.pneuma-chat-card :is(.d10-number-div, .d6-number-div, .generic-number-div)::before,
+.chat-message.pneuma-chat-card :is(.d10-number-div, .d6-number-div, .generic-number-div)::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  clip-path: var(--pvt-total-clip); background: var(--pvt-result-frame, var(--pvt-total-border));
+}
+.chat-message.pneuma-chat-card :is(.d10-number-div, .d6-number-div, .generic-number-div)::after { inset: 1px; background: var(--pvt-result-fill, var(--pvt-total-bg)); }
+.chat-message.pneuma-chat-card .pneuma-roll-winner { --pvt-result-frame: var(--pvt-win-frame); --pvt-result-fill: var(--pvt-win-fill); --pvt-result-ink: var(--pvt-outcome-ink); --pvt-row-tint: var(--pvt-win-tint); }
+.chat-message.pneuma-chat-card .pneuma-roll-loser { --pvt-result-frame: var(--pvt-lose-frame); --pvt-result-fill: var(--pvt-lose-fill); --pvt-result-ink: var(--pvt-outcome-ink); --pvt-row-tint: var(--pvt-lose-tint); }
+.chat-message.pneuma-chat-card :is(.pneuma-roll-winner, .pneuma-roll-loser) { position: relative; background: var(--pvt-row-tint); }
+.chat-message.pneuma-chat-card :is(.pneuma-roll-winner, .pneuma-roll-loser)::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 4px;
+  background: var(--pvt-result-frame); opacity: var(--pvt-stripe-opacity); pointer-events: none;
+}
+.chat-message.pneuma-chat-card .pvt-opposed-divider { position: relative; }
+.chat-message.pneuma-chat-card .pvt-opposed-divider::after {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--pvt-opposed-line); pointer-events: none; z-index: 1;
+}
+
+/* Additional sections and native module controls. */
+.chat-message.pneuma-chat-card :is(.pneuma-resolution-result, .pneuma-damage-result, .pneuma-attached-effects, .pneuma-resolution-recovery, .pneuma-grapple-explanation, .pneuma-critical-result) { border-top: 1px solid var(--pvt-line); }
+.chat-message.pneuma-chat-card :is(.pneuma-resolution-label, .pneuma-damage-heading, .pneuma-evasion-heading) { padding: 0; gap: 4px; font-size: 14px; line-height: 1.3; color: var(--pvt-section-ink); }
+.chat-message.pneuma-chat-card .pneuma-attack-subtitle { padding-inline: 0; gap: 4px; }
+.chat-message.pneuma-chat-card :is(.pneuma-damage-recipient, .pneuma-damage-status, .pneuma-damage-targets, .pneuma-damage-applied-row, .pneuma-mini-result-row, .pneuma-damage-ammo) { font-size: 14px; line-height: 1.35; }
+.chat-message.pneuma-chat-card .pneuma-damage-status { color: var(--pvt-ink); }
+.chat-message.pneuma-chat-card :is(.pneuma-resolution-recovery, .pneuma-critical-result) { padding-top: 6px; }
+.chat-message.pneuma-chat-card .pneuma-grapple-explanation { margin-top: 0; }
+.chat-message.pneuma-chat-card .pneuma-quickhack-roll { min-width: 0; }
+.chat-message.pneuma-chat-card .pneuma-quickhack-result { padding: var(--pvt-space); }
+.chat-message.pneuma-chat-card .pvt-full-section { border-top: 1px solid var(--pvt-line); }
+.chat-message.pneuma-chat-card .pneuma-resolution-result { border-bottom: 1px solid var(--pvt-line); background: var(--pvt-result-bar-bg); }
+.chat-message.pneuma-chat-card .pneuma-combat-outcome { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 8px; min-height: 30px; margin: 0; }
+.chat-message.pneuma-chat-card .pneuma-result-summary { order: 0; flex: 1 1 105px; position: relative; padding-left: 25px; font-size: 12px; line-height: 1.4; color: var(--pvt-ink); }
+.chat-message.pneuma-chat-card .pneuma-result-summary::before {
+  content: ""; position: absolute; left: 2px; top: calc(50% - 9px); width: 18px; height: 18px;
+  color: var(--pvt-hit); pointer-events: none;
+  background: linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat,
+    linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
+    radial-gradient(circle, transparent 0 5px, currentColor 5px 6px, transparent 6px);
+}
+.chat-message.pneuma-chat-card .pneuma-hit { color: var(--pvt-hit); }
+.chat-message.pneuma-chat-card .pneuma-miss,
+.chat-message.pneuma-chat-card .pneuma-result-summary:has(.pneuma-miss)::before { color: var(--pvt-miss); }
+.chat-message.pneuma-chat-card .pneuma-result-summary :is(.pneuma-hit, .pneuma-miss) { text-transform: uppercase; font-size: 15px; font-weight: 800; letter-spacing: .04em; }
+.chat-message.pneuma-chat-card :is(a, .clickable) { color: var(--pvt-link); }
+.chat-message.pneuma-chat-card :is(a, button, .clickable):focus-visible { outline: 2px solid var(--pvt-accent); outline-offset: 2px; }
+.chat-message.pneuma-chat-card button:not(.pneuma-chat-button) { background: var(--pvt-button-bg); color: var(--pvt-button-ink); border: 1px solid var(--pvt-button-border); border-radius: 2px; box-shadow: none; font: inherit; font-size: 12px; line-height: 1.3; padding: 4px 6px; }
+.chat-message.pneuma-chat-card button:not(.pneuma-chat-button):hover:not(:disabled) { background: var(--pvt-button-hover); }
+.chat-message.pneuma-chat-card button:not(.pneuma-chat-button):disabled { opacity: .5; }
+.chat-message.pneuma-chat-card .pneuma-damage-recovery-controls { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 5px; min-width: 0; }
+.chat-message.pneuma-chat-card .pneuma-damage-recovery-controls button { flex: 0 1 auto; max-width: 100%; overflow-wrap: normal; word-break: normal; }
+.chat-message.pneuma-chat-card .pneuma-instant-effect button { width: auto; max-width: 100%; white-space: normal; }
+/* Combat Tools intentionally uses important button metrics. Override only
+ * the icon-only damage button's footprint; its state rules retain ownership. */
+.chat-message.pneuma-chat-card .pneuma-combat-outcome .pneuma-result-damage[aria-label] {
+  --pneuma-chat-button-background: var(--pvt-damage-button-bg);
+  --pneuma-chat-button-color: var(--pvt-damage-button-ink);
+  --pneuma-chat-button-border: var(--pvt-damage-button-border);
+  order: 1; flex: 0 1 auto !important; width: auto !important;
+  min-width: 96px !important; height: auto !important; min-height: 30px !important;
+  padding: 4px 8px !important; margin-left: auto !important;
+  --pneuma-chat-button-font-weight: 800; --pneuma-chat-button-font-size: 11px;
+}
+.chat-message.pneuma-chat-card .pneuma-result-damage[aria-label]:not(.pneuma-chat-busy)::after { content: attr(aria-label); text-transform: uppercase; letter-spacing: .04em; font-size: 11px; font-weight: 800; line-height: 1.3; }
+.chat-message.pneuma-chat-card .pneuma-damage-undo { font-size: 12px; margin-left: 6px; }
+
+/* Compact secondary results retain their own 32px wells. */
+.chat-message.pneuma-chat-card .pneuma-inline-roll { margin: 0; vertical-align: middle; }
+.chat-message.pneuma-chat-card :is(.pneuma-inline-roll > summary, .pneuma-applied-number, .inline-roll.inline-result, .pneuma-mini-value) {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
+  width: var(--pvt-mini-size); height: var(--pvt-mini-size); flex: 0 0 var(--pvt-mini-size);
+  margin: 0; padding: 0; border: 1px solid var(--pvt-mini-color, var(--pvt-mini-border)); border-radius: 0;
+  color: var(--pvt-mini-color, var(--pvt-mini-ink)); background: var(--pvt-panel);
+  font: 700 20px/1 "Rajdhani", "Roboto Condensed", "Arial Narrow", sans-serif;
+  font-variant-numeric: tabular-nums; text-decoration: none; text-shadow: none; list-style: none;
+}
+.chat-message.pneuma-chat-card .pneuma-mini-result-row { display: grid; grid-template-columns: minmax(0, 1fr) var(--pvt-mini-size); align-items: center; gap: 4px 8px; width: 100%; min-width: 0; margin: 3px 0; }
+.chat-message.pneuma-chat-card .pneuma-mini-result-row > :first-child { min-width: 0; }
+.chat-message.pneuma-chat-card .pneuma-mini-result-row > .pneuma-inline-roll { justify-self: end; }
+.chat-message.pneuma-chat-card .pneuma-mini-result-row > .pneuma-damage-undo { grid-column: 1 / -1; justify-self: end; }
+.chat-message.pneuma-chat-card :is(.pneuma-resolution-damage-apply, .pneuma-aoe-applications) {
+  border-top: 1px solid var(--pvt-line); margin-top: 0; padding-top: 4px;
+}
+.chat-message.pneuma-chat-card .pneuma-resolution-damage-apply .pneuma-aoe-applications {
+  border-top: 0; padding-top: 0;
+}
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-damage-applied-row > .pneuma-reversal-status {
+  position: absolute; right: calc(100% + 4px); top: 50%; transform: translateY(-50%);
+  width: 64px; font-size: 11px; line-height: 1.15;
+}
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-damage-applied-row { position: relative; }
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target:has(.pneuma-reversal-status) > .pneuma-aoe-name { padding-right: 68px; }
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-damage-applied-row > :is(.pneuma-applied-location, .pneuma-damage-undo) { flex-shrink: 0; white-space: nowrap; }
+.chat-message.pneuma-chat-card .pneuma-damage-applications > .pneuma-damage-applied {
+  padding: 3px 0; margin: 0; border-bottom: 1px solid var(--pvt-line);
+}
+.chat-message.pneuma-chat-card .pneuma-damage-applications > .pneuma-damage-applied:last-child { border-bottom: 0; }
+.chat-message.pneuma-chat-card .pneuma-damage-applied-row.pneuma-mini-result-row {
+  grid-template-columns: minmax(0, 1fr) var(--pvt-mini-size) 20px;
+}
+.chat-message.pneuma-chat-card .pneuma-damage-applied-row > .pneuma-applied-number { grid-column: 2; grid-row: 1; }
+.chat-message.pneuma-chat-card .pneuma-damage-applied-row > .pneuma-damage-undo {
+  grid-column: 3; grid-row: 1; justify-self: center; margin: 0;
+}
+.chat-message.pneuma-chat-card .pneuma-damage-applied > :is(.pneuma-cover-up-damage, .pneuma-injury-damage) {
+  margin: 4px 0 0; font-size: 12px; line-height: 1.35; color: var(--pvt-muted);
+}
+.chat-message.pneuma-chat-card .pneuma-aoe-target > .pneuma-mini-result-row { grid-column: 1 / -1; }
+.chat-message.pneuma-chat-card .inline-roll.inline-result > i { display: none; }
+
+/* Compact effect totals: resistance is outlined; damage is a filled square. */
+.chat-message.pneuma-chat-card .pneuma-instant-effect { --pvt-mini-size: 32px; }
+.chat-message.pneuma-chat-card .pneuma-instant-effect :is(.pneuma-inline-roll > summary, .pneuma-mini-value):is(.pvt-effect-resist-total, .pvt-effect-damage-total) {
+  width: 32px; min-width: 32px; height: 24px; min-height: 24px;
+  flex: 0 0 32px; padding: 0; gap: 3px; font-size: 16px; line-height: 1;
+}
+.chat-message.pneuma-chat-card .pneuma-instant-effect .pvt-effect-resist-total {
+  border-radius: 4px 4px 8px 8px; background: transparent;
+}
+.chat-message.pneuma-chat-card .pneuma-instant-effect .pvt-effect-damage-total {
+  border-radius: 0; border-color: var(--pvt-accent);
+  background: color-mix(in srgb, var(--pvt-accent) 20%, var(--pvt-panel));
+}
+.chat-message.pneuma-chat-card .pvt-effect-roll-icon { font-size: 9px; flex: 0 0 auto; }
+.chat-message.pneuma-chat-card .pneuma-effect-resistance > strong::before,
+.chat-message.pneuma-chat-card .pneuma-effect-resistance > .pneuma-inline-roll > summary::before {
+  content: none;
+}
+.chat-message.pneuma-chat-card .pneuma-instant-damage:has(.pvt-effect-damage-total) > span:first-child { display: none; }
+
+/* Body-level popup: colors are copied from its owning card by the adapter. */
+[data-pvt-popover] { cursor: help; }
+/* Section labels occupy a narrow left rail instead of a separate header row. */
+.chat-message.pneuma-chat-card .pvt-section-rail {
+  position: relative; padding: 4px 6px 4px 28px; min-height: 64px;
+  border-top: 1px solid var(--pvt-line);
+}
+.chat-message.pneuma-chat-card .pneuma-resolution-damage-apply.pvt-section-rail { min-height: 76px; }
+.chat-message.pneuma-chat-card .pvt-section-rail > .pvt-section-rail-label {
+  position: absolute; inset: 0 auto 0 0; width: 22px; margin: 0; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap;
+  border-left: 1px solid var(--pvt-line); font-size: 13px; line-height: 1;
+  background: color-mix(in srgb, var(--pvt-accent) 22%, var(--pvt-bg));
+  color: var(--pvt-ink); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pvt-line) 35%, transparent);
+}
+.chat-message.pneuma-chat-card .pvt-section-rail > .pneuma-resolution-body { margin: 0; padding: 0; }
+.chat-message.pneuma-chat-card .pneuma-damage-result:has(> .pvt-section-rail) { padding: 0; }
+.chat-message.pneuma-chat-card .pvt-damage-heading-hidden { display: none; }
+.chat-message.pneuma-chat-card .pvt-damage-footer {
+  display: flex; align-items: center; gap: 6px; min-width: 0; margin-top: 4px;
+}
+.chat-message.pneuma-chat-card .pvt-damage-footer > :is(.pneuma-aoe-effects-picker, .pneuma-damage-effects-slot) {
+  min-width: 0; margin: 0 0 0 auto;
+}
+.chat-message.pneuma-chat-card .pvt-damage-footer > .pneuma-damage-ammo { margin: 0; text-align: left; }
+.chat-message.pneuma-chat-card .pvt-damage-footer > .pneuma-damage-ammo[hidden] { display: none; }
+.chat-message.pneuma-chat-card .pvt-aoe-defenders > summary {
+  cursor: pointer; padding: 3px 0; color: var(--pvt-muted); font-size: 12px;
+}
+.chat-message.pneuma-chat-card .pneuma-resolution-damage-roll > button.pvt-damage-toggle {
+  position: absolute; top: 0; left: 0; z-index: 2; box-sizing: border-box;
+  width: 22px !important; height: 20px !important; min-height: 20px !important;
+  margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0;
+  background: transparent !important; color: var(--pvt-ink) !important;
+  box-shadow: none; cursor: pointer; font: 13px/20px sans-serif; text-align: center;
+}
+.chat-message.pneuma-chat-card .pneuma-resolution-damage-roll > .pvt-section-rail-label { padding-bottom: 20px; }
+.chat-message.pneuma-chat-card .pvt-damage-toggle:focus-visible { outline: 1px solid currentColor; outline-offset: 2px; }
+.chat-message.pneuma-chat-card .pvt-damage-collapsed.pvt-section-rail { min-height: 28px; padding: 4px 6px 4px 28px; }
+.chat-message.pneuma-chat-card .pvt-damage-collapsed > .pneuma-resolution-body { display: none; }
+.chat-message.pneuma-chat-card .pvt-damage-collapsed > .pvt-section-rail-label {
+  font-size: 0; padding: 0;
+}
+.chat-message.pneuma-chat-card .pvt-damage-collapsed::after { content: 'Damage'; font-size: 13px; color: var(--pvt-ink); }
+.pneuma-roll-popover {
+  position: fixed; z-index: 100000; width: max-content; max-width: min(320px, calc(100vw - 16px));
+  max-height: min(420px, calc(100vh - 16px)); overflow: auto; pointer-events: none;
+  padding: 10px; border: 1px solid var(--pvt-line, #52606d); border-radius: 3px;
+  background: var(--pvt-bg, #0c141a); color: var(--pvt-ink, #e5eff1);
+  box-shadow: 0 3px 12px #0008; font: 13px/1.4 sans-serif; text-shadow: none;
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+#pneuma-roll-popover :is(.rollcard, .rollcard-bottom, .cpr-block) { margin: 0; padding: 0; border: 0 !important; border-radius: 0; clip-path: none !important; background: transparent !important; color: var(--pvt-ink) !important; box-shadow: none; }
+#pneuma-roll-popover .cpr-block::before,
+#pneuma-roll-popover .cpr-block::after { display: none !important; }
+#pneuma-roll-popover :is(.d10-rollcard-data, .d6-rollcard-data, .generic-rollcard-data) { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+#pneuma-roll-popover :is(.d10-data-div, .d6-data-div, .generic-data-div) { margin: 0; padding: 0; text-align: right; }
+#pneuma-roll-popover :is(.text-normal, .text-small, .text-large, .dice-formula) { font-size: 13px; line-height: 1.4; color: var(--pvt-ink); text-shadow: none; text-align: right; }
+#pneuma-roll-popover :is(.d10-dice-div, .d6-dice-div, .generic-dice-div) { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--pvt-line); }
+#pneuma-roll-popover :is(.d10-dice-div, .d6-dice-div, .generic-dice-div) img { width: 42px; height: 42px; max-width: 42px; max-height: 42px; object-fit: contain; border: 0; }
+#pneuma-roll-popover .dice-tooltip { display: block !important; }
+#pneuma-roll-popover :is(.pneuma-inline-roll-details, .pneuma-details-region) { display: block !important; }
+#pneuma-roll-popover .dice-formula { background: none; border: 0; box-shadow: none; margin: 0 0 5px; padding: 0; }
+#pneuma-roll-popover .pneuma-dice-art-part .part-header { display: none; }
+#pneuma-roll-popover * { text-align: right !important; }
+#pneuma-roll-popover .pneuma-popover-heading { font-weight: 700; font-size: 12px; line-height: 1.3; }
+#pneuma-roll-popover .pneuma-popover-divider { height: 0; margin: 5px 0 6px; border: 0; border-top: 1px solid var(--pvt-line, #52606d); }
+#pneuma-roll-popover :is(.pneuma-inline-roll-details, .pneuma-details-region, .pneuma-applied-details, .dice-tooltip, .tooltip-part, p, pre) { margin: 0; padding: 0; }
+#pneuma-roll-popover .pneuma-calculation-text { white-space: pre-line; }
+#pneuma-roll-popover :is(.dice-rolls, .part-header) { justify-content: flex-end; }
+
+/* Composer geometry is shared; its palette comes from the selected theme. */
+.pneuma-chat-composer #chat-form { margin-top: 8px; padding: 0 4px 4px; }
+.pneuma-chat-composer #chat-message { box-sizing: border-box; width: 100%; padding: 10px 12px; background: var(--pvt-compose-bg); color: var(--pvt-compose-ink); border: 1px solid var(--pvt-compose-line); border-radius: 6px; box-shadow: inset 0 1px 3px #0002; text-shadow: none; font-family: inherit; font-size: 14px; line-height: 1.45; caret-color: var(--pvt-compose-accent); }
+.pneuma-chat-composer #chat-message::placeholder { color: var(--pvt-compose-muted); opacity: 1; }
+.pneuma-chat-composer #chat-message:focus { border-color: var(--pvt-compose-accent); outline: 1px solid var(--pvt-compose-accent); outline-offset: 1px; box-shadow: none; }
+.pneuma-chat-composer #chat-controls { padding: 5px 4px; gap: 6px; color: var(--pvt-compose-muted); }
+.pneuma-chat-composer #chat-controls :is(select, button) { background: var(--pvt-compose-bg); color: var(--pvt-compose-ink); border: 1px solid var(--pvt-compose-line); border-radius: 4px; font-family: inherit; font-size: 13px; text-shadow: none; box-shadow: none; }
+.pneuma-chat-composer #chat-controls a { color: var(--pvt-compose-muted); text-shadow: none; }
+.pneuma-chat-composer #chat-controls :is(a, button):hover { color: var(--pvt-compose-accent); }
+.pneuma-chat-composer #chat-controls :is(a, button, select):focus-visible { outline: 2px solid var(--pvt-compose-accent); outline-offset: 2px; }
+.pneuma-chat-composer #chat-controls select { color-scheme: var(--pvt-color-scheme); }
+.pneuma-chat-composer #chat-controls select :is(option, optgroup) { background-color: var(--pvt-compose-bg); color: var(--pvt-compose-ink); text-shadow: none; }
+.pneuma-chat-composer #chat-controls select option:disabled { color: var(--pvt-compose-muted); }
+.pneuma-chat-composer #chat-controls select option:checked { background-color: var(--pvt-compose-line); color: var(--pvt-compose-ink); }
+/* Protect the shared structure from native/sidebar and portrait-module layout rules.
+ * These declarations apply only while Visual Tools owns the card. */
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card {
+ display: grid !important; grid-template-columns: var(--pvt-rail-width) minmax(0, 1fr) !important;
+ padding: 0 !important; border-radius: 0;
+}
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card > .message-header {
+ display: contents !important;
+}
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card .pneuma-chat-portrait img {
+ width: 100% !important; height: 100% !important; margin: 0 !important;
+ border: 0 !important; border-radius: 0 !important;
+}
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card img.chat-portrait-message-portrait-generic:not(.pneuma-chat-portrait img) {
+ display: none !important;
+}
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card .rollcard {
+ background: transparent !important; padding: 0 !important; margin: 0 !important; border-radius: 0;
+}
+/* Hub owns its paint; Minimal continues inheriting the host palette. */
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-theme-cyberpunk {
+ background: var(--pvt-bg) !important; color: var(--pvt-ink) !important;
+ border: 1px solid var(--pvt-frame) !important;
+}
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-theme-cyberpunk :is(.message-sender, .pneuma-exchange-attacker, .pneuma-exchange-defender) {
+ color: var(--pvt-ink) !important;
+}
+
+/* Compact area workflow; participant rail metrics remain unchanged. */
+.chat-message.pneuma-chat-card .pneuma-aoe-target { min-height: 34px; padding-block: 2px; gap: 4px; }
+.chat-message.pneuma-chat-card .pneuma-aoe-target > img { width: 24px; height: 24px; }
+.chat-message.pneuma-chat-card .pneuma-aoe-response { gap: 4px; }
+.chat-message.pneuma-chat-card .pneuma-aoe-target .pneuma-chat-button { min-height: 28px !important; height: auto !important; padding: 3px 5px !important; }
+.chat-message.pneuma-chat-card .pvt-target-controls { display: inline-block; }
+.chat-message.pneuma-chat-card .pvt-target-controls > summary { cursor: pointer; list-style: none; padding: 3px 6px; font-weight: 700; }
+.chat-message.pneuma-chat-card .pvt-target-controls > summary::-webkit-details-marker { display: none; }
+.chat-message.pneuma-chat-card .pvt-target-controls[open] { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.chat-message.pneuma-chat-card .pvt-target-controls > summary:focus-visible { outline: 2px solid var(--pvt-accent); }
+.chat-message.pneuma-chat-card .pneuma-aoe-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; padding-block: 4px; }
+.chat-message.pneuma-chat-card .pneuma-aoe-card > p { margin: 0; padding-block: 4px; font-size: 12px; line-height: 1.3; }
+.chat-message.pneuma-chat-card .pneuma-aoe-card .pneuma-resolution-result { padding-block: 4px; }
+
+/* Attack/defense roll spacing and secondary Evasion heading. */
+.chat-message.pneuma-chat-card :is(.pneuma-resolution-attack, .pneuma-attack-result, .pneuma-resolution-evade).pvt-opening-row { padding-block: 2px 4px; }
+.chat-message.pneuma-chat-card :is(.pneuma-resolution-attack, .pneuma-attack-result, .pneuma-resolution-evade) .cpr-block { padding-block: 2px; }
+.chat-message.pneuma-chat-card .pneuma-resolution-evade .rollcard-top .text-normal:not(.pneuma-exchange-weapon),
+.chat-message.pneuma-chat-card .rollcard-top .text-normal.pneuma-evasion-heading { font-size: 12px; line-height: 1.2; }
+
+/* Combat Tools owns the combined lower AoE recipient row. */
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-damage-applied-row.pneuma-mini-result-row { display:flex; width:auto; gap:3px; margin:0; }
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-damage-applied { padding:0; border:0; }
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-chat-button { min-height:26px !important; height:26px !important; padding:2px 4px !important; margin:0; }
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-inline-roll { margin:0; }
+.chat-message.pneuma-chat-card .pneuma-aoe-resolution-target .pneuma-inline-roll > summary { min-height:26px; font-size:17px; }
+.chat-message.pneuma-chat-card .pneuma-aoe-inline-effect > strong:first-of-type { font-size:12px; line-height:1.25; }
+.chat-message.pneuma-chat-card .pneuma-attached-target > .pneuma-attached-effects { margin:0; padding:0; border-top:0; }
+
+/* Optional density skin; Minimal owns its palette. Existing workflow nodes stay mounted. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact {
+  --pvt-rail-width: 56px; --pvt-space: 4px;
+  --pvt-total-size: 30px; --pvt-total-font: 22px; --pvt-mini-size: 24px;
+  margin-bottom: 4px;
+}
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-participant-rail { gap: 2px; padding-bottom: 3px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-chat-portrait { width: 36px; height: 36px; align-self: center; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-exchange-defender-image { display: none; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-chat-identity { padding-inline: 2px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.message-sender, .pneuma-exchange-attacker, .pneuma-exchange-defender) { font-size: 11px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-action-header { min-height: 32px; padding-block: 4px 6px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-heading-check > .pneuma-action-header { min-height: 28px; padding-block: 3px 5px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-dice-div, .generic-dice-div) img { --pvt-die-size: 36px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .d6-dice-div img { --pvt-die-size: var(--pvt-damage-size, 32px); }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pvt-section-rail { min-height: 40px; padding-block: 3px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-apply.pvt-section-rail { min-height: 44px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pneuma-plain-chat > .message-content { padding-block: 4px; }
+
+/* Ultra Compact opposed rolls share a row while retaining native ancestry. */
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening {
+  grid-template-columns: var(--pvt-rail-width) minmax(0, 1fr) minmax(0, 1fr) !important; /* Match native-integration grid override. */
+}
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening .pneuma-action-header { grid-column: 2 / -1; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening .pvt-opening-row { grid-column: 2 / -1; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening :is(.pneuma-resolution-attack, .pneuma-attack-result).pvt-opening-row { grid-column: 2; grid-row: var(--pvt-opposed-row); }
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening .pneuma-resolution-evade.pvt-opening-row { grid-column: 3; grid-row: var(--pvt-opposed-row); }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-grapple-rolls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :has(> .pneuma-quickhack-roll ~ .pneuma-quickhack-roll) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :has(> .pneuma-quickhack-roll ~ .pneuma-quickhack-roll) > :not(.pneuma-quickhack-roll) { grid-column: 1 / -1; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.pneuma-resolution-evade, .pneuma-grapple-rolls > div + div, .pneuma-quickhack-roll + .pneuma-quickhack-roll).pvt-opposed-divider::after { right: auto; bottom: 0; width: 1px; height: auto; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-rollcard-data, .d6-rollcard-data, .generic-rollcard-data) { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; grid-template-areas: "dice total" "details details"; gap: 3px; align-items: center; }
+
+/* Compact roll rows own explicit cells; native single/critical positioning must
+ * not place a die beneath the total or outside its reduced column. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-rollcard-data, .generic-rollcard-data) > :is(.d10-dice-div, .generic-dice-div) {
+  grid-area: dice; position: relative; width: 100%; height: 48px; min-height: 48px;
+  display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 2px;
+  grid-template-columns: none; grid-template-rows: none;
+}
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-dice-div, .generic-dice-div) > img {
+  position: static; inset: auto; grid-area: auto; transform: none; margin: 0;
+  display: block; flex: 0 0 36px;
+}
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-rollcard-data, .generic-rollcard-data) > :is(.d10-number-div, .generic-number-div) { grid-area: total; }
+
+/* Reduced diagonal pair: 36px faces offset 12px, inside a 48px footprint. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-rollcard-data, .generic-rollcard-data) > :is(.d10-dice-div, .generic-dice-div):has(> img:nth-of-type(2)) {
+  display: grid; grid-template-columns: 12px 24px 12px; grid-template-rows: 12px 24px 12px; gap: 0; width: 48px; justify-self: center;
+}
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-dice-div, .generic-dice-div):has(> img:nth-of-type(2)) > img { grid-column: 1 / 3; grid-row: 1 / 3; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-dice-div, .generic-dice-div):has(> img:nth-of-type(2)) > img:nth-of-type(2) { grid-column: 2 / 4; grid-row: 2 / 4; }
+/* Both opposed columns reserve the same label band, including empty attack headings. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening :is(.pneuma-resolution-attack, .pneuma-resolution-evade) .rollcard-top { min-height: 20px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening :is(.pneuma-resolution-attack, .pneuma-resolution-evade) .rollcard-top .cpr-block { padding-block: 2px; min-height: 20px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact.pvt-opposed-opening .rollcard-top .text-normal:not(.pneuma-exchange-weapon) { margin: 0; font-size: 12px; line-height: 16px; }
+
+/* Slightly smaller controls and secondary results in Ultra Compact only. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact button,
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-chat-button {
+  --pneuma-chat-button-height: 24px; --pneuma-chat-button-font-size: 11px;
+  --pneuma-chat-button-padding: 2px 4px;
+}
+.chat-message.pneuma-chat-card.pneuma-skin-compact button:not(.pneuma-chat-button):not(.pvt-damage-toggle) { min-height: 24px; height: auto; padding: 2px 4px; font-size: 11px; line-height: 1.2; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.pneuma-aoe-target, .pneuma-aoe-resolution-target) .pneuma-chat-button { min-height: 24px !important; height: auto !important; padding: 2px 4px !important; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-combat-outcome .pneuma-result-damage[aria-label] { min-width: 84px !important; min-height: 26px !important; padding: 3px 6px !important; --pneuma-chat-button-font-size: 10px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-result-damage[aria-label]:not(.pneuma-chat-busy)::after { font-size: 10px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-instant-effect { --pvt-mini-size: 24px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-instant-effect :is(.pneuma-inline-roll > summary, .pneuma-mini-value):is(.pvt-effect-resist-total, .pvt-effect-damage-total) { width: 28px; min-width: 28px; height: 22px; min-height: 22px; flex-basis: 28px; font-size: 14px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-resolution-target .pneuma-inline-roll > summary { min-height: 24px; font-size: 15px; }
+
+/* Ultra Compact uses a plain header separator without decorative marks. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-action-header::before { content: none; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-action-header::after { height: 1px; clip-path: none; background: var(--pvt-frame); }
+
+/* Reduce nested damage/application gutters while retaining their section rails. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.pneuma-resolution-damage-roll, .pneuma-resolution-damage-apply).pvt-section-rail { padding: 2px 4px 2px 26px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .cpr-block { padding-block: 1px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pvt-damage-footer { margin-top: 1px; gap: 3px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-apply .pneuma-damage-controls { padding: 0 2px 2px; gap: 1px 4px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-apply .pneuma-damage-recipient { gap: 3px; line-height: 1.2; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-apply .pneuma-damage-applications { margin-block: 0; padding-block: 0; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-apply .pneuma-damage-applications > .pneuma-damage-applied { padding-block: 1px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-apply .pneuma-mini-result-row { margin-block: 1px; gap: 2px 4px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-apply .pneuma-damage-targets { margin-block: 2px; }
+
+/* Ultra Compact multi-target density and damage/ammo spacing. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-rollcard-data { row-gap: 0; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-data-div { margin: 0; padding: 0; line-height: 1; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-dice-div.pneuma-balanced-dice { row-gap: 2px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pvt-damage-footer { margin-top: 0; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .rollcard-bottom > .cpr-block { padding-bottom: 0; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-resolution-target { grid-template-columns: 20px minmax(40px, 1fr) auto; grid-template-rows: 24px auto; column-gap: 3px; padding-block: 1px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-resolution-target:has(> .pneuma-aoe-target-gm button) { grid-template-columns: 20px minmax(40px, 1fr) auto auto; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-resolution-target > img { width: 20px; height: 20px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-target-damage .pneuma-damage-applied { grid-template-rows: minmax(24px, auto) auto; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-target-effects { gap: 1px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-target-effects:not(:empty) { margin-top: 1px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-inline-effect { gap: 2px; padding: 1px 0 1px 4px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-inline-effect :is(.pneuma-effect-application, .pneuma-effect-resistance, .pneuma-instant-damage) { min-height: 24px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-aoe-resolution-target + .pneuma-aoe-resolution-target { margin-top: 2px; padding-top: 2px; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.pneuma-aoe-damage-target, .pneuma-aoe-effect-target) { padding-block: 1px; }
+
+/* Ammo left; balanced damage dice and total form a right-aligned group. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-rollcard-data { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "ammo dice total" "details details details"; column-gap: 4px; align-items: center; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-rollcard-data > .pneuma-damage-ammo { grid-area: ammo; margin: 0; text-align: left; overflow-wrap: anywhere; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-dice-div { grid-area: dice; width: 102px; justify-self: end; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-number-div { grid-area: total; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll > .pvt-section-rail-label { padding-bottom: 0; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pvt-damage-footer:empty { display: none; }
+
+/* Native damage grids must size to their smaller dice rather than reserve a
+ * full-size dice/details row. Empty effect slots must not create a footer row. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-rollcard-data { grid-template-rows: auto auto; min-height: 0; height: auto; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-dice-div { min-height: 0; height: auto; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pvt-damage-footer:not(:has(button, a, input, select, .pneuma-damage-ammo:not([hidden]))) { display: none; }
+
+.chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll.pvt-section-rail { min-height: 50px; }
+
+/* Explicit cells cover ordinary skill, medical, role and generic cards too. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact :is(.d10-rollcard-data, .d6-rollcard-data, .generic-rollcard-data) > :is(.d10-data-div, .d6-data-div, .generic-data-div) { grid-area: details; }
+
+.chat-message.pneuma-chat-card.pneuma-skin-compact .d6-rollcard-data > .d6-dice-div { grid-area: dice; }
+.chat-message.pneuma-chat-card.pneuma-skin-compact .d6-rollcard-data > .d6-number-div { grid-area: total; }
+
+/* Compact native D6 rolls fill their frame; results anchor to its right edge.
+ * Native CPR grid metrics may otherwise collapse/overlap the total cell. */
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-skin-compact .d6-rollcard-data {
+  display: grid !important; width: 100%; min-width: 0;
+  grid-template-columns: minmax(0, 1fr) var(--pvt-total-size) !important;
+  grid-template-areas: "dice total" "details details" !important;
+}
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-skin-compact .d6-rollcard-data > .d6-dice-div { grid-area: dice !important; justify-self: start; }
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-skin-compact .d6-rollcard-data > .d6-number-div { grid-area: total !important; justify-self: end; }
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-rollcard-data {
+  grid-template-columns: minmax(0, 1fr) auto var(--pvt-total-size) !important;
+  grid-template-areas: "ammo dice total" "details details details" !important;
+}
+:is(#chat-log, .chat-popout, body) .chat-message.pneuma-chat-card.pneuma-skin-compact .pneuma-resolution-damage-roll .d6-dice-div { justify-self: end; }
+
+/* Native critical-injury descriptions belong below both dice and total. */
+.chat-message.pneuma-chat-card.pneuma-skin-compact .d6-rollcard-data > .rollcard-critinjury-data { grid-area: details; min-width: 0; }

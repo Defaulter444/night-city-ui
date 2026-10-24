@@ -1,0 +1,32 @@
+<form style="display:flex;flex-direction:column;height:100%;gap:6px">
+  <div class="form-group">
+    <label>Цвет как у боеприпасов в анимации</label>
+    <div class="form-fields"><input type="checkbox" name="matchAmmo" {{checked matchAmmo}}></div>
+    <p class="notes">Ручные цвета сохраняются. Радиусы — в {{units}}; тусклый свет не меньше яркого.</p>
+  </div>
+  <div class="pvt-light-profiles" style="overflow:auto;flex:1;min-height:0">
+    {{#each profiles}}
+    <fieldset>
+      <legend>{{name}}</legend>
+      <div class="pvt-flash-row">
+        <div class="pvt-flash-control" data-flash-color>
+          <label for="flash-{{id}}-color">Цвет</label><input id="flash-{{id}}-color" type="color" name="profiles.{{id}}.color" value="{{color}}">
+        </div>
+        <div class="pvt-flash-control">
+          <label for="flash-{{id}}-alpha">Яркость</label><input id="flash-{{id}}-alpha" type="range" name="profiles.{{id}}.alpha" value="{{alpha}}" min="0" max="1" step="0.05"><span class="range-value">{{alpha}}</span>
+        </div>
+      </div>
+      <div class="pvt-flash-row">
+        <div class="pvt-flash-control">
+          <label for="flash-{{id}}-bright">Яркий</label><input id="flash-{{id}}-bright" type="number" name="profiles.{{id}}.bright" value="{{bright}}" min="0" step="any">
+        </div>
+        <div class="pvt-flash-control">
+          <label for="flash-{{id}}-dim">Тусклый</label><input id="flash-{{id}}-dim" type="number" name="profiles.{{id}}.dim" value="{{dim}}" min="0" step="any">
+        </div>
+      </div>
+      {{#if hasBlastArea}}<label><input type="checkbox" name="profiles.{{id}}.autoRadius" {{checked autoRadius}}> По области цели (яркий — до края; тусклый +2)</label>{{/if}}
+    </fieldset>
+    {{/each}}
+  </div>
+  <button type="submit"><i class="fas fa-save"></i> Сохранить вспышки</button>
+</form>

@@ -1,0 +1,20 @@
+{
+  "NIGHT_CITY_VISUAL": {
+    "Title": "Найт-Сити — визуальные инструменты"
+  },
+  "NIGHT_CITY_VISUAL.ChatCardsName": "Новое оформление карточек чата",
+  "NIGHT_CITY_VISUAL.ChatCardsHint": "Портреты и компактные блоки действия и результата в сообщениях чата. Нужна перезагрузка.",
+  "NIGHT_CITY_VISUAL.ChatPortraitSourceName": "Портрет в чате",
+  "NIGHT_CITY_VISUAL.ChatPortraitSourceHint": "Настройка Мастера для всех. Что брать для портретов атакующего и защитника — картинку токена или актора (если её нет, берётся другая). Нужна перезагрузка.",
+  "NIGHT_CITY_VISUAL.ChatTokenImage": "Картинка токена",
+  "NIGHT_CITY_VISUAL.ChatActorImage": "Картинка актора",
+  "NIGHT_CITY_VISUAL.ChatFallbackImageName": "Запасной портрет в чате",
+  "NIGHT_CITY_VISUAL.ChatFallbackImageHint": "Настройка Мастера для всех. Путь или URL картинки для сообщений без токена и актора. Пусто — пустой портрет. Нужна перезагрузка.",
+  "NIGHT_CITY_VISUAL.ChatRecipients": "Показать или скрыть получателей",
+  "NIGHT_CITY_VISUAL.ChatSkinName": "Оформление карточек чата",
+  "NIGHT_CITY_VISUAL.ChatSkinHint": "«Хаб» совпадает по цветам с REDLINE и другими модулями Найт-Сити. «Минимал» и «Ультракомпакт» используют штатные (или перекрашенные) цвета Cyberpunk.",
+  "NIGHT_CITY_VISUAL.ChatSkinCyberpunk": "Хаб Найт-Сити",
+  "NIGHT_CITY_VISUAL.ChatSkinTechnical": "Cyberpunk — минимал",
+  "NIGHT_CITY_VISUAL.ChatSkinCompact": "Cyberpunk — минимал, компактно",
+  "NIGHT_CITY_VISUAL.ChatSkinCompactHub": "Хаб Найт-Сити — компактно"
+}

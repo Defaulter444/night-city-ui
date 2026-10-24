@@ -1,0 +1,18 @@
+<form autocomplete="off">
+  <div class="form-group"><label>Набор кубиков (этот клиент)</label><div class="form-fields"><select name="selectedSet">{{#each choices}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{name}}</option>{{/each}}</select></div></div>
+  <p class="notes">Общий выключатель «Свои кубики в чате» — в настройках интерфейса Найт-Сити. Недостающие картинки заменяются кубиками Pneuma.</p>
+  {{#if legacyActive}}<p class="notes">Отключите отдельный модуль Pneuma Chat Dice: кубики теперь подменяет интерфейс Найт-Сити.</p>{{/if}}
+  {{#if isGM}}
+  <hr><h3>Добавить общий набор</h3>
+  <div class="form-group"><label>Название</label><div class="form-fields"><input name="setName" type="text" placeholder="Мои кубики"></div></div>
+  <div class="form-group"><label>Папка с картинками</label><div class="form-fields"><input name="folder" type="text" placeholder="worlds/my-world/dice/my-set"><button type="button" data-browse title="Выбрать папку"><i class="fas fa-folder-open"></i></button></div></div>
+  <div class="form-group"><label>Формат файлов</label><div class="form-fields"><select name="extension"><option value="webp">WebP</option><option value="png">PNG</option><option value="svg">SVG</option></select></div></div>
+  <p class="notes">Нужны квадратные картинки с прозрачным фоном. Рекомендуется 256×256 с одинаковым отступом 16 px. Все файлы — прямо в выбранной папке и в одном формате.</p>
+  <p class="notes"><a href="modules/night-city-ui/visual/chat-dice-template.zip" download>Скачать шаблон набора</a></p>
+  <details><summary>Обязательные имена файлов (31 картинка)</summary><p class="notes">К каждому имени добавьте выбранное расширение:</p><p class="notes">{{files}}</p></details>
+  <div class="form-group"><button type="button" data-validate>Проверить папку</button><button type="button" data-add>Добавить и выбрать</button></div>
+  <p class="notes" data-status role="status" aria-live="polite"></p>
+  {{#each sets}}<div class="form-group"><label>{{name}}</label><div class="form-fields"><button type="button" data-remove="{{id}}">Удалить набор</button></div></div>{{/each}}
+  {{/if}}
+  <footer class="sheet-footer flexrow"><button type="submit"><i class="fas fa-check"></i>Применить</button></footer>
+</form>

@@ -1,10 +1,16 @@
 {
   "name": "night-city-ui",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.js",
-    "build": "python build-module.py"
+    "build": "python build-module.py",
+    "check:visual": "tsc -p tsconfig.visual.json --noEmit",
+    "build:visual": "node tools/build-visual.mjs"
+  },
+  "devDependencies": {
+    "fvtt-types": "npm:@league-of-foundry-developers/foundry-vtt-types@12.331.5",
+    "typescript": "5.7.3"
   }
 }

@@ -1,0 +1,4 @@
+/* Native CPR omits d6-60. This also works with card customization disabled. */
+.chat-message.pvt-chat-dice img.d6-60 {
+  width: 3.75rem; height: 3.75rem; max-width: 3.75rem; max-height: 3.75rem; object-fit: contain;
+}

@@ -1,0 +1,5 @@
+<div class="pvt-sound-cell" data-track="{{id}}" data-playlist="{{playlist}}">
+  <button type="button" class="pvt-sound-tile {{#if playing}}playing{{/if}}" data-action="play" title="{{description}}" data-tooltip="{{description}}" aria-label="{{#if playing}}Стоп{{else}}Играть{{/if}} {{name}}" aria-pressed="{{#if playing}}true{{else}}false{{/if}}" {{#unless isGM}}disabled{{/unless}} {{#if missing}}disabled{{/if}}>
+    <div class="pvt-sound-art">{{#if image}}<img src="{{image}}" alt="">{{else}}<i class="fas fa-volume-up" aria-hidden="true"></i>{{/if}}<div class="pvt-sound-playing" aria-hidden="true"><b></b><b></b><b></b><b></b></div></div><span>{{name}}</span>
+  </button>
+</div>

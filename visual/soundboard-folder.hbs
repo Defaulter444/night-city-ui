@@ -1,0 +1,9 @@
+<li class="directory-item folder {{#if collapsed}}collapsed{{/if}}" data-folder-id="{{id}}" data-uuid="{{uuid}}">
+  <header class="folder-header flexrow" role="button" tabindex="0" aria-expanded="{{#if collapsed}}false{{else}}true{{/if}}">
+    <h3><i class="fas fa-folder" aria-hidden="true"></i> {{name}}</h3><i class="fas fa-chevron-down pvt-folder-chevron" aria-hidden="true"></i>
+  </header>
+  <div class="folder-contents">
+    {{#if sounds.length}}<div class="pvt-sound-grid">{{#each sounds}}{{> "modules/night-city-ui/visual/soundboard-tile.hbs"}}{{/each}}</div>{{/if}}
+    <ol class="subdirectory">{{#each children}}{{> "modules/night-city-ui/visual/soundboard-folder.hbs"}}{{/each}}</ol>
+  </div>
+</li>

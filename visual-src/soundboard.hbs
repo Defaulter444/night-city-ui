@@ -1,0 +1,7 @@
+<div class="pvt-simple-soundboard directory">
+  <ol class="directory-list">
+    {{#each folders}}{{> "modules/night-city-ui/visual/soundboard-folder.hbs"}}{{/each}}
+  </ol>
+  {{#if loose.length}}<div class="pvt-sound-grid">{{#each loose}}{{> "modules/night-city-ui/visual/soundboard-tile.hbs"}}{{/each}}</div>{{/if}}
+  {{#unless hasSounds}}<p class="pvt-soundboard-empty">Включите «Показывать на звуковой панели» в настройках плейлиста.</p>{{/unless}}
+</div>

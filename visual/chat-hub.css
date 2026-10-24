@@ -1,0 +1,89 @@
+/* PNEUMA HUB: palette and decoration. Geometry belongs to chat-cards.css. */
+.pneuma-theme-cyberpunk {
+  --pneuma-effect-icon-filter: brightness(0) invert(75%) sepia(80%) saturate(350%) hue-rotate(140deg);
+  --pneuma-effect-symbol-color: var(--pvt-accent);
+  /* Surfaces and semantic colors */
+  --pvt-bg: #0c141a;
+  --pvt-panel: #101e26;
+  --pvt-rail: #101e26;
+  --pvt-line: #344a55;
+  --pvt-frame: #548792;
+  --pvt-ink: #e5eff1;
+  --pvt-muted: #a1b6c0;
+  --pvt-accent: #55dce7;
+  --pvt-success: #20ee79;
+  --pvt-failure: #ff354d;
+  --pvt-hit: #36f46f;
+  --pvt-miss: #ff3b45;
+  --pvt-link: var(--pvt-accent);
+  --pvt-color-scheme: dark;
+  --pvt-card-shadow: inset 0 0 0 1px #080f14, 0 2px 4px #0005;
+
+  /* Header, artwork and metadata */
+  --pvt-header-bg: linear-gradient(115deg, #55dce71c, transparent 52%), repeating-linear-gradient(0deg, transparent 0 5px, #80dce704 5px 6px), linear-gradient(125deg, transparent 65%, #55dce70b 65% 79%, transparent 79%), #101c23;
+  --pvt-header-shadow: inset 0 1px #55dce755;
+  --pvt-header-line: linear-gradient(90deg, #55dce766, #55dce7bb 62%, #f0cf7899);
+  --pvt-title-ink: var(--pvt-ink);
+  --pvt-title-mark: #f1ce72;
+  --pvt-title-trace: linear-gradient(90deg, #55dce7 0 68%, transparent 68% 74%, #55dce7 74% 85%, transparent 85% 90%, #f0cf78 90%);
+  --pvt-art-color: #a0c7d0;
+  --pvt-art-opacity: .55;
+  --pvt-privacy-bg: #10363c;
+  --pvt-privacy-ink: #d8fcff;
+  --pvt-footer-trace: repeating-linear-gradient(130deg, #50616c 0 4px, transparent 4px 8px);
+
+  /* Rolls and result sections */
+  --pvt-section-ink: var(--pvt-accent);
+  --pvt-result-bar-bg: #101e2666;
+  --pvt-total-ink: var(--pvt-accent);
+  --pvt-total-border: var(--pvt-line);
+  --pvt-total-bg: #152a33;
+  --pvt-total-shadow: 0 0 9px #55dce766;
+  --pvt-total-clip: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+  --pvt-win-frame: #45cb83;
+  --pvt-lose-frame: #e65d6d;
+  --pvt-win-fill: linear-gradient(135deg, #303020, #101c22 65%);
+  --pvt-lose-fill: linear-gradient(135deg, #303020, #101c22 65%);
+  --pvt-outcome-ink: var(--pvt-accent);
+  --pvt-win-tint: transparent;
+  --pvt-lose-tint: transparent;
+  --pvt-stripe-opacity: 0;
+  --pvt-opposed-line: linear-gradient(90deg, transparent 8%, var(--pvt-line) 8% 92%, transparent 92%);
+  --pvt-mini-ink: var(--pvt-accent);
+  --pvt-mini-border: var(--pvt-accent);
+
+  /* Controls */
+  --pvt-button-bg: #16313d;
+  --pvt-button-ink: #b5f5f7;
+  --pvt-button-border: #548792;
+  --pvt-button-hover: #234653;
+  --pvt-damage-button-bg: #25251c;
+  --pvt-damage-button-ink: #f1ce72;
+  --pvt-damage-button-border: #9b874f;
+  --pvt-gm-hover: #393222;
+
+  /* Composer */
+  --pvt-compose-bg: #101a20;
+  --pvt-compose-ink: var(--pvt-ink);
+  --pvt-compose-line: #3a515a;
+  --pvt-compose-accent: var(--pvt-accent);
+  --pvt-compose-muted: #9aafb8;
+}
+.chat-message.pneuma-theme-cyberpunk {
+  --cpr-background-chat-card-block: var(--pvt-line);
+  --cpr-background-chat-card-block-before: var(--pvt-panel);
+  --cpr-text-chat-card: var(--pvt-ink);
+  --cpr-text-chat-success: var(--pvt-hit);
+  --cpr-text-chat-failure: var(--pvt-miss);
+}
+.pneuma-theme-cyberpunk .pneuma-heading-check {
+  --pvt-header-bg: linear-gradient(110deg, #55dce710, transparent 75%);
+}
+.pneuma-theme-cyberpunk .pneuma-heading-net {
+  --pvt-header-bg: repeating-linear-gradient(0deg, transparent 0 7px, #6be8c008 7px 8px), linear-gradient(135deg, #143b35, #101a23);
+  --pvt-header-shadow: inset 0 2px #63dfb8;
+}
+.pneuma-theme-cyberpunk .pneuma-heading-initiative {
+  --pvt-header-bg: repeating-linear-gradient(135deg, transparent 0 12px, #f0cf7808 12px 14px), linear-gradient(100deg, #3a2b1c, #111d24);
+  --pvt-header-shadow: inset 0 2px #f0cf78;
+}

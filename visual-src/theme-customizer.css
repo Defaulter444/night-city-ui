@@ -1,0 +1,55 @@
+/* Color-only CPR palette mapping. Enabled per client; no sheet layout overrides. */
+/* Native components which bypass system palette hooks: paint only. */
+html.pvt-custom-theme .sheet nav.sheet-tabs .item i { color:var(--pgt-green-700) !important; }
+html.pvt-custom-theme .sheet nav.sheet-tabs .item::after,
+html.pvt-custom-theme .tab-pink-underlay { background-color:var(--pgt-green-700) !important; }
+html.pvt-custom-theme .sheet .skills-tab li.items-header { color:var(--pgt-skill-header) !important; }
+html.pvt-custom-theme .sheet .skills-tab li.items-header :is(a,i,span) { color:inherit !important; }
+html.pvt-custom-theme .sheet .skills-tab .text-pill { background-color:var(--pgt-skill-pill) !important; color:var(--pgt-skill-pill-text) !important; }
+html.pvt-custom-theme .sheet :is(.skills-tab,.gear-tab) ol.items-list > li.item:nth-child(odd) { background-color:var(--pgt-surface-2) !important; }
+html.pvt-custom-theme .sheet :is(.skills-tab,.gear-tab) ol.items-list > li.item:nth-child(even) { background-color:var(--pgt-surface-1) !important; }
+html.pvt-custom-theme .sheet :is(.skills-tab,.gear-tab) ol.items-list > li.item,
+html.pvt-custom-theme .sheet :is(.skills-tab,.gear-tab) ol.items-list > li.item a { color:var(--pgt-text) !important; }
+html.pvt-custom-theme .sheet input.skill-input { background-color:var(--pgt-skill-input) !important; color:var(--pgt-skill-text) !important; border-color:var(--pgt-border-muted); }
+html.pvt-custom-theme .dialog-sheet .dialog-item.flexrow:nth-child(odd) { background-color:var(--pgt-row-odd); color:var(--pvt-custom-on-odd); }
+html.pvt-custom-theme .dialog-sheet .dialog-item.flexrow:nth-child(even) { background-color:var(--pgt-row-even); color:var(--pvt-custom-on-even); }
+html.pvt-custom-theme .dialog-sheet .dialog-footer .cpr-dialog-button { background-color:var(--pgt-green-700); color:var(--pgt-text-inverse); }
+html.pvt-custom-theme .dialog-sheet .dialog-footer .cpr-dialog-button:hover { background-color:var(--pgt-green-600); color:var(--pvt-custom-on-hover); }
+html.pvt-custom-theme #chat-log .chat-message:not(.pneuma-chat-card) { background-color:var(--pgt-surface-chat) !important; color:var(--pgt-text) !important; border-color:var(--pgt-chat-border) !important; }
+html.pvt-custom-theme #chat-log .chat-message:not(.pneuma-theme-cyberpunk) .message-sender { color:var(--pgt-chat-name) !important; }
+html.pvt-custom-theme #chat-log .chat-message:not(.pneuma-chat-card) .chat-rollTitle-stat { background-color:var(--pgt-green-700) !important; color:var(--pgt-roll-text) !important; }
+html.pvt-custom-theme #chat-log .chat-message:not(.pneuma-chat-card) .chat-rollTitle-stat :is(a,i,span,div) { color:inherit !important; }
+
+/* Layout belongs only to the theme editor. */
+#pvt-theme-customizer .window-content { overflow-y:auto; }
+#pvt-theme-customizer .pvt-theme-toolbar { display:flex; gap:8px; margin:10px 0; }
+#pvt-theme-customizer .pvt-theme-toolbar button { flex:1; }
+#pvt-theme-customizer .pvt-theme-toolbar [aria-pressed="true"] { font-weight:bold; outline:2px solid currentColor; outline-offset:-2px; }
+#pvt-theme-customizer .pvt-theme-colors { display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; }
+#pvt-theme-customizer .pvt-theme-color { display:grid; grid-template-columns:1fr 36px 78px; align-items:center; gap:6px; }
+#pvt-theme-customizer .pvt-theme-color label { font-size:13px; }
+#pvt-theme-customizer .pvt-theme-color small { display:block; font-size:10px; opacity:.8; line-height:1.3; }
+#pvt-theme-customizer .pvt-theme-color input { min-width:0; width:100%; }
+#pvt-theme-customizer .pvt-theme-color input[type="color"] { height:32px; padding:2px; }
+#pvt-theme-customizer .pvt-theme-color input[type="text"] { font-family:monospace; font-size:12px; }
+#pvt-theme-customizer .pvt-theme-status { min-height:32px; font-size:11px; }
+#pvt-theme-customizer .pvt-personal-preset { display:grid; grid-template-columns:1fr 70px 110px; gap:6px; margin:8px 0; align-items:center; }
+#pvt-theme-customizer .pvt-personal-preset input { width:100%; min-width:0; }
+
+
+
+#pvt-theme-customizer .pvt-preset-columns { display:grid; grid-template-columns:minmax(120px, .8fr) minmax(0, 2fr); gap:16px; align-items:start; margin:12px 0; }
+#pvt-theme-customizer .pvt-pneuma-presets h3 { font-size:14px; margin:0 0 8px; border:0; }
+#pvt-theme-customizer .pvt-pneuma-presets .pvt-theme-toolbar { flex-direction:column; gap:6px; margin:0; }
+#pvt-theme-customizer .pvt-player-presets { min-width:0; margin:0; padding:8px 10px; border:1px solid var(--color-border-light-primary, #888); border-radius:4px; }
+#pvt-theme-customizer .pvt-player-presets legend { padding:0 5px; font-size:14px; font-weight:bold; }
+#pvt-theme-customizer .pvt-player-presets .pvt-personal-preset { grid-template-columns:minmax(0,1fr) 48px 58px; gap:5px; margin:5px 0; }
+#pvt-theme-customizer .pvt-player-presets button { min-width:0; padding:2px 4px; white-space:nowrap; }
+
+#pvt-theme-customizer .pvt-theme-toolbar.pvt-pneuma-presets { flex-direction:row; margin:10px 0; }
+#pvt-theme-customizer .pvt-custom-color-theme { min-width:0; margin:12px 0; padding:14px; border:1px solid var(--color-border-light-primary,#888); border-radius:5px; }
+#pvt-theme-customizer .pvt-custom-color-theme > legend { padding:0 6px; font-size:16px; font-weight:bold; }
+#pvt-theme-customizer .pvt-player-presets .pvt-personal-preset { grid-template-columns:24px minmax(0,1fr) 56px 58px; }
+#pvt-theme-customizer .pvt-player-presets .pvt-preset-swatch { width:24px; height:24px; min-height:0; padding:0; border:1px solid var(--color-border-light-primary,#888); border-radius:3px; }
+#pvt-theme-customizer .pvt-main-accent { margin:16px 0 10px; }
+#pvt-theme-customizer [data-function="manual"] { width:auto; padding:3px 10px; margin-bottom:10px; }

@@ -1,0 +1,18 @@
+<form autocomplete="off">
+  <div class="form-group"><label for="pvt-theme-override">Заменить цвета Cyberpunk</label><div class="form-fields"><input id="pvt-theme-override" name="overrideSystem" type="checkbox" {{#if overrideSystem}}checked{{/if}}></div></div>
+  {{#if overrideSystem}}<div class="form-group"><label for="pvt-theme-mode">Режим</label><div class="form-fields"><select id="pvt-theme-mode" name="mode">{{#each modes}}<option value="{{id}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></div></div>{{/if}}
+  <div class="pvt-theme-toolbar pvt-pneuma-presets" role="group" aria-label="Пресеты Pneuma">{{#each pneumaPresets}}<button type="button" data-pneuma-preset="{{index}}">{{name}}</button>{{/each}}</div>
+  <fieldset class="pvt-custom-color-theme"><legend>Своя цветовая тема</legend>
+    <fieldset class="pvt-player-presets"><legend>Пресеты игрока</legend>
+      {{#each personalPresets}}<div class="pvt-personal-preset"><button type="button" class="pvt-preset-swatch" data-load-preset="{{index}}" style="background-color:{{accent}}" title="{{name}} — основной акцент {{accent}}" aria-label="Выбрать {{name}}" {{#if empty}}disabled{{/if}}></button><input type="text" value="{{name}}" maxlength="32" data-preset-name="{{index}}" aria-label="Название пресета {{slot}}"><button type="button" data-load-preset="{{index}}" {{#if empty}}disabled{{/if}}>Выбрать</button><button type="button" data-save-preset="{{index}}">Сохранить {{slot}}</button></div>{{/each}}
+    </fieldset>
+    <div class="pvt-theme-color pvt-main-accent"><label for="pvt-color-main">Основной акцент</label><input type="color" value="{{mainAccent}}" data-picker="main" data-seed aria-label="Основной акцент — палитра"><input id="pvt-color-main" name="main" data-hex type="text" value="{{mainAccent}}" pattern="#[0-9a-fA-F]{6}" maxlength="7" required aria-label="Основной акцент — hex"></div>
+    <button type="button" data-function="manual" aria-expanded="{{#if manual}}true{{else}}false{{/if}}">Выбрать цвета вручную</button>
+    {{#if manual}}<div class="pvt-theme-colors">{{#each colors}}<div class="pvt-theme-color"><label for="pvt-color-{{key}}">{{label}}<small>{{hint}}</small></label><input type="color" value="{{value}}" data-picker="{{key}}" aria-label="{{label}} — палитра"><input id="pvt-color-{{key}}" name="{{key}}" data-hex type="text" value="{{value}}" pattern="#[0-9a-fA-F]{6}" maxlength="7" required aria-label="{{label}} — hex"></div>{{/each}}</div>{{/if}}
+  </fieldset>
+  <p class="notes">Смотрите результат на открытом листе или в окне броска. «Применить» сохраняет, «Отмена» возвращает сохранённую тему.</p>
+  <p class="notes pvt-theme-status" data-status role="status" aria-live="polite"></p>
+  <div class="form-group"><label>Сохранённая тема</label><div class="form-fields">{{#if enabled}}Свои цвета{{else}}Цвета системы{{/if}} <button type="button" data-disable-theme>Вернуть цвета системы</button></div></div>
+  {{#if legacyActive}}<p class="notes">Отключите отдельный модуль Green Theme, чтобы оформление не спорило.</p>{{/if}}
+  <footer class="sheet-footer flexrow"><button type="button" data-cancel>Отмена</button><button type="submit"><i class="fas fa-check"></i>Применить</button></footer>
+</form>

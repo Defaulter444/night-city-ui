@@ -1,0 +1,72 @@
+/* Blackglass for the embedded visual tools: the "Хаб Найт-Сити" chat skin, soundboard and settings groups.
+ * Scoped to body.ncu-enabled.ncu-theme so turning the shared theme off restores the original Pneuma palette. */
+body.ncu-enabled.ncu-theme .pneuma-theme-cyberpunk {
+  --pneuma-effect-icon-filter: brightness(0) invert(86%) sepia(18%) saturate(620%) hue-rotate(140deg);
+  --pvt-bg: #101316;
+  --pvt-panel: #1a2025;
+  --pvt-rail: #151b20;
+  --pvt-line: #323e47;
+  --pvt-frame: #4b5a64;
+  --pvt-ink: #e8e7e2;
+  --pvt-muted: #aeb8c0;
+  --pvt-accent: #8fdce4;
+  --pvt-success: #8cd6a8;
+  --pvt-failure: #f3485d;
+  --pvt-hit: #8cd6a8;
+  --pvt-miss: #f3485d;
+  --pvt-card-shadow: inset 0 0 0 1px #0b0d0f, 0 2px 6px #0007;
+
+  --pvt-header-bg: linear-gradient(115deg, #f3485d14, transparent 46%), repeating-linear-gradient(0deg, transparent 0 5px, #ffffff03 5px 6px), #14191d;
+  --pvt-header-shadow: inset 0 1px #f3485d40;
+  --pvt-header-line: linear-gradient(90deg, #f3485d99, #f3485d55 58%, #8fdce466);
+  --pvt-title-mark: #f3485d;
+  --pvt-title-trace: linear-gradient(90deg, #f3485d 0 64%, transparent 64% 70%, #f3485d 70% 84%, transparent 84% 89%, #8fdce4 89%);
+  --pvt-art-color: #aeb8c0;
+  --pvt-privacy-bg: #28171d;
+  --pvt-privacy-ink: #f6d6da;
+  --pvt-footer-trace: repeating-linear-gradient(130deg, #3a464f 0 4px, transparent 4px 8px);
+
+  --pvt-result-bar-bg: #1a202566;
+  --pvt-total-bg: #151d22;
+  --pvt-total-shadow: 0 0 9px #8fdce440;
+  --pvt-win-frame: #8cd6a8;
+  --pvt-lose-frame: #f3485d;
+  --pvt-win-fill: linear-gradient(135deg, #1d2a24, #13191e 65%);
+  --pvt-lose-fill: linear-gradient(135deg, #2b1a1f, #13191e 65%);
+
+  --pvt-button-bg: #1a2025;
+  --pvt-button-ink: #e8e7e2;
+  --pvt-button-border: #3c4852;
+  --pvt-button-hover: #20262b;
+  --pvt-damage-button-bg: #28171d;
+  --pvt-damage-button-ink: #f6d6da;
+  --pvt-damage-button-border: #f3485d;
+  --pvt-gm-hover: #2a2125;
+
+  --pvt-compose-bg: #13191e;
+  --pvt-compose-line: #323e47;
+  --pvt-compose-muted: #aeb8c0;
+}
+
+body.ncu-enabled.ncu-theme #pvt-soundboard .window-content,
+body.ncu-enabled.ncu-theme #pvt-theme-customizer .window-content,
+body.ncu-enabled.ncu-theme #pneuma-chat-dice-settings .window-content,
+body.ncu-enabled.ncu-theme #pneuma-weapon-light-settings .window-content {
+  background: #101316f5;
+  color: #e8e7e2;
+}
+body.ncu-enabled.ncu-theme #pvt-soundboard .pvt-sound-tile.playing {
+  outline: 1px solid #f3485d;
+  box-shadow: 0 0 10px #f3485d55;
+}
+
+body.ncu-enabled.ncu-theme .pvt-settings-groups fieldset {
+  border: 1px solid #323e47;
+  border-radius: 2px;
+  background: #ffffff05;
+}
+body.ncu-enabled.ncu-theme .pvt-settings-groups legend {
+  color: #8fdce4;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}

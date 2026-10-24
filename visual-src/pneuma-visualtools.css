@@ -1,0 +1,93 @@
+/* Neural Intrusion screen feedback, supplied by Combat Tools state. */
+#pneuma-visual-neural-glitch { position:fixed; inset:0; pointer-events:none; z-index:10000; overflow:hidden; --neural-cyan:#59fff0; --neural-red:#ff335e; }
+#pneuma-visual-neural-glitch > svg { position:absolute; }
+#pneuma-visual-neural-glitch .pneuma-neural-region { position:absolute; overflow:hidden; pointer-events:none; }
+#pneuma-visual-neural-glitch .pneuma-neural-signal { position:absolute; inset:0; backdrop-filter:url("#pneuma-visual-neural-distortion"); animation:pneuma-neural-signal 1800ms linear both; }
+#pneuma-visual-neural-glitch .pneuma-neural-region::after { content:""; position:absolute; inset:0; background:repeating-linear-gradient(0deg,#0003 0 1px,transparent 1px 4px); box-shadow:inset 0 0 35px #002e3980; animation:pneuma-neural-signal 1800ms linear both; }
+#pneuma-visual-neural-glitch .pneuma-neural-tear { position:absolute; left:-24px; right:-24px; background:linear-gradient(90deg,#ff335e15,transparent 35%,#59fff018); border-top:1px solid #59fff060; box-shadow:0 -2px 0 #ff335e50; animation:pneuma-neural-tear 900ms steps(1,end) 2; }
+@keyframes pneuma-neural-signal { 0%,100% { opacity:0; } 8%,35% { opacity:1; } 42%,50% { opacity:.15; } 58%,82% { opacity:.9; } 94% { opacity:.2; } }
+@keyframes pneuma-neural-tear { 0%,100% { opacity:0; transform:translate(0,0); } 12% { opacity:.9; transform:translate(18px,-14px); } 30% { opacity:.5; transform:translate(-22px,5px); } 46% { opacity:0; } 68% { opacity:.8; transform:translate(12px,22px); } 85% { opacity:.3; transform:translate(-8px,-4px); } }
+@media (prefers-reduced-motion:reduce) { #pneuma-visual-neural-glitch { display:none; } }
+#pneuma-visual-neural-glitch.pneuma-neural-echo .pneuma-neural-signal { animation-name:pneuma-neural-echo; }
+#pneuma-visual-neural-glitch.pneuma-neural-echo .pneuma-neural-tear { border:0; box-shadow:none; opacity:.3; }
+#pneuma-visual-neural-glitch.pneuma-neural-dropout .pneuma-neural-tear { background:linear-gradient(90deg,#02080bd9,#091a2088,#02080bbf); border-top-color:#b4ffff90; }
+#pneuma-visual-neural-glitch.pneuma-neural-scan .pneuma-neural-tear { background:repeating-linear-gradient(0deg,#59fff030 0 1px,transparent 1px 3px); animation-name:pneuma-neural-scan; }
+#pneuma-visual-neural-glitch[data-severity="mild"] .pneuma-neural-region::after { box-shadow:inset 0 0 20px #002e3940; }
+#pneuma-visual-neural-glitch[data-severity="strong"] .pneuma-neural-region::after { box-shadow:inset 0 0 50px #002e39aa; }
+@keyframes pneuma-neural-echo { 0%,100% { opacity:0; } 12%,32% { opacity:.85; } 45% { opacity:.1; } 60%,78% { opacity:1; } 90% { opacity:.2; } }
+@keyframes pneuma-neural-scan { 0%,100% { opacity:0; transform:translateY(-80%); } 15% { opacity:.8; transform:translateY(-30%); } 40% { opacity:.5; transform:translateY(40%); } 65% { opacity:.9; transform:translateY(120%); } 85% { opacity:.2; transform:translateY(180%); } }
+.pvt-scene-preview { position:fixed; z-index:10000; pointer-events:none; width:min(420px, calc(100vw - 16px)); max-height:calc(100vh - 16px); overflow:hidden; padding:10px; box-sizing:border-box; border:1px solid #777; border-radius:5px; background:#202327; color:#eee; box-shadow:0 4px 18px #0009; }
+.pvt-scene-preview strong { display:block; margin-bottom:8px; }
+.pvt-scene-preview img { display:block; width:100%; max-height:min(300px, calc(100vh - 160px)); object-fit:contain; border:0; margin-bottom:8px; }
+.pvt-scene-preview div { white-space:pre-line; font-size:12px; line-height:1.5; }
+.pvt-scene-preview-info { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.pvt-sound-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(105px,1fr)); gap:8px; }
+.pvt-sound-tile { aspect-ratio:1; width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:6px; line-height:1.2; overflow:hidden; }
+.pvt-sound-tile[hidden] { display:none; }
+.pvt-sound-art { position:relative; display:flex; align-items:center; justify-content:center; width:52%; height:52%; flex-shrink:0; }
+.pvt-sound-art img { width:100%; height:100%; object-fit:cover; border:0; }
+.pvt-sound-playing { display:none; position:absolute; inset:0; align-items:center; justify-content:center; gap:3px; background:#0009; border-radius:3px; pointer-events:none; }
+.playing .pvt-sound-playing { display:flex; }
+.pvt-sound-playing b { width:3px; height:65%; background:#5fe4ad; border-radius:2px; transform-origin:center; animation:pvt-sound-playing 700ms ease-in-out infinite alternate; }
+.pvt-sound-playing b:nth-child(2) { animation-delay:-350ms; }
+.pvt-sound-playing b:nth-child(3) { animation-delay:-150ms; }
+.pvt-sound-playing b:nth-child(4) { animation-delay:-500ms; }
+@keyframes pvt-sound-playing { from { transform:scaleY(.25); } to { transform:scaleY(1); } }
+@media (prefers-reduced-motion:reduce) { .pvt-sound-playing b { animation:none; } .pvt-sound-playing b:nth-child(even) { transform:scaleY(.5); } }
+.pvt-sound-tile i { font-size:28px; }
+.pvt-sound-tile span { overflow-wrap:anywhere; }
+.pvt-sound-tile.playing { border:2px solid #3c9; box-shadow:inset 0 0 8px #3c94; }
+#currently-playing .pvt-sidebar-progress { display:flex; flex:0 0 100%; width:100%; gap:8px; align-items:center; padding:3px 0; }
+#currently-playing .pvt-sidebar-progress input { flex:1; min-width:0; margin:0; height:16px; }
+#currently-playing .pvt-sidebar-progress button { flex:0 0 36px; width:36px; margin:0; padding:0 2px; font-size:11px; line-height:20px; min-height:0; white-space:nowrap; }
+#pvt-soundboard .window-content { display:block; flex:1 1 0; min-height:0; overflow-y:auto; overflow-x:hidden; padding:5px; min-width:0; scrollbar-gutter:stable; }
+#pvt-soundboard .pvt-sound-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:3px; }
+#pvt-soundboard h4 { margin:4px 0 6px; }
+#pvt-soundboard .pvt-sound-tile { min-height:0; padding:2px; gap:2px; font-size:10px; border-radius:3px; }
+#pvt-soundboard .pvt-sound-tile i { font-size:14px; }
+#pvt-soundboard .pvt-sound-tile span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+#pvt-soundboard { background:var(--pneuma-panel-background,rgba(12,14,18,.78)); color:var(--pneuma-panel-color,#eee); border:var(--pneuma-panel-border,1px solid #ffffff38); border-radius:var(--pneuma-panel-radius,4px); box-shadow:var(--pneuma-panel-shadow,0 2px 8px #0006); }
+#pvt-soundboard .window-header { background:transparent; border-bottom:1px solid #ffffff26; }
+#pvt-soundboard .window-content { background:transparent; color:inherit; }
+#pvt-soundboard .pvt-simple-soundboard { width:100%; height:auto; min-height:0; overflow:visible; }
+#pvt-soundboard .directory-list, #pvt-soundboard .subdirectory { flex:none; height:auto; max-height:none; margin:0; padding:0; list-style:none; width:auto; min-width:0; max-width:100%; box-sizing:border-box; overflow:visible; }
+#pvt-soundboard .pvt-simple-soundboard, #pvt-soundboard .folder, #pvt-soundboard .folder-contents, #pvt-soundboard .pvt-sound-grid, #pvt-soundboard .pvt-sound-cell { min-width:0; max-width:100%; box-sizing:border-box; }
+#pvt-soundboard .pvt-sound-tile { min-width:0; max-width:100%; box-sizing:border-box; }
+#pvt-soundboard .folder-header h3 { min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+#pvt-soundboard .folder { width:auto; margin:0 0 5px; padding:0; border:0; }
+#pvt-soundboard .folder-header { padding:2px 5px; border-radius:3px; background:#ffffff0d; cursor:pointer; align-items:center; }
+#pvt-soundboard .folder-header h3 { margin:0; border:0; font-size:12px; color:inherit; line-height:20px; }
+#pvt-soundboard .pvt-folder-chevron { flex:0 0 auto; font-size:10px; }
+#pvt-soundboard .collapsed > .folder-contents { display:none; }
+#pvt-soundboard .collapsed > .folder-header .pvt-folder-chevron { transform:rotate(-90deg); }
+#pvt-soundboard .folder-contents { width:auto; margin:0; padding:3px 0 0 3px; }
+#pvt-soundboard .pvt-sound-grid { width:auto; margin:0 0 6px; padding:0; }
+#pvt-soundboard .pvt-sound-tile { background:#ffffff0a; border:1px solid #ffffff30; color:inherit; text-shadow:none; }
+#pvt-soundboard .pvt-sound-tile:hover:not(:disabled) { background:var(--pneuma-menu-hover-background,#ffffff29); border-color:#ffffff72; box-shadow:none; }
+#pvt-soundboard .pvt-sound-tile.playing { border-color:#3c9; box-shadow:inset 0 0 6px #3c93; }
+#pvt-soundboard .pvt-soundboard-empty { font-size:12px; color:inherit; }
+#currently-playing .pvt-sidebar-progress:has(input[data-seeking]) { pointer-events:none; }
+
+
+.pvt-scene-image-popout { background:var(--pneuma-panel-background,rgba(12,14,18,.78)) !important; color:var(--pneuma-panel-color,#eee); border:var(--pneuma-panel-border,1px solid #ffffff38); }
+.pvt-scene-image-popout .window-header { background:transparent !important; color:inherit; }
+.pvt-scene-image-popout .window-content { background:transparent !important; color:inherit; padding:8px; }
+.pvt-scene-image-popout :is(form,figure,.image) { background-color:transparent !important; }
+.pvt-scene-image-popout :is(img,video) { object-fit:contain; max-width:100%; max-height:100%; }
+
+.pvt-settings-groups > fieldset { min-width: 0; margin: 12px 0; padding: 10px 12px; border: 1px solid var(--color-border-light-primary, #8886); border-radius: 5px; }
+.pvt-settings-groups > fieldset > legend { width: auto; margin: 0; padding: 0 6px; border: 0; font-size: 14px; font-weight: 600; }
+.pvt-settings-groups .pvt-setting-disabled { opacity: .45; }
+
+/* Compact GM flash-light profiles. */
+#pneuma-weapon-light-settings .pvt-light-profiles fieldset { margin:0 0 6px; padding:4px 8px 6px; }
+#pneuma-weapon-light-settings .pvt-flash-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:4px; align-items:center; }
+#pneuma-weapon-light-settings .pvt-flash-control { display:flex; align-items:center; gap:6px; min-width:0; }
+#pneuma-weapon-light-settings .pvt-flash-control label { flex:0 0 auto; white-space:nowrap; }
+#pneuma-weapon-light-settings .pvt-flash-control input { min-width:0; margin:0; }
+#pneuma-weapon-light-settings .pvt-flash-control input[type=color] { width:44px; height:26px; flex:0 0 44px; padding:0; }
+#pneuma-weapon-light-settings .pvt-flash-control input[type=range],
+#pneuma-weapon-light-settings .pvt-flash-control input[type=number] { width:0; flex:1; }
+#pneuma-weapon-light-settings .pvt-flash-control .range-value { flex:0 0 28px; text-align:right; }
+#pneuma-weapon-light-settings .pvt-flash-vision { display:flex; align-items:center; gap:5px; font-weight:normal; }
+#pneuma-weapon-light-settings .pvt-flash-vision input { margin:0; }

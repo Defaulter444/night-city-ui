@@ -32,7 +32,7 @@ body.ncu-enabled.ncu-spacious #ui-right:has(#sidebar.collapsed) {
 body.ncu-enabled.ncu-spacious #controls {
   position: fixed;
   left: 6px;
-  top: 58px;
+  top: calc(var(--ncu-bar-height, 48px) + 10px);
   bottom: 64px;
   z-index: 67;
   width: 44px;
@@ -183,7 +183,7 @@ body.ncu-enabled.ncu-spacious #navigation #scene-list .scene ul.scene-players {
  */
 body.ncu-enabled.ncu-spacious #sidebar {
   position: fixed;
-  top: 58px;
+  top: calc(var(--ncu-bar-height, 48px) + 10px);
   right: 10px;
   bottom: 10px;
   width: 300px;

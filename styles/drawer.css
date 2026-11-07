@@ -1,0 +1,106 @@
+/* Sidebar drawer (spec docs/superpowers/specs/2026-11-07-sidebar-drawer-design.md). Every drawer rule needs
+   body.ncu-drawer: without it the 0.4.1 sidebar rules apply unchanged. 360px mirrors DRAWER_WIDTH in scripts/layout.js. */
+body.ncu-enabled.ncu-spacious.ncu-drawer #ui-right{flex:0 0 0;width:0;min-width:0}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar{top:var(--ncu-bar-height,58px);right:0;bottom:0;z-index:70;width:360px;height:auto;max-height:none;border:0;border-left:1px solid var(--ncu-tb-line);border-radius:0;background:linear-gradient(180deg,#120a0efc,#0c1117fd);box-shadow:-18px 0 40px #000c;transform:translateX(calc(100% + 40px));visibility:hidden;transition:transform .18s ease-out,visibility 0s linear .18s}
+body.ncu-enabled.ncu-spacious.ncu-drawer.ncu-drawer-open #sidebar{transform:none;visibility:visible;transition:transform .18s ease-out}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar::before{content:'';position:absolute;inset:0;z-index:-1;background:url('../assets/decorations/hud-hex.svg') 0 0/26px 45px;opacity:.18;pointer-events:none}
+
+/* Tab strip: red icons with an underline, the open tab cyan; the core collapse toggle is replaced by ✕. */
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar-tabs{flex:0 0 46px;min-height:46px;margin:0;padding:0 6px 0 10px;gap:2px;align-items:flex-end;justify-content:flex-start;border-bottom:1px solid #9a2d3688;background:none;box-shadow:none}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar-tabs>.item{flex:0 0 26px;height:38px;line-height:36px;margin:0;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;box-shadow:none;color:var(--ncu-tb-red);font-size:15px;text-shadow:none}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar-tabs>.item:hover{color:#ffb3ad;background:none}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar-tabs>.item.active{color:var(--ncu-tb-cyan);border-bottom-color:var(--ncu-tb-cyan);background:none;box-shadow:none;text-shadow:0 0 10px #5ef6ff99}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar-tabs>.collapse{display:none}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar-tabs>.ncu-drawer-close{flex:0 0 30px;width:30px;height:30px;margin:0 0 5px auto;padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:var(--ncu-tb-dim);font-size:16px;line-height:30px;cursor:pointer}
+body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar-tabs>.ncu-drawer-close:is(:hover,:focus-visible){color:var(--ncu-tb-red);outline:none}
+
+/* Roll mode, chat buttons and the message box in the bar palette; the select stays a select. */
+body.ncu-enabled.ncu-spacious.ncu-drawer #chat-controls{gap:10px;margin:0;padding:10px 12px 6px;border-top:1px solid #9a2d3688}
+body.ncu-enabled.ncu-spacious.ncu-drawer #chat-controls .chat-control-icon,body.ncu-enabled.ncu-spacious.ncu-drawer #chat-controls .control-buttons a{color:var(--ncu-tb-red)}
+body.ncu-enabled.ncu-spacious.ncu-drawer #chat-controls select.roll-type-select{height:30px;border:1px solid var(--ncu-tb-line);border-radius:0;background:#140a0e;color:var(--ncu-tb-muted);font:500 14px var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase}
+body.ncu-enabled.ncu-spacious.ncu-drawer #chat-form{margin:0 12px 12px}
+body.ncu-enabled.ncu-spacious.ncu-drawer #chat-message{border:1px solid #5ef6ff55;border-radius:0;background:#050c10e6;color:var(--ncu-tb-text);font:14px/1.4 var(--ncu-tb-body)}
+body.ncu-enabled.ncu-spacious.ncu-drawer #chat-message:focus{border-color:#5ef6ffaa;outline:none;box-shadow:0 0 0 1px #5ef6ff22,0 0 14px #5ef6ff22}
+
+/* «ЧАТ» in the bar: red like the tabs, cyan while the drawer shows the chat; the badge turns yellow for a whisper. */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-chat{display:flex;align-items:center;gap:8px;flex-shrink:0;height:34px;min-height:0;margin:0;padding:0 4px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;box-shadow:none;opacity:1;color:var(--ncu-tb-red);font:500 16px var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-chat i{width:auto;margin:0;color:inherit;font-size:16px}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-chat:is(:hover,:focus-visible){color:#ffb3ad;border-bottom-color:var(--ncu-tb-red);background:none;outline:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-chat.is-open{color:var(--ncu-tb-cyan);border-bottom-color:var(--ncu-tb-cyan);text-shadow:0 0 12px #5ef6ff88}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-chat-count{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 5px;background:var(--ncu-tb-cyan);color:#050c10;font:500 13px/1 var(--ncu-tb-heading);letter-spacing:0;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-chat-count.is-whisper{background:#ffd42a}
+@media(max-width:1599px){body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-chat .ncu-key{display:none}}
+@media(max-width:1439px){body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-chat>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
+@media(prefers-reduced-motion:reduce){body.ncu-enabled.ncu-spacious.ncu-drawer #sidebar{transition:none!important}}
+
+/* Message feed over the scene (0.5.1): newest card on top, eight seconds each, paused under the pointer.
+   Position and size come from layoutHUD (inline left/top/width/max-height). */
+body.ncu-enabled #ncu-feed{position:fixed;z-index:64;display:flex;flex-direction:column;gap:8px;overflow:hidden;pointer-events:none}
+body.ncu-enabled #ncu-feed[hidden]{display:none}
+body.ncu-enabled #ncu-feed .ncu-feed-card{position:relative;display:block;flex:0 0 auto;width:100%;min-height:0;margin:0;padding:9px 14px 10px 14px;border:1px solid #2a3a44;border-left:3px solid var(--ncu-tb-cyan);border-radius:0;background:#0c1117ee;box-shadow:0 8px 22px #000b;color:var(--ncu-tb-muted);font:14px/1.35 var(--ncu-tb-body);text-align:left;text-shadow:none;cursor:pointer;pointer-events:auto;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);animation:ncu-feed-in .18s ease-out;transition:opacity .2s}
+body.ncu-enabled #ncu-feed .ncu-feed-card.has-total{padding-right:60px}
+body.ncu-enabled #ncu-feed .ncu-feed-card:hover{background:#101a22f2}
+body.ncu-enabled #ncu-feed .ncu-feed-card:focus-visible{outline:none;border-color:#5ef6ffaa;background:#101a22f2}
+body.ncu-enabled #ncu-feed .ncu-feed-card.tone-gm{border-left-color:var(--ncu-tb-red)}
+body.ncu-enabled #ncu-feed .ncu-feed-card.tone-whisper{border-left-color:#ffd42a;background:#14120aee}
+body.ncu-enabled #ncu-feed .ncu-feed-card.tone-module{border-left-color:#6b7a84}
+body.ncu-enabled #ncu-feed .ncu-feed-who{display:flex;align-items:baseline;gap:8px;min-width:0;overflow:hidden;color:var(--ncu-tb-text);font:500 14px/1.3 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+body.ncu-enabled #ncu-feed .ncu-feed-sub{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--ncu-tb-dim);font:12px var(--ncu-tb-body);letter-spacing:.3px;text-transform:none}
+body.ncu-enabled #ncu-feed .is-concealed .ncu-feed-sub{color:var(--ncu-tb-muted);font-style:italic}
+body.ncu-enabled #ncu-feed .ncu-feed-text{display:block;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.ncu-enabled #ncu-feed .ncu-feed-total{position:absolute;top:8px;right:12px;color:var(--ncu-tb-cyan);font:500 28px/1 var(--ncu-tb-heading);text-shadow:0 0 12px #5ef6ff66}
+body.ncu-enabled #ncu-feed .crit-success .ncu-feed-total{color:#7dff9a;text-shadow:0 0 12px #7dff9a66}
+body.ncu-enabled #ncu-feed .crit-fail .ncu-feed-total{color:var(--ncu-tb-red);text-shadow:0 0 12px #ff5a5266}
+body.ncu-enabled #ncu-feed .ncu-feed-life{position:absolute;left:0;bottom:0;width:100%;height:2px;background:#5ef6ff88;transform-origin:left;animation:ncu-feed-life 8s linear forwards}
+body.ncu-enabled #ncu-feed .tone-gm .ncu-feed-life{background:#ff5a5288}
+body.ncu-enabled #ncu-feed .tone-whisper .ncu-feed-life{background:#ffd42a88}
+body.ncu-enabled #ncu-feed .tone-module .ncu-feed-life{background:#6b7a8488}
+body.ncu-enabled #ncu-feed.is-paused .ncu-feed-life{animation-play-state:paused}
+body.ncu-enabled #ncu-feed .ncu-feed-card.is-leaving{opacity:0}
+@keyframes ncu-feed-in{from{opacity:0;transform:translateX(24px)}}
+@keyframes ncu-feed-life{to{transform:scaleX(0)}}
+@media(prefers-reduced-motion:reduce){
+  body.ncu-enabled #ncu-feed .ncu-feed-card{animation:none;transition:none}
+  body.ncu-enabled #ncu-feed .ncu-feed-life{display:none}
+}
+
+/* Chat messages in the drawer and in the popped-out chat (0.5.2). The CPR system paints its cards through its own
+   variables, so the dark palette is mostly a matter of redefining them here; its markup is never touched. */
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log{--cpr-background-chat-card:#0c1520;--cpr-text-chat-normal:#d3dade;--cpr-background-chat-card-block:#9a2d36;--cpr-background-chat-card-block-before:#0f1820;--cpr-background-chat-border:#3b5563;--cpr-text-foundry-hint:#a07a80;padding:6px 10px}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log>li.chat-message{position:relative;margin:0 0 10px;padding:0;border:1px solid #294452!important;border-left:3px solid var(--ncu-tb-cyan)!important;border-radius:0;background:#0c1520eb;box-shadow:none;color:#d3dade;font:14px/1.4 var(--ncu-tb-body);clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%)}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log>li.chat-message.ncu-tone-gm{border-left-color:var(--ncu-tb-red)!important}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log>li.chat-message.ncu-tone-whisper{border-left-color:#ffd42a!important;background:#14120aeb}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log>li.chat-message.ncu-tone-module{border-left-color:#6b7a84!important}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log>li.chat-message>.message-header{align-items:baseline;margin:0;padding:6px 10px 5px;border-bottom:1px solid #29445288;color:var(--ncu-tb-text)!important;font:12px/1.3 var(--ncu-tb-body)}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .message-sender{color:var(--ncu-tb-text);font:500 14px/1.3 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .message-metadata{color:var(--ncu-tb-dim)}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .message-delete{color:var(--ncu-tb-dim)}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .message-delete:hover{color:var(--ncu-tb-red);text-shadow:none}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log :is(.whisper-to,.flavor-text){color:var(--ncu-tb-dim);font:12px/1.35 var(--ncu-tb-body)}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .chat-mode-indicator{margin:0 6px 0 0;padding:3px 6px 2px;border:0;border-radius:0;background:#ffd42a;color:#241a00;font:500 11px/1 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .blind .chat-mode-indicator{background:#6b7a84;color:#0c1117}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log>li.chat-message>.message-content{padding:8px 10px 10px;color:#d3dade}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .message-content a[href]:not(.inline-roll):not(.content-link){color:var(--ncu-tb-cyan)}
+/* Module cards keep their own text colours; a white box painted inline would hide the light text, so drop it. */
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .ncu-tone-module .message-content [style*="background"]{background:none!important}
+/* …and black or dark grey text written inline would vanish on the dark plate: light it up. Coloured text stays. */
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .ncu-tone-module .message-content :is([style*="color:#000"],[style*="color: #000"],[style*="color:#111"],[style*="color: #111"],[style*="color:#222"],[style*="color: #222"],[style*="color:#333"],[style*="color: #333"],[style*="color:#444"],[style*="color: #444"],[style*="color:#000000"],[style*="color: #000000"],[style*="color:#111111"],[style*="color: #111111"],[style*="color:#222222"],[style*="color: #222222"],[style*="color:#333333"],[style*="color: #333333"],[style*="color:#444444"],[style*="color: #444444"],[style*="color:black"],[style*="color: black"],[style*="color:rgb(0, 0, 0)"],[style*="color: rgb(0, 0, 0)"],[style*="color:rgb(0,0,0)"],[style*="color: rgb(0,0,0)"]){color:var(--ncu-tb-text)!important}
+/* Core «Jump to bottom» strip in the bar palette. */
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) .jump-to-bottom{border:1px solid #5ef6ff55;border-radius:0;background:#050c10ee;box-shadow:0 6px 18px #000a}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) .jump-to-bottom a{color:var(--ncu-tb-cyan);font:500 13px/1.6 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase}
+
+/* Core rolls. */
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .dice-roll :is(.dice-formula,.dice-total){border:1px solid #294452;border-radius:0;background:#050c10cc;box-shadow:none;font-family:var(--ncu-tb-heading);letter-spacing:1px}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .dice-roll .dice-formula{color:var(--ncu-tb-muted);font-size:14px}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .dice-roll .dice-total{border-color:#5ef6ff55;color:var(--ncu-tb-cyan);font-size:24px;font-weight:500;text-shadow:0 0 10px #5ef6ff55}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .dice-roll .dice-tooltip .part{border-color:#294452;background:#050c10aa}
+
+/* CPR roll cards: red frame and dark plate come from the variables above; the total is the big cyan number. */
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .rollcard-top .text-center{color:var(--ncu-tb-text);font:500 16px/1.3 var(--ncu-tb-heading);letter-spacing:1.5px;text-transform:uppercase}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log :is(.d10-number-div,.generic-number-div){color:var(--ncu-tb-cyan);font-family:var(--ncu-tb-heading);font-weight:500;text-shadow:0 0 14px #5ef6ff66}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log :is(.d10-number-div,.generic-number-div) :is(a,span){color:inherit}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .d10-rollcard-data:has(.d10-dice-div img[src*="_preem"]) .d10-number-div{color:#7dff9a;text-shadow:0 0 14px #7dff9a66}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log .d10-rollcard-data:has(.d10-dice-div img[src*="_fail"]) .d10-number-div{color:var(--ncu-tb-red);text-shadow:0 0 14px #ff5a5266}
+/* Plain black dice would vanish on the dark plate: light them up; red and «PREEM» dice keep their colours. */
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log img[src*="/dice/black/"]{filter:invert(.88) hue-rotate(180deg) drop-shadow(0 0 4px #5ef6ff55)}
+body.ncu-enabled.ncu-drawer :is(#sidebar,#chat-popout) #chat-log :is(.d10-data-details,.d10-data-div){color:var(--ncu-tb-muted)}

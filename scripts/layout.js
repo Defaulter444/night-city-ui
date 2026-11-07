@@ -2,9 +2,19 @@ const finite = (value, fallback) => Number.isFinite(value) ? value : fallback;
 const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
 export const intersects = (a, b, gap = 0) => Boolean(a && b && a.left < b.right + gap && a.right + gap > b.left && a.top < b.bottom + gap && a.bottom + gap > b.top);
 const box = (left, top, width, height) => ({ left, top, width, height, right: left + width, bottom: top + height });
+/** Height of the spacious top bar; CSS mirrors it as --ncu-bar-height (styles/topbar.css). */
+export const BAR_HEIGHT = 58;
+/** Width of the message feed over the scene. */
+export const FEED_WIDTH = 360;
+/** Width of the sidebar drawer; styles/drawer.css mirrors it. */
+export const DRAWER_WIDTH = 360;
+/** The open drawer reserves its strip at the right edge under the bar; a closed one takes no room. */
+export function drawerBounds({ width, height, open = false }) {
+  return open ? box(width - DRAWER_WIDTH, BAR_HEIGHT, DRAWER_WIDTH, height - BAR_HEIGHT) : null;
+}
 
 /** Calculate only presentation bounds; never move tokens or alter world data. */
-export function layoutHUD({ width, height, sidebar, controls, navigation, hotbar, players, playersFloating = false, timer, timerManaged = true, dockHeight = 180, spacious = false, dockWidth = Infinity }) {
+export function layoutHUD({ width, height, sidebar, controls, navigation, hotbar, players, playersFloating = false, timer, timerManaged = true, dockHeight = 180, spacious = false, dockWidth = Infinity, queueVisible = false }) {
   width = Math.max(320, finite(width, 1440));
   height = Math.max(320, finite(height, 900));
   const gap = 10;
@@ -14,7 +24,7 @@ export function layoutHUD({ width, height, sidebar, controls, navigation, hotbar
   const top = spacious ? 0 : clamp(Math.max(60, navigation?.bottom + gap || 0), gap, height - 180);
   // A freely placed Players panel must not lift or shrink the battlefield dock.
   const bottom = Math.max(top + 120, Math.min(height - gap, hotbar?.top - gap || height, !playersFloating && players?.top - gap || height));
-  const toolbar = spacious ? box(0, 0, width, 48) : box(left, top, right - left, 44);
+  const toolbar = spacious ? box(0, 0, width, BAR_HEIGHT) : box(left, top, right - left, 44);
   const contentTop = toolbar.bottom + gap;
   const timerWidth = Math.min(timer?.width || 300, right - left);
   const timerBox = !timer ? null : timerManaged
@@ -39,7 +49,12 @@ export function layoutHUD({ width, height, sidebar, controls, navigation, hotbar
     const available = Math.min(dock.height, Math.max(0, dock.bottom - combat.bottom - gap));
     dock = box(dock.left, dock.bottom - available, dock.width, available);
   }
-  return { toolbar, timer: timerBox, combat, dock, bottom, gap, compact: spacious ? width < 1180 : right - left < 820 };
+  // The message feed: right column under the bar, under the REDLINE queue in combat and under a timer card in its way.
+  const feedWidth = Math.min(FEED_WIDTH, right - left);
+  let feedTop = queueVisible ? combat.bottom + gap : contentTop;
+  if (timerBox && timerBox.right > right - feedWidth && timerBox.left < right && timerBox.bottom + gap > feedTop) feedTop = timerBox.bottom + gap;
+  const feed = { left: right - feedWidth, top: feedTop, width: feedWidth, maxHeight: Math.max(0, bottom - feedTop) };
+  return { toolbar, timer: timerBox, combat, dock, feed, bottom, gap, compact: spacious ? width < 1180 : right - left < 820 };
 }
 
 export function presentationContext({ combat, selected, contextOnly = true }) {

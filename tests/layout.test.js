@@ -37,8 +37,8 @@ test('Blackglass keeps a stable topbar and HUD while the native scene/tool flyou
   const closed=layoutHUD(input);
   const open=layoutHUD({...input,controls:{right:110},navigation:r(1070,56,360,160)});
   assert.deepEqual(open,closed);
-  assert.deepEqual(closed.toolbar,r(0,0,1440,48));
-  assert.equal(closed.combat.top,58);
+  assert.deepEqual(closed.toolbar,r(0,0,1440,58));
+  assert.equal(closed.combat.top,68);
   assert.equal(closed.combat.height,64);
   assert.ok(!intersects(closed.timer,closed.combat));
 });
@@ -49,7 +49,7 @@ test('Blackglass keeps expanded and collapsed timers outside the queue across de
     assert.ok(!intersects(result.timer,result.combat));
     assert.ok(!intersects(result.timer,result.dock));
     assert.ok(!intersects(result.dock,input.hotbar));
-    assert.equal(result.toolbar.bottom,48);
+    assert.equal(result.toolbar.bottom,58);
   }
 });
 test('idle screen has no combat chrome; selecting an actor shows only actor data', () => {

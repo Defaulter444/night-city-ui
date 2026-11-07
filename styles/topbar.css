@@ -1,0 +1,180 @@
+/* Top bar in the Cyberpunk 2077 style (spec docs/superpowers/specs/2026-11-06-topbar-2077-design.md, variant A).
+   Loaded last; every rule is scoped to #ncu-shell.ncu-tb or to the module tooltip class, so turning the module
+   off returns Foundry's own look. Fonts: SIL OFL 1.1, hex grid: own SVG — see ASSET_CREDITS.md. */
+@font-face{font-family:NCU-Oswald;src:url('../assets/fonts/Oswald.ttf') format('truetype');font-weight:200 700;font-display:swap}
+@font-face{font-family:NCU-Roboto;src:url('../assets/fonts/RobotoCondensed.ttf') format('truetype');font-weight:100 900;font-display:swap}
+
+body.ncu-enabled{
+  --ncu-tb-red:#ff5a52;--ncu-tb-line:#9a2d36;--ncu-tb-cyan:#5ef6ff;--ncu-tb-text:#eef3f5;--ncu-tb-muted:#c9b9bc;--ncu-tb-dim:#a07a80;
+  --ncu-tb-heading:NCU-Oswald,'Arial Narrow',sans-serif;--ncu-tb-body:NCU-Roboto,'Arial Narrow',sans-serif;
+}
+body.ncu-enabled.ncu-spacious{--ncu-bar-height:58px}
+
+/* Frame: dark burgundy strip with a faint hex grid that fades towards the edges. */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar{position:relative;font-family:var(--ncu-tb-body);color:var(--ncu-tb-text);background:linear-gradient(#2c1118,#170b10);border-color:var(--ncu-tb-line);border-left-color:var(--ncu-tb-red)}
+body.ncu-enabled.ncu-spacious #ncu-shell.ncu-tb .ncu-bar{height:var(--ncu-bar-height);gap:18px;padding:0 22px;border:0;border-bottom:1px solid var(--ncu-tb-line);border-radius:0;background:linear-gradient(#2c1118,#170b10);box-shadow:0 6px 24px #000a}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar::before{content:'';position:absolute;inset:0;background:url('../assets/decorations/hud-hex.svg') 0 0/26px 45px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent);pointer-events:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar>*{position:relative}
+
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-brand{font:500 21px/1 var(--ncu-tb-heading);letter-spacing:2px;color:var(--ncu-tb-red);border-right:1px solid #9a2d3688;padding-right:18px;height:34px;white-space:nowrap}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-brand i{color:var(--ncu-tb-red);font-size:18px;margin-right:10px}
+
+/* Tabs: red capitals with a red underline; the open section is cyan with a glow; no access — dim with a lock. */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-tools{align-self:stretch;align-items:flex-end;gap:26px;padding:0 0 9px 8px;margin-right:auto;overflow:visible}
+/* Tabs keep their width; the combatant's name and the scene name give way and end in an ellipsis instead.
+   The floating strip is narrower than the screen, so it switches tabs to icons by its own width (container query). */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-tools{flex-shrink:0}
+body.ncu-enabled:not(.ncu-spacious) #ncu-shell.ncu-tb .ncu-bar{container:ncu-strip/inline-size}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-agent-entry{align-items:flex-end;gap:2px}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab{display:flex;align-items:center;gap:8px;height:auto;min-height:0;min-width:0;margin:0;padding:0 2px 6px;border:0;border-bottom:2px solid #9a2d36cc;border-radius:0;background:none;box-shadow:none;opacity:1;color:var(--ncu-tb-red);font:500 19px/1.2 var(--ncu-tb-heading);letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;cursor:pointer;transition:color .15s,border-color .15s,text-shadow .15s,box-shadow .15s}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab>i:first-child{display:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab .ncu-lock{display:none;width:auto;margin:0;font-size:12px;color:var(--ncu-tb-dim)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab:hover{color:#ffb3ad;border-bottom-color:var(--ncu-tb-red);background:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab:focus-visible{outline:none;color:#ffb3ad;border-bottom-color:var(--ncu-tb-red);text-shadow:0 0 10px #ff5a5299}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab.is-active{color:var(--ncu-tb-cyan);border-bottom-color:var(--ncu-tb-cyan);text-shadow:0 0 12px #5ef6ff88;box-shadow:0 8px 14px -10px #5ef6ffcc}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab.is-locked{color:#ff5a5266;border-bottom-color:#9a2d3655;cursor:help}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab.is-locked .ncu-lock{display:inline-block}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab.is-locked.is-active{color:#5ef6ff99;border-bottom-color:#5ef6ff88}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-agent-toggle{align-self:flex-end;min-width:16px;height:auto;margin:0 0 8px;padding:0 2px;border:0;background:none;color:var(--ncu-tb-dim)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-agent-toggle:hover,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-agent-toggle[aria-expanded="true"]{color:var(--ncu-tb-cyan);background:none}
+
+/* Scene picker and «Ещё». */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-scene-toggle{height:34px;padding:0 4px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--ncu-tb-text);font:500 16px var(--ncu-tb-heading);letter-spacing:1px}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-scene-toggle i:first-child{color:var(--ncu-tb-cyan)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-scene-toggle i:last-child{color:var(--ncu-tb-dim)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-scene-toggle:hover,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-scene-toggle[aria-expanded="true"]{border-bottom-color:var(--ncu-tb-cyan);background:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-more{height:34px;margin:0;padding:0 4px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--ncu-tb-red);font:500 16px var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-more:hover,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-more[aria-expanded="true"]{color:#ffb3ad;border-bottom-color:var(--ncu-tb-red);background:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-key{margin-left:8px;padding:3px 5px 2px;border:1px solid #5ef6ff66;background:#050c10cc;color:var(--ncu-tb-cyan);font:500 11px/1 var(--ncu-tb-heading);letter-spacing:.5px;text-transform:none;opacity:.65;box-shadow:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-key:empty{display:none}
+
+/* Status next to the scene picker: round with whose turn it is, then the DEADLINE countdown.
+   Full text from 1600 px, the short form («Р3 · ВЕСПЕР», digits only) below that and on the floating strip. */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-scene-toggle{margin-left:0}
+/* The group only carries the accessible name: its two buttons are flex items of the bar itself, so the bar can
+   squeeze the combatant's name without ever pushing the fixed-width countdown under the scene picker. */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status{display:contents}
+/* Blackglass forbids every bar button to shrink; these two may, down to a readable stub. */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status>button.ncu-combat-status{flex-shrink:1;min-width:56px}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-scene-toggle{flex-shrink:1}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status>button{display:flex;align-items:baseline;gap:7px;min-width:0;min-height:0;height:34px;margin:0;padding:8px 2px 0;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;box-shadow:none;opacity:1;color:var(--ncu-tb-muted);font:500 15px/1 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;cursor:pointer}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status>button:hover,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status>button:focus-visible{outline:none;background:none;color:var(--ncu-tb-text);border-bottom-color:var(--ncu-tb-cyan)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status>button i{width:auto;margin:0;color:inherit;font-size:14px}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status-full{display:flex;align-items:baseline;gap:6px;min-width:0}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status>button.ncu-timer,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status>button.ncu-timer>:not(.ncu-timer-label),body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-combat-status b,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-combat-status i{flex-shrink:0}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-combat-status b{color:var(--ncu-tb-cyan);font-size:20px;font-weight:500}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-combat-status em,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status-short{min-width:0;max-width:220px;overflow:hidden;text-overflow:ellipsis;font-style:normal;color:var(--ncu-tb-text)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-combat-status.is-prep em{color:var(--ncu-tb-cyan)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-combat-status.is-concealed em{color:var(--ncu-tb-dim)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-combat-status i.ncu-status-secret,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-timer i.ncu-timer-secret{font-size:12px;color:var(--ncu-tb-dim)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status-short{display:none;max-width:170px}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-timer i.ncu-timer-icon{color:#ffd42a}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-timer-label{min-width:0;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-timer-time{color:#ffd42a;font:500 21px/1 var(--ncu-tb-heading);letter-spacing:1px;font-variant-numeric:tabular-nums}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[aria-disabled="true"]{cursor:default}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[aria-disabled="true"]:hover{color:var(--ncu-tb-muted);border-bottom-color:transparent}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[data-status="paused"]{opacity:.55}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[data-status="paused"] i.ncu-timer-icon,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[data-status="paused"] .ncu-timer-time{color:var(--ncu-tb-muted)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer.is-warning i.ncu-timer-icon,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer.is-warning .ncu-timer-time{color:var(--ncu-tb-red);text-shadow:0 0 10px #ff5a5299;animation:ncu-tb-pulse 1s ease-in-out infinite}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[data-status="expired"] i.ncu-timer-icon,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[data-status="expired"] .ncu-timer-time{color:var(--ncu-tb-red);text-shadow:0 0 10px #ff5a5299}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-timer[data-status="expired"] .ncu-timer-time{font-size:18px;letter-spacing:1.5px}
+@keyframes ncu-tb-pulse{50%{opacity:.4}}
+@media(max-width:1599px){
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status-full,body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-timer-label{display:none}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-status-short{display:block}
+}
+body.ncu-enabled:not(.ncu-spacious) #ncu-shell.ncu-tb .ncu-bar .ncu-status-full,body.ncu-enabled:not(.ncu-spacious) #ncu-shell.ncu-tb .ncu-bar .ncu-timer-label{display:none}
+body.ncu-enabled:not(.ncu-spacious) #ncu-shell.ncu-tb .ncu-bar .ncu-status-short{display:block}
+/* The bar shows the countdown, so DEADLINE's own card steps aside until the theme is switched off. */
+body.ncu-enabled #cpr-deadline-hud.ncu-timer-in-bar{display:none!important}
+
+/* Scene panel (0.5.3): navigation cards and, for the GM, a search over the whole world. Placed by createPopover. */
+body.ncu-enabled #ncu-shell .ncu-scenes{position:fixed;box-sizing:border-box;width:780px;margin-top:6px;padding:18px 20px 20px;overflow:auto;overscroll-behavior:contain;border:1px solid var(--ncu-tb-line);background:#120a0ef7;box-shadow:0 18px 50px #000e;color:var(--ncu-tb-muted);font:14px/1.35 var(--ncu-tb-body);pointer-events:auto;clip-path:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%)}
+body.ncu-enabled #ncu-shell .ncu-scenes::after{content:'';position:absolute;top:4px;right:4px;width:14px;height:14px;border-top:2px solid var(--ncu-tb-cyan);border-right:2px solid var(--ncu-tb-cyan);pointer-events:none}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-head{display:flex;align-items:baseline;gap:10px;margin:0 0 12px}
+body.ncu-enabled #ncu-shell .ncu-scenes h3{margin:0;padding:0;border:0;color:var(--ncu-tb-red);font:500 17px/1.2 var(--ncu-tb-heading);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-hint{min-width:0;overflow:hidden;color:var(--ncu-tb-dim);font:13px var(--ncu-tb-body);text-overflow:ellipsis;white-space:nowrap}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scenes-native{flex-shrink:0;min-height:0;margin:0 0 0 auto;padding:4px 10px;border:1px solid #5ef6ff66;border-radius:0;background:#050c10cc;color:var(--ncu-tb-cyan);font:500 12px/1.2 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scenes-native:is(:hover,:focus-visible){border-color:var(--ncu-tb-cyan);outline:none}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:0 0 18px}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-card{position:relative;border:1px solid #294452;background:#0c1520;clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%)}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-card.is-here{border-color:var(--ncu-tb-cyan);box-shadow:0 0 12px #5ef6ff33}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-card.is-active{border-color:#ffd42a}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-open{display:block;width:100%;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:none;color:inherit;font:inherit;text-align:left;white-space:normal;cursor:pointer}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-open:focus-visible{outline:2px solid var(--ncu-tb-cyan);outline-offset:-2px}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-thumb{display:flex;align-items:center;justify-content:center;height:118px;overflow:hidden;background:#050c10}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-thumb img{display:block;width:100%;height:100%;border:0;object-fit:cover;opacity:.85;transition:opacity .15s}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-open:hover .ncu-scene-thumb img{opacity:1}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:0 12px;box-sizing:border-box;background:repeating-linear-gradient(135deg,#0c1520 0 10px,#101b26 10px 20px);color:#5ef6ff99;font:500 15px/1.2 var(--ncu-tb-heading);letter-spacing:1px;text-align:center;text-transform:uppercase;overflow:hidden}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-flags{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;pointer-events:none}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-flag{padding:3px 7px 2px;font:500 11px/1.2 var(--ncu-tb-heading);letter-spacing:1.5px;text-transform:uppercase}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-flag.is-live{background:#ffd42a;color:#241a00}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-flag.is-here{border:1px solid var(--ncu-tb-cyan);background:#050c10dd;color:var(--ncu-tb-cyan)}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-name{display:block;padding:7px 10px 9px;overflow:hidden;color:var(--ncu-tb-text);font:500 15px/1.3 var(--ncu-tb-heading);letter-spacing:.5px;text-overflow:ellipsis;white-space:nowrap}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-activate{position:absolute;top:80px;left:8px;right:8px;display:flex;align-items:center;justify-content:center;gap:7px;height:30px;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:#ffd42a;color:#241a00;font:500 13px/1 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase;opacity:0;pointer-events:none;transition:opacity .15s;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%)}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-activate i{width:auto;margin:0;color:inherit}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-card:is(:hover,:focus-within) button.ncu-scene-activate{opacity:1;pointer-events:auto}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-activate:focus-visible{outline:2px solid #fff;outline-offset:-3px}
+@media(hover:none){body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-activate{opacity:1;pointer-events:auto}}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-empty{margin:0 0 12px;color:var(--ncu-tb-dim);font:14px var(--ncu-tb-body)}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-find{display:flex;gap:10px;margin:0 0 10px}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-field{display:flex;flex:1;align-items:center;gap:10px;height:36px;padding:0 12px;border:1px solid var(--ncu-tb-line);background:#140a0e;color:var(--ncu-tb-dim)}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-field:focus-within{border-color:#5ef6ffaa}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-field input{flex:1;min-width:0;height:34px;margin:0;padding:0;border:0;background:none;box-shadow:none;color:var(--ncu-tb-text);font:15px var(--ncu-tb-body);outline:none}
+body.ncu-enabled #ncu-shell .ncu-scenes select{width:210px;height:36px;margin:0;padding:0 10px;border:1px solid var(--ncu-tb-line);border-radius:0;background:#140a0e;color:var(--ncu-tb-muted);font:500 14px var(--ncu-tb-heading);letter-spacing:1px}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scenes-results{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-row{display:grid;grid-template-columns:64px minmax(0,1fr) minmax(0,auto) auto;align-items:center;gap:14px;width:100%;min-height:0;margin:0;padding:6px 10px;border:0;border-radius:0;background:none;color:var(--ncu-tb-text);font:15px var(--ncu-tb-body);text-align:left;white-space:normal}
+body.ncu-enabled #ncu-shell .ncu-scenes button.ncu-scene-row:is(:hover,:focus-visible){background:#0c1520;outline:none}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-thumb.is-small{width:64px;height:36px}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-thumb.is-small .ncu-scene-placeholder{font-size:9px;padding:0 4px}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-row-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-mark{margin-left:8px;padding:1px 5px;font:500 10px/1.3 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase;vertical-align:2px}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-mark.is-live{background:#ffd42a;color:#241a00}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-mark.is-here{border:1px solid var(--ncu-tb-cyan);color:var(--ncu-tb-cyan)}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-row-path{max-width:220px;overflow:hidden;color:var(--ncu-tb-dim);font:13px var(--ncu-tb-body);text-overflow:ellipsis;white-space:nowrap}
+body.ncu-enabled #ncu-shell .ncu-scenes .ncu-scene-row-open{padding:4px 10px 3px;border:1px solid #5ef6ff88;color:var(--ncu-tb-cyan);font:500 13px/1.2 var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase}
+
+/* Search button for Quick Insert (0.5.4): a framed field from 1600 px, an icon below that. It never shrinks. */
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-search{display:flex;align-items:center;gap:9px;flex-shrink:0;height:34px;min-height:0;margin:0;padding:0 10px;border:1px solid var(--ncu-tb-line);border-radius:0;background:#140a0ecc;box-shadow:none;opacity:1;color:var(--ncu-tb-dim);font:15px var(--ncu-tb-body);white-space:nowrap;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-search i{width:auto;margin:0;color:inherit;font-size:14px}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-search:is(:hover,:focus-visible){border-color:#5ef6ffaa;background:#140a0ecc;color:var(--ncu-tb-text);outline:none}
+body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-search .ncu-key{margin-left:4px}
+@media(max-width:1599px){
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-search{padding:0 9px}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-search>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-search .ncu-key{display:none}
+}
+
+/* The Quick Insert window in the bar palette: its own variables first, then the few colours it takes from the page. */
+body.ncu-enabled #qi-search-appv3{--qiBackground:#120a0ef2;--qiBorderColor:#9a2d36;--qiBorderColorFocused:#5ef6ffaa;--qiItemHoverColor:#5ef6ff14;--qiItemSelectedColor:#5ef6ff24;--qiItemSelectedHoverColor:#5ef6ff30;--qiActionColor:#eef3f5;--qiActionBgEmphasis:#ffffff1f;--qiActionBgEmphasisStrong:#ffffff33;--qiFilterAccent:#2c1118}
+body.ncu-enabled #qi-search-appv3 .quick-insert-app{border-radius:0;box-shadow:0 18px 50px #000e;color:var(--ncu-tb-text);font-family:var(--ncu-tb-body);clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%)}
+body.ncu-enabled #qi-search-appv3 input{color:var(--ncu-tb-text);font-family:var(--ncu-tb-body);caret-color:var(--ncu-tb-cyan)}
+body.ncu-enabled #qi-search-appv3 input::placeholder{color:var(--ncu-tb-dim);opacity:1}
+body.ncu-enabled #qi-search-appv3 .input-footer{color:var(--ncu-tb-dim);font:500 13px var(--ncu-tb-heading);letter-spacing:1px;text-transform:uppercase}
+body.ncu-enabled #qi-search-appv3 kbd{border-color:#5ef6ff66;border-radius:0;background:#050c10cc;color:var(--ncu-tb-cyan)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result{color:var(--ncu-tb-text)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result li a{border-radius:0;color:var(--ncu-tb-text)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result li .title{color:var(--ncu-tb-text)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result li strong{border-radius:0;background:#5ef6ff2e;color:var(--ncu-tb-cyan)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result li .sub{color:var(--ncu-tb-dim)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result li.search-selected a{box-shadow:inset 3px 0 var(--ncu-tb-cyan)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result li :is(.location-icon,.action-icon){color:var(--ncu-tb-muted)}
+body.ncu-enabled #qi-search-appv3 .quick-insert-result li img.doc-image{border-radius:0}
+
+/* Foundry's own tooltip, only when a top bar tab asks for this class. */
+#tooltip.ncu-tooltip{max-width:340px;padding:10px 12px;border:1px solid #9a2d36;border-top:2px solid #ff5a52;border-radius:0;background:#140a0ef2;color:#c9b9bc;font:14px/1.35 NCU-Roboto,'Arial Narrow',sans-serif;text-align:left;box-shadow:0 10px 30px #000c}
+
+/* Narrow screens: tabs become icons, the label stays for screen readers and the tooltip. */
+@media(max-width:1279px){
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-tools{gap:14px}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab>i:first-child{display:inline-block;width:auto;margin:0;font-size:17px}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-brand span{display:none}
+}
+@container ncu-strip (max-width:1179px){
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-tools{gap:14px}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab>i:first-child{display:inline-block;width:auto;margin:0;font-size:17px}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar button.ncu-tab>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  body.ncu-enabled #ncu-shell.ncu-tb .ncu-bar .ncu-brand span{display:none}
+}
+@media(prefers-reduced-motion:reduce){body.ncu-enabled #ncu-shell.ncu-tb *{transition:none!important;animation:none!important}}

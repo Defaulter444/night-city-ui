@@ -11,8 +11,8 @@ OUT = ROOT / 'dist'
 manifest = json.loads((ROOT / 'module.json').read_text(encoding='utf-8'))
 assert manifest['id'] == 'night-city-ui'
 assert manifest['download'].endswith(f"/v{manifest['version']}/night-city-ui.zip")
-paths = ['module.json', 'README.md', 'LICENSE', 'CHANGELOG.md', 'design-qa.md']
-paths += [p.relative_to(ROOT).as_posix() for folder in ['scripts', 'styles'] for p in sorted((ROOT / folder).rglob('*')) if p.is_file()]
+paths = ['module.json', 'README.md', 'LICENSE', 'CHANGELOG.md', 'design-qa.md', 'ASSET_CREDITS.md']
+paths += [p.relative_to(ROOT).as_posix() for folder in ['scripts', 'styles', 'assets'] for p in sorted((ROOT / folder).rglob('*')) if p.is_file()]
 for name in paths:
     assert (ROOT / name).is_file(), name
 for name in manifest['esmodules'] + manifest['styles']:
